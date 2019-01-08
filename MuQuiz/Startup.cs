@@ -25,14 +25,15 @@ namespace MuQuiz
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
+            else
+                app.UseExceptionHandler("/Error/ServerError");
 
             app.UseSignalR(routes => routes.MapHub<GameHub>("/gamehub"));
             app.UseSession();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+            app.UseStatusCodePagesWithRedirects("/Error/HttpError/{0}");
         }
     }
 }
