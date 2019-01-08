@@ -15,44 +15,45 @@
                 .build();
 
             async function submitAnswer() {
-                connection.invoke("SubmitAnswer", "svar");
-                getWaitingScreen();
+                await connection.invoke("SubmitAnswer", "svar");
+                getPlayerWaitingScreen();
             };
+
             window.submitAnswer = submitAnswer;
 
-            async function getWaitingScreen() {
-                $.ajax({
-                    url: "/player/wait",
+            async function getPartialView(url) {
+                await $.ajax({
+                    url: url,
                     type: "GET",
-                    success: async function (result) {
+                    success: function (result) {
                         $("#content").html(result);
                     },
-                    error: async function (result) {
+                    error: function (result) {
                         console.log(result);
                     }
-                })
+                });
+            }
+
+            async function getPlayerWaitingScreen() {
+                await getPartialView("/player/wait");
+            }
+
+            async function getPlayerShowAlternatives(url) {
+                await getPartialView(url);
             }
 
             await connection.start().catch(err => console.log(err));
 
             connection.invoke("AddToGroup", "@Model.GameId");
 
-            connection.on("newsong", function (song) {
-                // request answers
-                $.ajax({
-                    url: "/player/displayalternatives?song=test",
-                    type: "GET",
-                    success: async function (result) {
-                        $("#content").html(result);
-                    },
-                    error: async function (result) {
-                        console.log(result);
-                    }
-                })
+            connection.on("newsong", async function (song) {
+                // to-do: request answers and build url
+                let url = "/player/showalternatives?song=test";
+                await getPlayerShowAlternatives(url);
             });
 
-            connection.on("gotowaitingscreen", function () {
-                getWaitingScreen();
+            connection.on("gotowaitingscreen", async function () {
+                await getPlayerWaitingScreen();
             });
 
             connection.on("finalposition", function (pos) {
