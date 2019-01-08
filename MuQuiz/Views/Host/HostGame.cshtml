@@ -1,4 +1,5 @@
-﻿
+﻿@model HostGameVM
+
 <div id="content">
     <button id="sendsong">Send song</button>
 
@@ -21,7 +22,7 @@
             async function sendSong() {
                 if (rounds > 0) {
                     rounds--;
-                    await connection.invoke("SendSong", "test", "song");
+                    await connection.invoke("SendSong", "@Model.GameId", "song");
                 } else {
                     goToFinalResults();
                 }
@@ -34,7 +35,7 @@
                     type: "GET",
                     success: async function (result) {
                         $("#content").html(result);
-                        connection.invoke("SendFinalPosition", "test");
+                        connection.invoke("SendFinalPosition", "@Model.GameId");
                     },
                     error: async function (result) {
                         console.log(result);
@@ -69,7 +70,7 @@
                     success: async function (result) {
                         $("#content").html(result);
                         setTimeout(() => {
-                            connection.invoke("GoToWaitingScreen", "test");
+                            connection.invoke("GoToWaitingScreen", "@Model.GameId");
                             showResults();
                         }, 5000);
                     },

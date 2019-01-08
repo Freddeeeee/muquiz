@@ -5,5 +5,7 @@
 <div id="content">
 
 </div>
-
-<a asp-controller="host" asp-action="hostgame">Start game</a>
+<form asp-controller="host" asp-action="index">
+    <input type="hidden" asp-for="GameId" />
+    <input type="submit" value="Start game"/>
+</form>
