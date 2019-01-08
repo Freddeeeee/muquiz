@@ -22,10 +22,10 @@ namespace MuQuiz.Controllers
             return View();
         }
 
-        public IActionResult DisplayAlternatives(string song)
+        public IActionResult ShowAlternatives(string song)
         {
             // to-do: retrieve alternatives from data storage
-            return PartialView("~/Views/Shared/Host/_DisplayAlternatives.cshtml");
+            return PartialView("~/Views/Shared/Host/_ShowAlternatives.cshtml");
         }
 
         public IActionResult ShowResults()

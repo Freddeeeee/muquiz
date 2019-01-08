@@ -16,71 +16,73 @@
                 .withUrl("/gamehub")
                 .build();
 
+            //to-do: connect to actual game of list which "pops" ?
             let rounds = 3;
 
             async function sendSong() {
-                if (rounds > 0) {
-                    rounds--;
-                    await connection.invoke("SendSong", "test", "song");
-                } else {
-                    goToFinalResults();
-                }
-            };
+                rounds--;
+                await connection.invoke("SendSong", "test", "song");
+                //SCH: skulle kunna anropa getHostShowAlternatives redan här?
+            }
+
             window.sendSong = sendSong;
 
-            async function goToFinalResults() {
-                $.ajax({
-                    url: "/host/showfinalresults",
+            async function getPartialView(url, successFunc) {
+                await $.ajax({
+                    url: url,
                     type: "GET",
                     success: async function (result) {
-                        $("#content").html(result);
-                        connection.invoke("SendFinalPosition", "test");
+                        successFunc(result)
                     },
-                    error: async function (result) {
+                    error: function (result) {
                         console.log(result);
                     }
                 })
             }
 
-            async function showResults() {
-                $.ajax({
-                    url: "/host/showresults",
-                    type: "GET",
-                    success: async function (result) {
-                        $("#content").html(result);
-                    },
-                    error: async function (result) {
-                        console.log(result);
-                    }
+            async function getHostShowAlternatives(url) {
+                await getPartialView(url, async function (result) {
+                    $("#content").html(result);
+                    await setTimeout(async function () {
+                        if (rounds > 0) {
+                            await connection.invoke("GoToWaitingScreen", "test");
+                            await getHostShowResults();
+                        }
+                        else {
+                            await connection.invoke("SendFinalPosition", "test");
+                            await getHostShowFinalResults();
+                        }
+                    }, 5000);
                 })
             }
+
+            async function getHostShowResults() {
+                await getPartialView("/host/showresults", result => {
+                    $("#content").html(result);
+                    $("#players").empty();
+                });
+            }
+
+            async function getHostShowFinalResults() {
+                await getPartialView("/host/showfinalresults", async function (result) {
+                    $("#content").html(result);
+                });
+            }
+
+            connection.on("newsong", async function (song) {
+                // to-do: request answers and create url from song
+                let url = "/host/showalternatives?song=test";
+                await getHostShowAlternatives(url);
+            });
+
+            connection.on("receivedanswer", function () {
+                $("#players").append("Received answer");
+            });
 
             await connection.start().catch(err => console.log(err));
 
             $("#sendsong").click(async function () {
                 await sendSong();
-            });
-
-            connection.on("newsong", function (song) {
-                // request answers
-                $.ajax({
-                    url: "/host/displayalternatives?song=test",
-                    type: "GET",
-                    success: async function (result) {
-                        $("#content").html(result);
-                        setTimeout(() => {
-                            connection.invoke("GoToWaitingScreen", "test");
-                            showResults();
-                        }, 5000);
-                    },
-                    error: async function (result) {
-                        console.log(result);
-                    }
-                })
-            });
-
-            connection.on("receivedanswer", function () {
-                $("#players").append("Received answer");
             });
         })();
     </script>
