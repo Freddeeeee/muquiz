@@ -2,6 +2,10 @@
 
 <h1>Welcome to game @Model.GameId, @Model.Name!</h1>
 
+<div id="content">
+
+</div>
+
 @section scripts {
     <script src="https://cdn.jsdelivr.net/npm/@@aspnet/signalr@1.1.0/dist/browser/signalr.min.js"></script>
     <script type="text/javascript">
@@ -10,9 +14,50 @@
                 .withUrl("/gamehub")
                 .build();
 
+            async function submitAnswer() {
+                connection.invoke("SubmitAnswer", "svar");
+                getWaitingScreen();
+            };
+            window.submitAnswer = submitAnswer;
+
+            async function getWaitingScreen() {
+                $.ajax({
+                    url: "/player/wait",
+                    type: "GET",
+                    success: async function (result) {
+                        $("#content").html(result);
+                    },
+                    error: async function (result) {
+                        console.log(result);
+                    }
+                })
+            }
+
             await connection.start().catch(err => console.log(err));
 
             connection.invoke("AddToGroup", "@Model.GameId");
+
+            connection.on("newsong", function (song) {
+                // request answers
+                $.ajax({
+                    url: "/player/displayalternatives?song=test",
+                    type: "GET",
+                    success: async function (result) {
+                        $("#content").html(result);
+                    },
+                    error: async function (result) {
+                        console.log(result);
+                    }
+                })
+            });
+
+            connection.on("gotowaitingscreen", function () {
+                getWaitingScreen();
+            });
+
+            connection.on("finalposition", function (pos) {
+                $("#content").html("You came at position " + pos);
+            })
         })();
     </script>
 }

@@ -16,5 +16,26 @@ namespace MuQuiz.Controllers
 
             return View(vm);
         }
+
+        public IActionResult HostGame()
+        {
+            return View();
+        }
+
+        public IActionResult DisplayAlternatives(string song)
+        {
+            // to-do: retrieve alternatives from data storage
+            return PartialView("~/Views/Shared/Host/_DisplayAlternatives.cshtml");
+        }
+
+        public IActionResult ShowResults()
+        {
+            return PartialView("~/Views/Shared/Host/_ShowResults.cshtml");
+        }
+
+        public IActionResult ShowFinalResults()
+        {
+            return PartialView("~/Views/Shared/Host/_ShowFinalResults.cshtml");
+        }
     }
 }

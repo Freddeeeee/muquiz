@@ -13,9 +13,25 @@ namespace MuQuiz.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         }
 
-        public async Task SendSong(string song)
+        public async Task SendSong(string group, string song)
         {
-            await Clients.Others.SendAsync("newsong", song);
+            await Clients.Group(group).SendAsync("newsong", song);
+            await Clients.Caller.SendAsync("newsong", song);
+        }
+
+        public async Task SubmitAnswer(string answer)
+        {
+            await Clients.All.SendAsync("receivedanswer");
+        }
+
+        public async Task GoToWaitingScreen(string group)
+        {
+            await Clients.Group(group).SendAsync("gotowaitingscreen");
+        }
+
+        public async Task SendFinalPosition(string group)
+        {
+            await Clients.Group(group).SendAsync("finalposition", 1);
         }
     }
 }

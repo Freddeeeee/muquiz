@@ -1,0 +1,87 @@
+﻿
+<div id="content">
+    <button id="sendsong">Send song</button>
+
+</div>
+
+<div id="players">
+
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/@@aspnet/signalr@1.1.0/dist/browser/signalr.min.js"></script>
+    <script type="text/javascript">
+        (async function () {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/gamehub")
+                .build();
+
+            let rounds = 3;
+
+            async function sendSong() {
+                if (rounds > 0) {
+                    rounds--;
+                    await connection.invoke("SendSong", "test", "song");
+                } else {
+                    goToFinalResults();
+                }
+            };
+            window.sendSong = sendSong;
+
+            async function goToFinalResults() {
+                $.ajax({
+                    url: "/host/showfinalresults",
+                    type: "GET",
+                    success: async function (result) {
+                        $("#content").html(result);
+                        connection.invoke("SendFinalPosition", "test");
+                    },
+                    error: async function (result) {
+                        console.log(result);
+                    }
+                })
+            }
+
+            async function showResults() {
+                $.ajax({
+                    url: "/host/showresults",
+                    type: "GET",
+                    success: async function (result) {
+                        $("#content").html(result);
+                    },
+                    error: async function (result) {
+                        console.log(result);
+                    }
+                })
+            }
+
+            await connection.start().catch(err => console.log(err));
+
+            $("#sendsong").click(async function () {
+                await sendSong();
+            });
+
+            connection.on("newsong", function (song) {
+                // request answers
+                $.ajax({
+                    url: "/host/displayalternatives?song=test",
+                    type: "GET",
+                    success: async function (result) {
+                        $("#content").html(result);
+                        setTimeout(() => {
+                            connection.invoke("GoToWaitingScreen", "test");
+                            showResults();
+                        }, 5000);
+                    },
+                    error: async function (result) {
+                        console.log(result);
+                    }
+                })
+            });
+
+            connection.on("receivedanswer", function () {
+                $("#players").append("Received answer");
+            });
+        })();
+    </script>
+}

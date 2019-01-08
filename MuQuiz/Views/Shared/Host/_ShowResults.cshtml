@@ -1,0 +1,13 @@
+﻿<ol>
+    <li>Player 1</li>
+    <li>Player 2</li>
+    <li>Player 3</li>
+</ol>
+
+<button id="sendsong">Send song</button>
+
+<script type="text/javascript">
+    $("#sendsong").click(async function () {
+        await window.sendSong();
+    });
+</script>
