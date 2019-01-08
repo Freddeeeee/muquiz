@@ -1,0 +1,18 @@
+﻿@model PlayerIndexVM
+
+<p>Collapsable game explanation goes here</p>
+
+<form asp-controller="player" asp-action="index">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name"></span>
+
+    <br />
+
+    <input type="submit" value="Let's go!" />
+</form>
+
+@section scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+}

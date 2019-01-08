@@ -18,6 +18,7 @@ namespace MuQuiz
         {
             services.AddSignalR();
             services.AddMvc();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,7 +30,8 @@ namespace MuQuiz
             }
 
             app.UseSignalR(routes => routes.MapHub<GameHub>("/gamehub"));
-
+            app.UseSession();
+            app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
     }
