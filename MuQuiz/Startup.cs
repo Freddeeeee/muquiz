@@ -28,6 +28,8 @@ namespace MuQuiz
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<HostService>();
+            services.AddSingleton<SpotifyService>();
+
             //Skapa connectionString med hjälp av lokal secret
             var builder = new SqlConnectionStringBuilder(
                 Configuration.GetConnectionString("MuQuizConnString"));
