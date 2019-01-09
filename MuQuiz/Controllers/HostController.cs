@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MuQuiz.Models;
@@ -9,6 +10,7 @@ using MuQuiz.Models.ViewModels;
 
 namespace MuQuiz.Controllers
 {
+    [Authorize]
     public class HostController : Controller
     {
         HostService service;
@@ -22,8 +24,14 @@ namespace MuQuiz.Controllers
         public IActionResult Index()
         {
             var vm = new HostIndexVM { GameId = service.GenerateGameId() };
-            return View(vm);
+
+            if (User.Identity.IsAuthenticated)
+                return View(vm);
+            else
+                return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
         }
+
+        
 
         [HttpPost]
         public IActionResult Index(string gameId)

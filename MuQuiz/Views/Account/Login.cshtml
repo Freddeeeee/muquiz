@@ -1,0 +1,19 @@
+﻿@model AccountLoginVM
+
+<h2>Login</h2>
+
+<form asp-controller="Account" asp-action="Login">
+    <label asp-for="UserName"></label>
+    <input asp-for="UserName" />
+    <span asp-validation-for="UserName"></span>
+    <label asp-for="Password"></label>
+    <input asp-for="Password" />
+    <span asp-validation-for="Password"></span>
+    <br />
+    <input type="submit" value="Login" />
+</form>
+
+<br />
+<div>
+    Don't have an account? <a asp-action="Create" asp-controller="Account">Register</a>
+</div>
