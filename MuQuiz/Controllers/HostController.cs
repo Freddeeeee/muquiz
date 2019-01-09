@@ -14,10 +14,12 @@ namespace MuQuiz.Controllers
     public class HostController : Controller
     {
         HostService service;
+        SpotifyService spotify;
 
-        public HostController(HostService service)
+        public HostController(HostService service, SpotifyService spotify)
         {
             this.service = service;
+            this.spotify = spotify;
         }
 
         [HttpGet]
