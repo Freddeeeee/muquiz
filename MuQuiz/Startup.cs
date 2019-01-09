@@ -52,7 +52,7 @@ namespace MuQuiz
 
             services.AddAuthentication(
                 CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o => o.LoginPath = "/Host/Login");
+                .AddCookie(o => o.LoginPath = "/Account/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

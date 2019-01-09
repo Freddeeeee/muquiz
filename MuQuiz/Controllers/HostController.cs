@@ -28,35 +28,10 @@ namespace MuQuiz.Controllers
             if (User.Identity.IsAuthenticated)
                 return View(vm);
             else
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(int vm) //ändra parametertyp till vymodell
-        {
-            if (!ModelState.IsValid)
-                return View(vm);
-
-            //Skapa login-metoder i serviceklassen och validera inloggningen
-            //var loginResult = await service.LoginAsync(vm);
-            //if(loginResult.Succeeded)
-            //  return RedirectToAction(nameof(Index));
-            //else
-            //{
-            //  ModelState.AddModelError(nameof(VYMODELL.UserName), "Invalid user name and/or password.");
-            //  return View(vm);
-            //}
-
-            return RedirectToAction(nameof(Index));
-        }
+        
 
         [HttpPost]
         public IActionResult Index(string gameId)

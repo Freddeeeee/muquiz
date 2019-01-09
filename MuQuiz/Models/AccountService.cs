@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MuQuiz.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,20 @@ namespace MuQuiz.Models
             this.roleManager = roleManager;
         }
 
-        internal async Task createAccount(string v1, string v2)
+        internal async Task<IdentityResult> createAccount(AccountLoginVM vm)
         {
-            var result = await userManager.CreateAsync(
-                new MyIdentityUser { UserName = v1 }, v2);
+            return await userManager.CreateAsync(
+                new MyIdentityUser { UserName = vm.UserName }, vm.Password);
+        }
+
+        internal async Task<SignInResult> LoginAsync(AccountLoginVM vm)
+        {
+            return await signInManager.PasswordSignInAsync(vm.UserName, vm.Password, false, false);
+        }
+
+        internal async Task SignOutAsync()
+        {
+            await signInManager.SignOutAsync();
         }
     }
 }

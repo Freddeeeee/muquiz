@@ -1,0 +1,14 @@
+﻿@model AccountLoginVM
+
+<h2>Create new account</h2>
+
+<form asp-controller="Account" asp-action="Create">
+    <label asp-for="UserName"></label>
+    <input asp-for="UserName" />
+    <span asp-validation-for="UserName"></span>
+    <label asp-for="Password"></label>
+    <input asp-for="Password" />
+    <span asp-validation-for="Password"></span>
+    <br />
+    <input type="submit" value="Create Account" />
+</form>
