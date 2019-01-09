@@ -4,12 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MuQuiz.Models;
 using MuQuiz.Models.ViewModels;
 
 namespace MuQuiz.Controllers
 {
     public class PlayerController : Controller
     {
+        private readonly SessionStorageService sessionService;
+
+        public PlayerController(SessionStorageService sessionStorageService)
+        {
+            sessionService = sessionStorageService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -19,13 +27,13 @@ namespace MuQuiz.Controllers
         [HttpPost]
         public IActionResult Index(PlayerIndexVM vm)
         {
-            //to-do: validate whether key is still valid
+            //to-do: validate whether key/gameId is still valid when the player submits name
             if (!ModelState.IsValid)
             {
                 return View(vm);
             }
 
-            HttpContext.Session.SetString("Name", vm.Name);
+            sessionService.Name = vm.Name;
 
             return RedirectToAction(nameof(Game));
         }
@@ -34,8 +42,8 @@ namespace MuQuiz.Controllers
         {
             var vm = new PlayerGameVM
             {
-                GameId = HttpContext.Session.GetString("GameId"),
-                Name = HttpContext.Session.GetString("Name"),
+                GameId = sessionService.GameId,
+                Name = sessionService.Name,
             };
 
             return View(vm);

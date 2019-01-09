@@ -48,10 +48,11 @@ namespace MuQuiz
             //Standard inloggningssida är nu /account/login
 
             services.AddTransient<AccountService>();
+            services.AddTransient<SessionStorageService>();
             services.AddSignalR();
             services.AddMvc();
             services.AddSession();
-
+            services.AddHttpContextAccessor();
             services.AddAuthentication(
                 CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o => o.LoginPath = "/Account/Login");

@@ -15,10 +15,12 @@ namespace MuQuiz.Controllers
     {
         HostService service;
         SpotifyService spotify;
+        SessionStorageService sessionService;
 
-        public HostController(HostService service, SpotifyService spotify)
+        public HostController(HostService service, SessionStorageService sessionStorageService, SpotifyService spotify)
         {
             this.service = service;
+            sessionService = sessionStorageService;
             this.spotify = spotify;
         }
 
@@ -33,18 +35,16 @@ namespace MuQuiz.Controllers
                 return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
         }
 
-        
-
         [HttpPost]
         public IActionResult Index(string gameId)
         {
-            HttpContext.Session.SetString("GameId", gameId);
+            sessionService.GameId = gameId;
             return RedirectToAction(nameof(HostGame));
         }
 
         public IActionResult HostGame(string gameId)
         {
-            var vm = new HostGameVM { GameId = HttpContext.Session.GetString("GameId") };
+            var vm = new HostGameVM { GameId = sessionService.GameId };
             return View(vm);
         }
 

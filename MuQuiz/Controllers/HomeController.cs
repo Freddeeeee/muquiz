@@ -10,6 +10,13 @@ namespace MuQuiz.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly SessionStorageService sessionService;
+
+        public HomeController(SessionStorageService sessionStorageService)
+        {
+            sessionService = sessionStorageService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -19,7 +26,10 @@ namespace MuQuiz.Controllers
         [HttpPost]
         public IActionResult Index(string GameId)
         {
-            HttpContext.Session.SetString("GameId", GameId);
+            if (!ModelState.IsValid)
+                return View();
+
+            sessionService.GameId = GameId;
             return RedirectToAction(nameof(PlayerController.Index), "Player");
         }
     }
