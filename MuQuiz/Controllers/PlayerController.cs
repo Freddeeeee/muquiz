@@ -12,10 +12,12 @@ namespace MuQuiz.Controllers
     public class PlayerController : Controller
     {
         private readonly SessionStorageService sessionService;
+        private readonly QuestionService questionService;
 
-        public PlayerController(SessionStorageService sessionStorageService)
+        public PlayerController(SessionStorageService sessionStorageService, QuestionService questionService)
         {
             sessionService = sessionStorageService;
+            this.questionService = questionService;
         }
 
         [HttpGet]
@@ -49,10 +51,10 @@ namespace MuQuiz.Controllers
             return View(vm);
         }
 
-        public IActionResult ShowAlternatives(string song)
+        public IActionResult ShowAlternatives(int song)
         {
-            // to-do: retrieve alternatives from data storage
-            return PartialView("~/Views/Shared/Player/_Alternatives.cshtml");
+            var alternatives = questionService.GetQuestionsForId(song);
+            return PartialView("~/Views/Shared/Player/_Alternatives.cshtml", alternatives);
         }
 
         public IActionResult ShowWaitingScreen()

@@ -1,6 +1,8 @@
-﻿<ul>
-    <li>Host Alt #1</li>
-    <li>Host Alt #2</li>
-    <li>Host Alt #3</li>
-    <li>Host Alt #4</li>
+﻿@model string[]
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>Host @item</li>
+    }
 </ul>

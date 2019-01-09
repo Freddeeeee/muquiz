@@ -51,9 +51,7 @@
 
             connection.invoke("@nameof(GameHub.AddToGroup)", "@Model.GameId");
 
-            connection.on("@nameof(IHubClient.ReceiveSong)", async function (song) {
-                // to-do: request answers and build url
-                let songId = "test";
+            connection.on("@nameof(IHubClient.ReceiveSong)", async function (songId) {
                 await getPlayerAlternatives(songId);
             });
 

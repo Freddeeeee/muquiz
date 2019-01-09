@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MuQuiz.Models;
 using MuQuiz.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace MuQuiz.Controllers
 {
@@ -15,13 +16,15 @@ namespace MuQuiz.Controllers
     {
         HostService service;
         SpotifyService spotify;
+        private readonly QuestionService questionService;
         SessionStorageService sessionService;
 
-        public HostController(HostService service, SessionStorageService sessionStorageService, SpotifyService spotify)
+        public HostController(HostService service, SessionStorageService sessionStorageService, SpotifyService spotify, QuestionService questionService)
         {
             this.service = service;
             sessionService = sessionStorageService;
             this.spotify = spotify;
+            this.questionService = questionService;
         }
 
         [HttpGet]
@@ -44,14 +47,14 @@ namespace MuQuiz.Controllers
 
         public IActionResult HostGame(string gameId)
         {
-            var vm = new HostGameVM { GameId = sessionService.GameId };
+            var vm = new HostGameVM { GameId = sessionService.GameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
             return View(vm);
         }
 
-        public IActionResult ShowAlternatives(string song)
+        public IActionResult ShowAlternatives(int song)
         {
-            // to-do: retrieve alternatives from data storage
-            return PartialView("~/Views/Shared/Host/_Alternatives.cshtml");
+            var alternatives = questionService.GetQuestionsForId(song);
+            return PartialView("~/Views/Shared/Host/_Alternatives.cshtml", alternatives);
         }
 
         public IActionResult ShowResults()

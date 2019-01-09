@@ -1,8 +1,10 @@
-﻿<ul>
-    <li>Alt #1</li>
-    <li>Alt #2</li>
-    <li>Alt #3</li>
-    <li>Alt #4</li>
+﻿@model string[]
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>Player @item</li>
+    }
 </ul>
 
 <button id="submit">Submit</button>
