@@ -11,11 +11,14 @@ namespace MuQuiz.Controllers
 {
     public class HostController : Controller
     {
-        HostService service;
+        private readonly HostService service;
+        private readonly SessionStorageService sessionService;
 
-        public HostController(HostService service)
+
+        public HostController(HostService service, SessionStorageService sessionStorageService)
         {
             this.service = service;
+            sessionService = sessionStorageService;
         }
 
         [HttpGet]
@@ -28,13 +31,13 @@ namespace MuQuiz.Controllers
         [HttpPost]
         public IActionResult Index(string gameId)
         {
-            HttpContext.Session.SetString("GameId", gameId);
+            sessionService.GameId = gameId;
             return RedirectToAction(nameof(HostGame));
         }
 
         public IActionResult HostGame(string gameId)
         {
-            var vm = new HostGameVM { GameId = HttpContext.Session.GetString("GameId") };
+            var vm = new HostGameVM { GameId = sessionService.GameId };
             return View(vm);
         }
 

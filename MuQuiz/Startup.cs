@@ -45,9 +45,12 @@ namespace MuQuiz
             //Standard inloggningssida är nu /account/login
 
             services.AddTransient<AccountService>();
+            services.AddTransient<SessionStorageService>();
             services.AddSignalR();
             services.AddMvc();
             services.AddSession();
+            services.AddHttpContextAccessor();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
