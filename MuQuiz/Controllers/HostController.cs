@@ -21,9 +21,7 @@ namespace MuQuiz.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // to-do: add game id generator (constructor or helper class?)
             var vm = new HostIndexVM { GameId = service.GenerateGameId() };
-
             return View(vm);
         }
 
@@ -43,17 +41,17 @@ namespace MuQuiz.Controllers
         public IActionResult ShowAlternatives(string song)
         {
             // to-do: retrieve alternatives from data storage
-            return PartialView("~/Views/Shared/Host/_ShowAlternatives.cshtml");
+            return PartialView("~/Views/Shared/Host/_Alternatives.cshtml");
         }
 
         public IActionResult ShowResults()
         {
-            return PartialView("~/Views/Shared/Host/_ShowResults.cshtml");
+            return PartialView("~/Views/Shared/Host/_Results.cshtml");
         }
 
         public IActionResult ShowFinalResults()
         {
-            return PartialView("~/Views/Shared/Host/_ShowFinalResults.cshtml");
+            return PartialView("~/Views/Shared/Host/_FinalResults.cshtml");
         }
     }
 }

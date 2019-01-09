@@ -11,6 +11,7 @@ namespace MuQuiz.Models.ViewModels
         // to-do: create attribute to check if game id exists
         [Required(ErrorMessage = "Please enter a game id.")]
         [Display(Name = "Game id")]
+        [StringLength(4, ErrorMessage = "The code should contain exactly 4 letters.", MinimumLength =4 )]
         public string GameId { get; set; }
     }
 }

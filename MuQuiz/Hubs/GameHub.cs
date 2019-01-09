@@ -15,23 +15,23 @@ namespace MuQuiz.Hubs
 
         public async Task SendSong(string group, string song)
         {
-            await Clients.Group(group).SendAsync("newsong", song);
-            await Clients.Caller.SendAsync("newsong", song);
+            await Clients.Group(group).SendAsync("receivedsong", song);
         }
 
-        public async Task SubmitAnswer(string answer)
+        public async Task SendAnswer(string answer)
         {
+            //to-do: change from All to sending to host only or group including host
             await Clients.All.SendAsync("receivedanswer");
         }
 
-        public async Task GoToWaitingScreen(string group)
+        public async Task SendToWaitingScreen(string group)
         {
-            await Clients.Group(group).SendAsync("gotowaitingscreen");
+            await Clients.Group(group).SendAsync("getwaitingscreen");
         }
 
-        public async Task SendFinalPosition(string group)
+        public async Task SendToFinalPosition(string group)
         {
-            await Clients.Group(group).SendAsync("finalposition", 1);
+            await Clients.Group(group).SendAsync("getfinalposition", 1);
         }
     }
 }

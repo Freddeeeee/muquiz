@@ -14,13 +14,6 @@
                 .withUrl("/gamehub")
                 .build();
 
-            async function submitAnswer() {
-                await connection.invoke("SubmitAnswer", "svar");
-                getPlayerWaitingScreen();
-            };
-
-            window.submitAnswer = submitAnswer;
-
             async function getPartialView(url) {
                 await $.ajax({
                     url: url,
@@ -35,29 +28,41 @@
             }
 
             async function getPlayerWaitingScreen() {
-                await getPartialView("/player/wait");
+                await getPartialView("/player/showwaitingscreen");
             }
 
-            async function getPlayerShowAlternatives(url) {
-                await getPartialView(url);
+            async function getPlayerAlternatives(songId) {
+                await getPartialView("/player/showalternatives?song=" + songId);
             }
+
+            async function getPlayerFinalPosition(position) {
+                await getPartialView("/player/showfinalposition?position=" + position);
+            }
+
+            async function submitAnswer() {
+                await connection.invoke("SendAnswer", "svar");
+                getPlayerWaitingScreen();
+            };
+
+            window.submitAnswer = submitAnswer;
 
             await connection.start().catch(err => console.log(err));
 
             connection.invoke("AddToGroup", "@Model.GameId");
 
-            connection.on("newsong", async function (song) {
+            connection.on("receivedsong", async function (song) {
                 // to-do: request answers and build url
-                let url = "/player/showalternatives?song=test";
-                await getPlayerShowAlternatives(url);
+                let songId = "test";
+                await getPlayerAlternatives(songId);
             });
 
-            connection.on("gotowaitingscreen", async function () {
+            connection.on("getwaitingscreen", async function () {
                 await getPlayerWaitingScreen();
             });
 
-            connection.on("finalposition", function (pos) {
-                $("#content").html("You came at position " + pos);
+            connection.on("getfinalposition", async function (position) {
+                // to-do: send userId instead?
+                await getPlayerFinalPosition(position);
             })
         })();
     </script>
