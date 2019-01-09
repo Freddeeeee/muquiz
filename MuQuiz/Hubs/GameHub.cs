@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using MuQuiz.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,17 @@ namespace MuQuiz.Hubs
 {
     public class GameHub : Hub<IHubClient>
     {
-        public async Task AddToGroup(string groupName)
+        readonly GameService service;
+
+        public GameHub(GameService service)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            this.service = service;
+        }
+
+        public async Task AddToGroup(string gameId, string name)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+            service.AddPlayer(Context.ConnectionId, name, gameId);
         }
 
         public async Task SendSong(string group, string song)
@@ -22,6 +31,7 @@ namespace MuQuiz.Hubs
         {
             //to-do: change from All to sending to host only or group including host
             await Clients.All.ReceiveAnswer();
+            service.EvaluateAnswer(Context.ConnectionId, "test");
         }
 
         public async Task SendToWaitingScreen(string group)
@@ -31,7 +41,12 @@ namespace MuQuiz.Hubs
 
         public async Task SendToFinalPosition(string group)
         {
-            await Clients.Group(group).GetFinalPosition(1);
+            var players = service.GetAllPlayers(group);
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                await Clients.Client(players[i].ConnectionId).GetFinalPosition(i + 1);
+            }
         }
     }
 }

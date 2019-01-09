@@ -64,7 +64,6 @@ namespace MuQuiz.Controllers
 
         public IActionResult ShowFinalPosition(int position)
         {
-            //to-do: instead receive userId and find position in DB?
             return PartialView("~/Views/Shared/Player/_FinalPosition.cshtml", position);
         }
     }

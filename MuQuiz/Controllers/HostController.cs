@@ -17,14 +17,16 @@ namespace MuQuiz.Controllers
         HostService service;
         SpotifyService spotify;
         private readonly QuestionService questionService;
+        private readonly GameService gameService;
         SessionStorageService sessionService;
 
-        public HostController(HostService service, SessionStorageService sessionStorageService, SpotifyService spotify, QuestionService questionService)
+        public HostController(HostService service, SessionStorageService sessionStorageService, SpotifyService spotify, QuestionService questionService, GameService gameService)
         {
             this.service = service;
             sessionService = sessionStorageService;
             this.spotify = spotify;
             this.questionService = questionService;
+            this.gameService = gameService;
         }
 
         [HttpGet]
@@ -59,12 +61,14 @@ namespace MuQuiz.Controllers
 
         public IActionResult ShowResults()
         {
-            return PartialView("~/Views/Shared/Host/_Results.cshtml");
+            var players = gameService.GetAllPlayers(sessionService.GameId);
+            return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
         public IActionResult ShowFinalResults()
         {
-            return PartialView("~/Views/Shared/Host/_FinalResults.cshtml");
+            var players = gameService.GetAllPlayers(sessionService.GameId);
+            return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
         }
     }
 }

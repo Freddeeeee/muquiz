@@ -57,6 +57,7 @@ namespace MuQuiz
                 CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o => o.LoginPath = "/Account/Login");
             services.AddTransient<QuestionService>();
+            services.AddTransient<GameService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

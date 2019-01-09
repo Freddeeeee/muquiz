@@ -1,7 +1,10 @@
-﻿<ol>
-    <li>Player 1</li>
-    <li>Player 2</li>
-    <li>Player 3</li>
+﻿@using MuQuiz.Models
+@model Player[]
+<ol>
+    @foreach (var item in Model)
+    {
+        <li>@item.Name, @item.Score</li>
+    }
 </ol>
 
 <button id="sendsong">Send song</button>

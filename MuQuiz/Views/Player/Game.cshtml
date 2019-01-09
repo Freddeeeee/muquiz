@@ -49,7 +49,7 @@
 
             await connection.start().catch(err => console.log(err));
 
-            connection.invoke("@nameof(GameHub.AddToGroup)", "@Model.GameId");
+            connection.invoke("@nameof(GameHub.AddToGroup)", "@Model.GameId", "@Model.Name");
 
             connection.on("@nameof(IHubClient.ReceiveSong)", async function (songId) {
                 await getPlayerAlternatives(songId);
@@ -60,9 +60,10 @@
             });
 
             connection.on("@nameof(IHubClient.GetFinalPosition)", async function (position) {
-                // to-do: send userId instead?
                 await getPlayerFinalPosition(position);
             })
+
+            
         })();
     </script>
 }
