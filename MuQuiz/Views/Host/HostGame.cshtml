@@ -1,4 +1,5 @@
 ﻿@model HostGameVM
+@using MuQuiz.Hubs
 
 <div id="content">
     <button id="sendsong">Send song</button>
@@ -33,20 +34,25 @@
                 })
             }
 
-            async function getHostAlternatives(url) {
-                await getPartialView(url, async function (result) {
+            async function getHostAlternatives(songId) {
+                await getPartialView("/host/showalternatives?song=" + songId, async function (result) {
                     $("#content").html(result);
                     await setTimeout(async function () {
-                        if (rounds > 0) {
-                            await connection.invoke("SendToWaitingScreen", "@Model.GameId");
-                            await getHostResults();
-                        }
-                        else {
-                            await connection.invoke("SendToFinalPosition", "@Model.GameId");
-                            await getHostFinalResults();
-                        }
+                        await getWaitingOrFinalView();
                     }, 5000);
                 })
+            }
+
+            //SCH: change name of this func?
+            async function getWaitingOrFinalView() {
+                if (rounds > 0) {
+                    await connection.invoke("@nameof(GameHub.SendToWaitingScreen)", "@Model.GameId");
+                    await getHostResults();
+                }
+                else {
+                     await connection.invoke("@nameof(GameHub.SendToFinalPosition)", "@Model.GameId");
+                     await getHostFinalResults();
+                }
             }
 
             async function getHostResults() {
@@ -64,19 +70,19 @@
 
             async function selectAndGetHostAlternatives(song) {
                 // to-do: request answers and create url from song
-                let url = "/host/showalternatives?song=test";
-                await getHostAlternatives(url);
+                let songId = "test";
+                await getHostAlternatives(songId);
             };
 
             async function sendSong() {
                 rounds--; //to-do: "pop" from list of songs here?
-                await connection.invoke("SendSong", "@Model.GameId", "song");
+                await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", "song");
                 await selectAndGetHostAlternatives("song");
             }
 
             window.sendSong = sendSong;
 
-            connection.on("receivedanswer", function () {
+            connection.on("@nameof(IHubClient.ReceiveAnswer)", function () {
                 $("#players").append("Received answer");
             });
 
