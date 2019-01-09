@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,10 @@ namespace MuQuiz
             services.AddSignalR();
             services.AddMvc();
             services.AddSession();
+
+            services.AddAuthentication(
+                CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o => o.LoginPath = "/Host/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +39,7 @@ namespace MuQuiz
             app.UseSignalR(routes => routes.MapHub<GameHub>("/gamehub"));
             app.UseSession();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseStatusCodePagesWithRedirects("/Error/HttpError/{0}");
         }
