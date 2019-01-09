@@ -20,14 +20,6 @@
             //to-do: connect to actual game of list which "pops" ?
             let rounds = 3;
 
-            async function sendSong() {
-                rounds--;
-                await connection.invoke("SendSong", "@Model.GameId", "song");
-                //SCH: skulle kunna anropa getHostShowAlternatives redan här?
-            }
-
-            window.sendSong = sendSong;
-
             async function getPartialView(url, successFunc) {
                 await $.ajax({
                     url: url,
@@ -41,40 +33,48 @@
                 })
             }
 
-            async function getHostShowAlternatives(url) {
+            async function getHostAlternatives(url) {
                 await getPartialView(url, async function (result) {
                     $("#content").html(result);
                     await setTimeout(async function () {
                         if (rounds > 0) {
-                            await connection.invoke("GoToWaitingScreen", "@Model.GameId");
-                            await getHostShowResults();
+                            await connection.invoke("SendToWaitingScreen", "@Model.GameId");
+                            await getHostResults();
                         }
                         else {
-                            await connection.invoke("SendFinalPosition", "@Model.GameId");
-                            await getHostShowFinalResults();
+                            await connection.invoke("SendToFinalPosition", "@Model.GameId");
+                            await getHostFinalResults();
                         }
                     }, 5000);
                 })
             }
 
-            async function getHostShowResults() {
+            async function getHostResults() {
                 await getPartialView("/host/showresults", result => {
                     $("#content").html(result);
                     $("#players").empty();
                 });
             }
 
-            async function getHostShowFinalResults() {
+            async function getHostFinalResults() {
                 await getPartialView("/host/showfinalresults", async function (result) {
                     $("#content").html(result);
                 });
             }
 
-            connection.on("newsong", async function (song) {
+            async function selectAndGetHostAlternatives(song) {
                 // to-do: request answers and create url from song
                 let url = "/host/showalternatives?song=test";
-                await getHostShowAlternatives(url);
-            });
+                await getHostAlternatives(url);
+            };
+
+            async function sendSong() {
+                rounds--; //to-do: "pop" from list of songs here?
+                await connection.invoke("SendSong", "@Model.GameId", "song");
+                await selectAndGetHostAlternatives("song");
+            }
+
+            window.sendSong = sendSong;
 
             connection.on("receivedanswer", function () {
                 $("#players").append("Received answer");
