@@ -3,14 +3,15 @@
 <ul>
     @foreach (var item in Model)
     {
-        <li>Player @item</li>
+        <li class="btn btn-primary btn-sm submit" value="@item">Player @item</li>
     }
 </ul>
 
 <button id="submit">Submit</button>
 
 <script type="text/javascript">
-    $("#submit").click(async function () {
-        await window.submitAnswer();
+    $(".submit").click(async function (event) {
+        console.log(event.target.textContent);
+        await window.submitAnswer(event.target.textContent);
     });
 </script>
