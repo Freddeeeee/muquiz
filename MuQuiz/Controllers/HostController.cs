@@ -36,17 +36,17 @@ namespace MuQuiz.Controllers
             {
                 var vm = new HostIndexVM { GameId = service.GenerateGameId() };
                 await gameService.InitializeSession(vm.GameId);
+                sessionService.GameId = vm.GameId;
                 return View(vm);
             }
             else
                 return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
         }
 
-        //SCH: change to using sessionStorage instead of hidden field?
-        public async Task<IActionResult> HostGame(string gameId)
+        public async Task<IActionResult> HostGame()
         {
-            await gameService.StartPlaying(gameId);
-            var vm = new HostGameVM { GameId = gameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
+            await gameService.StartPlaying(sessionService.GameId);
+            var vm = new HostGameVM { GameId = sessionService.GameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
             return View(vm);
         }
 
@@ -62,8 +62,9 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
-        public IActionResult ShowFinalResults()
+        public async Task<IActionResult> ShowFinalResults()
         {
+            await gameService.StopPlaying(sessionService.GameId);
             var players = gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
         }
