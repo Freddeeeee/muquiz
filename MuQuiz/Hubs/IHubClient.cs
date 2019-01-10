@@ -12,5 +12,6 @@ namespace MuQuiz.Hubs
         Task ReceiveConnectedPlayerName(string name);
         Task GetWaitingScreen();
         Task GetFinalPosition(int position);
+        Task GetSessionClosedScreen();
     }
 }

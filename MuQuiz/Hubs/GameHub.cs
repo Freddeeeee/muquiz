@@ -64,7 +64,7 @@ namespace MuQuiz.Hubs
             }
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
             if (service.IsPlayer(Context.ConnectionId))
             {
@@ -72,9 +72,12 @@ namespace MuQuiz.Hubs
             }
             else
             {
+                await Clients.Group(service.GetGameIdByConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
+                service.RemoveAllPlayers(Context.ConnectionId);
+                service.RemoveGameSession(Context.ConnectionId);
             }
 
-            return base.OnDisconnectedAsync(exception);
+            //return base.OnDisconnectedAsync(exception);
         }
     }
 }

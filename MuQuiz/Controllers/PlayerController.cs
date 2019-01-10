@@ -72,5 +72,10 @@ namespace MuQuiz.Controllers
         {
             return PartialView("~/Views/Shared/Player/_FinalPosition.cshtml", position);
         }
+
+        public IActionResult ShowSessionClosedScreen()
+        {
+            return PartialView("~/Views/Shared/Player/_SessionClosedScreen.cshtml");
+        }
     }
 }

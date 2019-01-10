@@ -72,6 +72,13 @@ namespace MuQuiz.Models
                 .ToArray();
         }
 
+        internal void RemoveAllPlayers(string connectionId)
+        {
+            var playersToRemove = muquizContext.Player.Where(p => p.GameSession.HostConnectionId == connectionId);
+            muquizContext.Player.RemoveRange(playersToRemove);
+            muquizContext.SaveChanges();
+        }
+
         public Player GetPlayerByConnectionId(string connectionId)
         {
             return muquizContext
@@ -89,6 +96,18 @@ namespace MuQuiz.Models
         public string GetHostConnectionIdByGameId(string gameId)
         {
             return muquizContext.GameSession.Single(s => s.GameId == gameId).HostConnectionId;
+        }
+
+        internal string GetGameIdByConnectionId(string connectionId)
+        {
+            return muquizContext.GameSession.SingleOrDefault(g => g.HostConnectionId == connectionId).GameId;
+        }
+
+        internal void RemoveGameSession(string connectionId)
+        {
+            var gameSessionToRemove = muquizContext.GameSession.SingleOrDefault(g => g.HostConnectionId == connectionId);
+            muquizContext.GameSession.Remove(gameSessionToRemove);
+            muquizContext.SaveChanges();
         }
 
         public void EvaluateAnswer(string connectionId, string answer)
