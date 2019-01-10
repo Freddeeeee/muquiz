@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MuQuiz.Hubs;
 using MuQuiz.Models;
+using MuQuiz.Models.Entities;
 
 namespace MuQuiz
 {
@@ -37,6 +38,7 @@ namespace MuQuiz
             builder.Password = Configuration["MuQuizDbPw"];
             var connString = builder.ConnectionString;
 
+            services.AddDbContext<MuquizContext>(options => options.UseSqlServer(connString));
             services.AddDbContext<MyIdentityContext>(options => options.UseSqlServer(connString));
             services.AddIdentity<MyIdentityUser, IdentityRole>(o => 
                 {
