@@ -62,8 +62,9 @@
             }
 
             async function getHostFinalResults() {
-                await getPartialView("/host/showfinalresults", async function (result) {
+                await getPartialView("/host/showfinalresults", result => {
                     $("#content").html(result);
+                    $("#players").empty();
                 });
             }
 

@@ -8,28 +8,42 @@ namespace MuQuiz.Models
 {
     public class GameService
     {
-        MuquizContext context;
+        private readonly MuquizContext muquizContext;
 
-        public GameService(MuquizContext context)
+        public GameService(MuquizContext muquizContext)
         {
-            this.context = context;
+            this.muquizContext = muquizContext;
+        }
+
+        static public List<Player> Players { get; set; } = new List<Player>();
+
+        public async Task InitializeSession(string gameId)
+        {
+            await muquizContext.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false });
+            await muquizContext.SaveChangesAsync();
+        }
+
+        public async Task StartPlaying(string gameId)
+        {
+            muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying = true;
+            await muquizContext.SaveChangesAsync();
         }
 
         public void AddPlayer(string connectionId, string name, string gameId)
         {
-            context.Player.Add(new Player
+            muquizContext.Player.Add(new Player
             {
                 Name = name,
                 ConnectionId = connectionId,
                 Score = 0,
-                GameSessionId = context.GameSession.SingleOrDefault(g => g.GameId == gameId).Id
+                GameSessionId = muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).Id
             });
-            context.SaveChanges();
+            muquizContext.SaveChanges();
         }
 
         public Player[] GetAllPlayers(string gameId)
         {
-            return context.Player
+            return muquizContext.Player
                 .Where(p => p.GameSession.GameId == gameId)
                 .OrderByDescending(p => p.Score)
                 .ToArray();
@@ -37,7 +51,7 @@ namespace MuQuiz.Models
 
         public void EvaluateAnswer(string connectionId, string answer)
         {
-            context.Player
+            muquizContext.Player
                 .SingleOrDefault(p => p.ConnectionId == connectionId)
                 .Score++;
 
