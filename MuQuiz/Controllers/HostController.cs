@@ -30,26 +30,23 @@ namespace MuQuiz.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vm = new HostIndexVM { GameId = service.GenerateGameId() };
-
             if (User.Identity.IsAuthenticated)
+            {
+                var vm = new HostIndexVM { GameId = service.GenerateGameId() };
+                await gameService.InitializeSession(vm.GameId);
                 return View(vm);
+            }
             else
                 return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
         }
 
-        [HttpPost]
-        public IActionResult Index(string gameId)
+        //SCH: change to using sessionStorage instead of hidden field?
+        public async Task<IActionResult> HostGame(string gameId)
         {
-            sessionService.GameId = gameId;
-            return RedirectToAction(nameof(HostGame));
-        }
-
-        public IActionResult HostGame(string gameId)
-        {
-            var vm = new HostGameVM { GameId = sessionService.GameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
+            await gameService.StartPlaying(gameId);
+            var vm = new HostGameVM { GameId = gameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
             return View(vm);
         }
 
