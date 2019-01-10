@@ -87,10 +87,15 @@ namespace MuQuiz.Models
 
         public void EvaluateAnswer(string connectionId, string answer)
         {
-            muquizContext.Player
-                .SingleOrDefault(p => p.ConnectionId == connectionId)
-                .Score+= 1000;
-            muquizContext.SaveChanges();
+            var correctAnswer = muquizContext.Question.Count(q => answer == q.CorrectAnswer) > 0;
+
+            if (correctAnswer)
+            {
+                muquizContext.Player
+                    .SingleOrDefault(p => p.ConnectionId == connectionId)
+                    .Score += 1000;
+                muquizContext.SaveChanges();
+            }
         }
     }
 }
