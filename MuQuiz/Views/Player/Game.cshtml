@@ -40,8 +40,8 @@
                 await getPartialView("/player/showfinalposition?position=" + position);
             }
 
-            async function submitAnswer() {
-                await connection.invoke("@nameof(GameHub.SendAnswer)", "svar");
+            async function submitAnswer(answer) {
+                await connection.invoke("@nameof(GameHub.SendAnswer)", answer);
                 getPlayerWaitingScreen();
             };
 

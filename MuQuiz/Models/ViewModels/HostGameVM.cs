@@ -9,5 +9,6 @@ namespace MuQuiz.Models.ViewModels
     {
         public string GameId { get; set; }
         public string SongIds { get; set; }
+        public string SpotifyToken { get; set; }
     }
 }

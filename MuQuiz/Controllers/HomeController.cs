@@ -11,10 +11,12 @@ namespace MuQuiz.Controllers
     public class HomeController : Controller
     {
         private readonly SessionStorageService sessionService;
+        private readonly GameService gameService;
 
-        public HomeController(SessionStorageService sessionStorageService)
+        public HomeController(SessionStorageService sessionStorageService, GameService gameService)
         {
             sessionService = sessionStorageService;
+            this.gameService = gameService;
         }
 
         [HttpGet]
@@ -26,6 +28,11 @@ namespace MuQuiz.Controllers
         [HttpPost]
         public IActionResult Index(string GameId)
         {
+            if (!gameService.SessionIsActive(GameId))
+            {
+                ModelState.AddModelError("GameId", "We can't find this ID... :(");
+            }
+
             if (!ModelState.IsValid)
                 return View();
 

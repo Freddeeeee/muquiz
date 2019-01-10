@@ -30,8 +30,8 @@ namespace MuQuiz.Hubs
         public async Task SendAnswer(string answer)
         {
             //to-do: change from All to sending to host only or group including host
-            await Clients.All.ReceiveAnswer();
-            service.EvaluateAnswer(Context.ConnectionId, "test");
+            await Clients.All.ReceiveAnswer(answer);
+            service.EvaluateAnswer(Context.ConnectionId, answer);
         }
 
         public async Task SendToWaitingScreen(string group)
