@@ -65,6 +65,25 @@ namespace MuQuiz.Models
             muquizContext.SaveChanges();
         }
 
+        internal string GetGroup(string connectionId)
+        {
+            return muquizContext.GameSession.SingleOrDefault(g => g.HostConnectionId == connectionId).GameId;
+        }
+
+        internal void RemoveGameSession(string connectionId)
+        {
+            var gameSessionToRemove = muquizContext.GameSession.SingleOrDefault(g => g.HostConnectionId == connectionId);
+            muquizContext.GameSession.Remove(gameSessionToRemove);
+            muquizContext.SaveChanges();
+        }
+
+        internal void RemoveAllPlayers(string connectionId)
+        {
+            var playersToRemove = muquizContext.Player.Where(p => p.GameSession.HostConnectionId == connectionId);
+            muquizContext.Player.RemoveRange(playersToRemove);
+            muquizContext.SaveChanges();
+        }
+
         internal bool IsPlayer(string connectionId)
         {
             return muquizContext.Player.Count(p => p.ConnectionId == connectionId) > 0;

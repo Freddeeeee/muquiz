@@ -43,7 +43,11 @@
             async function submitAnswer(answer) {
                 await connection.invoke("@nameof(GameHub.SendAnswer)", answer);
                 getPlayerWaitingScreen();
-            };
+            }
+
+            async function getPlayerSessionClosedScreen() {
+                await getPartialView("/player/showsessionclosedscreen");
+            }
 
             window.submitAnswer = submitAnswer;
 
@@ -61,9 +65,11 @@
 
             connection.on("@nameof(IHubClient.GetFinalPosition)", async function (position) {
                 await getPlayerFinalPosition(position);
-            })
+            });
 
-            
+            connection.on("@nameof(IHubClient.GetSessionClosedScreen)", async function () {
+                await getPlayerSessionClosedScreen();
+            });
         })();
     </script>
 }
