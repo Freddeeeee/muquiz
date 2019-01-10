@@ -30,7 +30,7 @@ namespace MuQuiz.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
             service.AddPlayer(Context.ConnectionId, name, gameId);
-            var host = service.GetHostConnectionId(gameId);
+            var host = service.GetHostConnectionIdByGameId(gameId);
             await Clients.Client(host).ReceiveConnectedPlayerName(name);
         }
 
@@ -39,14 +39,12 @@ namespace MuQuiz.Hubs
             await Clients.Group(group).ReceiveSong(song);
         }
 
-        public async Task SendAnswer(string answer)
+        public async Task SendAnswer(string answer, string gameId)
         {
-            //to-do: change from All to sending to host only or group including host
             var playerInfo = service.GetPlayerByConnectionId(Context.ConnectionId);
             var name = playerInfo.Name;
-            var hostConnectionId = service.GetGameSessionById(playerInfo.GameSessionId).HostConnectionId;
+            var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
 
-            //await Clients.All.ReceiveAnswer(answer, name);
             await Clients.Client(hostConnectionId).ReceiveAnswer(answer, name);
             service.EvaluateAnswer(Context.ConnectionId, answer);
         }

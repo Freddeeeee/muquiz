@@ -64,13 +64,6 @@ namespace MuQuiz.Models
             return muquizContext.Player.Count(p => p.ConnectionId == connectionId) > 0;
         }
 
-        internal void RemovePlayerByConnectionId(string connectionId)
-        {
-            var playerToRemove = muquizContext.Player.SingleOrDefault(p => p.ConnectionId == connectionId);
-            muquizContext.Player.Remove(playerToRemove);
-            muquizContext.SaveChanges();
-        }
-
         public Player[] GetAllPlayers(string gameId)
         {
             return muquizContext.Player
@@ -79,7 +72,21 @@ namespace MuQuiz.Models
                 .ToArray();
         }
 
-        public string GetHostConnectionId(string gameId)
+        public Player GetPlayerByConnectionId(string connectionId)
+        {
+            return muquizContext
+                .Player
+                .SingleOrDefault(s => s.ConnectionId == connectionId);
+        }
+
+        internal void RemovePlayerByConnectionId(string connectionId)
+        {
+            var playerToRemove = muquizContext.Player.SingleOrDefault(p => p.ConnectionId == connectionId);
+            muquizContext.Player.Remove(playerToRemove);
+            muquizContext.SaveChanges();
+        }
+
+        public string GetHostConnectionIdByGameId(string gameId)
         {
             return muquizContext.GameSession.Single(s => s.GameId == gameId).HostConnectionId;
         }
@@ -92,18 +99,5 @@ namespace MuQuiz.Models
             muquizContext.SaveChanges();
         }
 
-        public Player GetPlayerByConnectionId(string connectionId)
-        {
-            return muquizContext
-                .Player
-                .SingleOrDefault(s => s.ConnectionId == connectionId);
-        }
-
-        public GameSession GetGameSessionById(int id)
-        {
-            return muquizContext
-                .GameSession
-                .SingleOrDefault(g => g.Id == id);
-        }
     }
 }

@@ -41,7 +41,7 @@
             }
 
             async function submitAnswer(answer) {
-                await connection.invoke("@nameof(GameHub.SendAnswer)", answer);
+                await connection.invoke("@nameof(GameHub.SendAnswer)", answer, "@Model.GameId");
                 getPlayerWaitingScreen();
             };
 
