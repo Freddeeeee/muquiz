@@ -50,6 +50,7 @@
                 }
                 else {
                     await connection.invoke("@nameof(GameHub.SendToFinalPosition)", "@Model.GameId");
+
                     await getHostFinalResults();
                 }
             }
