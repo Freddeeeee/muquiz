@@ -65,6 +65,8 @@ namespace MuQuiz.Models
                 .SingleOrDefault(p => p.ConnectionId == connectionId)
                 .Score++;
 
+            muquizContext.SaveChanges();
+
         }
     }
 }
