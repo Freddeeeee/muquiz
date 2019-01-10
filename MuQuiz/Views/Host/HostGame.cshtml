@@ -2,7 +2,10 @@
 @using MuQuiz.Hubs
 
 <div id="content">
-    <button id="sendsong">Send song</button>
+    <p>@Model.GameId</p>
+
+    <button id="start"> Start game </button>
+
 
 </div>
 
@@ -140,13 +143,21 @@
                 $("#players").append(name + " ");
             });
 
+            connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name) {
+                $("#players").append(name + " has connected");
+            });
+
             await connection.start().catch(err => console.log(err));
 
             connection.invoke("@nameof(GameHub.StartSession)", "@Model.GameId");
 
-            $("#sendsong").click(async function () {
+            $("#start").click(async function () {
+                $("#players").empty();
+                connection.invoke("@nameof(GameHub.StartGame)", "@Model.GameId");
                 await sendSong();
             });
+
+
         })();
     </script>
 }

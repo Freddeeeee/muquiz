@@ -29,22 +29,14 @@ namespace MuQuiz.Controllers
             this.gameService = gameService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult HostGame()
         {
-            var vm = new HostIndexVM { GameId = service.GenerateGameId() };
-            await gameService.InitializeSession(vm.GameId);
-            sessionService.GameId = vm.GameId;
-            return View(vm);
-        }
-
-        public async Task<IActionResult> HostGame()
-        {
-            await gameService.StartPlaying(sessionService.GameId);
+            var gameId = service.GenerateGameId();
+            sessionService.GameId = gameId;
 
             var vm = new HostGameVM
             {
-                GameId = sessionService.GameId,
+                GameId = gameId,
                 SongIds = JsonConvert.SerializeObject(questionService.GetSongIds()),
                 SpotifyToken = spotify.Token.AccessToken,
             };

@@ -11,9 +11,13 @@
     <span asp-validation-for="Password"></span>
     <br />
     <input type="submit" value="Login" />
+    <input type="hidden" asp-for="ReturnUrl" />
 </form>
 
 <br />
 <div>
     Don't have an account? <a asp-action="Create" asp-controller="Account">Register</a>
 </div>
+
+<a asp-controller="Account" asp-action="Logout">Log out</a>
+
