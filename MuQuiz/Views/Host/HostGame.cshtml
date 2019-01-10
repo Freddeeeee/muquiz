@@ -73,7 +73,7 @@
                             console.log('Paused!');
                         });
                         await getWaitingOrFinalView();
-                    }, 5000);
+                    }, 10000);
                 })
             }
 
@@ -85,6 +85,7 @@
                 }
                 else {
                     await connection.invoke("@nameof(GameHub.SendToFinalPosition)", "@Model.GameId");
+
                     await getHostFinalResults();
                 }
             }
@@ -97,8 +98,9 @@
             }
 
             async function getHostFinalResults() {
-                await getPartialView("/host/showfinalresults", async function (result) {
+                await getPartialView("/host/showfinalresults", result => {
                     $("#content").html(result);
+                    $("#players").empty();
                 });
             }
 
@@ -108,7 +110,7 @@
 
             async function sendSong() {
                 let songId = songIds.pop();
-                await playSong(songId);
+                await getPartialView("/host/getspotifyid?id=" + songId, playSong);
                 await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", songId);
                 await selectAndGetHostAlternatives(songId);
             }
@@ -127,7 +129,7 @@
                         console.log("Started playback");
                     },
                     error: function (result) {
-                        console.log("Error: " + result);
+                        console.log("Playback failed");
                     }
                 })
             };
@@ -141,8 +143,6 @@
             $("#sendsong").click(async function () {
                 await sendSong();
             });
-
-
         })();
     </script>
 }

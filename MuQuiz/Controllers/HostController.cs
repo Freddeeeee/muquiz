@@ -30,25 +30,23 @@ namespace MuQuiz.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vm = new HostIndexVM { GameId = service.GenerateGameId() };
-
             if (User.Identity.IsAuthenticated)
+            {
+                var vm = new HostIndexVM { GameId = service.GenerateGameId() };
+                await gameService.InitializeSession(vm.GameId);
+                sessionService.GameId = vm.GameId;
                 return View(vm);
+            }
             else
                 return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
         }
 
-        [HttpPost]
-        public IActionResult Index(string gameId)
+        public async Task<IActionResult> HostGame()
         {
-            sessionService.GameId = gameId;
-            return RedirectToAction(nameof(HostGame));
-        }
+            await gameService.StartPlaying(sessionService.GameId);
 
-        public IActionResult HostGame(string gameId)
-        {
             var vm = new HostGameVM {
                 GameId = sessionService.GameId,
                 SongIds = JsonConvert.SerializeObject(questionService.GetSongIds()),
@@ -70,10 +68,16 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
-        public IActionResult ShowFinalResults()
+        public async Task<IActionResult> ShowFinalResults()
         {
+            await gameService.StopPlaying(sessionService.GameId);
             var players = gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
+        }
+
+        public IActionResult GetSpotifyId(int id)
+        {
+            return Json(questionService.GetSpotifyId(id));
         }
     }
 }

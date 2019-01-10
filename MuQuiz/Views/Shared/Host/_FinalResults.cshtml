@@ -1,6 +1,7 @@
-﻿@using MuQuiz.Models
+﻿@using MuQuiz.Models.Entities
 @model Player[]
 <ol>
+    AND THE WINNER IS
     @foreach (var item in Model)
     {
         <li>@item.Name, @item.Score</li>
