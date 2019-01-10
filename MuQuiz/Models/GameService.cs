@@ -53,8 +53,8 @@ namespace MuQuiz.Models
         {
             muquizContext.Player
                 .SingleOrDefault(p => p.ConnectionId == connectionId)
-                .Score++;
-
+                .Score+= 1000;
+            muquizContext.SaveChanges();
         }
     }
 }
