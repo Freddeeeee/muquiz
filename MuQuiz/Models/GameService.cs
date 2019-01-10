@@ -23,10 +23,20 @@ namespace MuQuiz.Models
             await muquizContext.SaveChangesAsync();
         }
 
+        public async Task SetIsPlaying(string gameId, bool isPlaying)
+        {
+            muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying = isPlaying;
+            await muquizContext.SaveChangesAsync();
+        }
+
         public async Task StartPlaying(string gameId)
         {
-            muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying = true;
-            await muquizContext.SaveChangesAsync();
+            await SetIsPlaying(gameId, true);
+        }
+
+        public async Task StopPlaying(string gameId)
+        {
+            await SetIsPlaying(gameId, false);
         }
 
         public void AddPlayer(string connectionId, string name, string gameId)
