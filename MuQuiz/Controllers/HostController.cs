@@ -46,7 +46,7 @@ namespace MuQuiz.Controllers
         public async Task<IActionResult> HostGame()
         {
             await gameService.StartPlaying(sessionService.GameId);
-            var vm = new HostGameVM { GameId = sessionService.GameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
+            var vm = new HostGameVM { GameId = sessionService.GameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds().Take(2))};
             return View(vm);
         }
 

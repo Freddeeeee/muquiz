@@ -39,6 +39,14 @@ namespace MuQuiz.Models
             await SetIsPlaying(gameId, false);
         }
 
+        public bool SessionIsActive(string gameId)
+        {
+            if (muquizContext.GameSession.Any(g => g.GameId == gameId))
+                if (muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying == false)
+                    return true;
+            return false;
+        }
+
         public void AddPlayer(string connectionId, string name, string gameId)
         {
             muquizContext.Player.Add(new Player
