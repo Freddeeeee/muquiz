@@ -68,9 +68,9 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
-        public async Task<IActionResult> ShowFinalResults()
+        public IActionResult ShowFinalResults()
         {
-            await gameService.StopPlaying(sessionService.GameId);
+            //await gameService.StopPlaying(sessionService.GameId);
             var players = gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
         }

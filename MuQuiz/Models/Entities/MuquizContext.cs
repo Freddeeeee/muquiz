@@ -22,7 +22,6 @@ namespace MuQuiz.Models.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,6 +38,11 @@ namespace MuQuiz.Models.Entities
                     .IsRequired()
                     .HasColumnName("GameID")
                     .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.HostConnectionId)
+                    .HasColumnName("HostConnectionID")
+                    .HasMaxLength(32)
                     .IsUnicode(false);
             });
 
@@ -64,7 +68,7 @@ namespace MuQuiz.Models.Entities
                     .WithMany(p => p.Player)
                     .HasForeignKey(d => d.GameSessionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Player__GameSess__6C190EBB");
+                    .HasConstraintName("FK__Player__GameSess__75A278F5");
             });
 
             modelBuilder.Entity<Question>(entity =>

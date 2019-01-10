@@ -23,6 +23,12 @@ namespace MuQuiz.Models
             await muquizContext.SaveChangesAsync();
         }
 
+        public async Task InitializeHostConnection(string gameId, string connectionId)
+        {
+            muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).HostConnectionId = connectionId;
+            await muquizContext.SaveChangesAsync();
+        }
+
         public async Task SetIsPlaying(string gameId, bool isPlaying)
         {
             muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying = isPlaying;
@@ -56,6 +62,18 @@ namespace MuQuiz.Models
                 Score = 0,
                 GameSessionId = muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).Id
             });
+            muquizContext.SaveChanges();
+        }
+
+        internal bool IsPlayer(string connectionId)
+        {
+            return muquizContext.Player.Count(p => p.ConnectionId == connectionId) > 0;
+        }
+
+        internal void RemovePlayerByConnectionId(string connectionId)
+        {
+            var playerToRemove = muquizContext.Player.SingleOrDefault(p => p.ConnectionId == connectionId);
+            muquizContext.Player.Remove(playerToRemove);
             muquizContext.SaveChanges();
         }
 

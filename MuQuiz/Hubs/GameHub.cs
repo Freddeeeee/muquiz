@@ -16,6 +16,11 @@ namespace MuQuiz.Hubs
             this.service = service;
         }
 
+        public async Task StartSession(string gameId)
+        {
+            await service.InitializeHostConnection(gameId, Context.ConnectionId);
+        }
+
         public async Task AddToGroup(string gameId, string name)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
@@ -47,6 +52,19 @@ namespace MuQuiz.Hubs
             {
                 await Clients.Client(players[i].ConnectionId).GetFinalPosition(i + 1);
             }
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            if (service.IsPlayer(Context.ConnectionId))
+            {
+                service.RemovePlayerByConnectionId(Context.ConnectionId);
+            }
+            else
+            {
+            }
+
+            return base.OnDisconnectedAsync(exception);
         }
     }
 }

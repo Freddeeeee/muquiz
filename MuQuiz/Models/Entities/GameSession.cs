@@ -13,6 +13,7 @@ namespace MuQuiz.Models.Entities
         public int Id { get; set; }
         public string GameId { get; set; }
         public bool IsPlaying { get; set; }
+        public string HostConnectionId { get; set; }
 
         public virtual ICollection<Player> Player { get; set; }
     }
