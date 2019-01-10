@@ -116,7 +116,6 @@
             }
             window.sendSong = sendSong;
 
-<<<<<<< HEAD
             async function playSong(song) {
                 await $.ajax({
                     url: "https://api.spotify.com/v1/me/player/play?device_id=" + window.spotifyPlayer._options.id,
@@ -135,12 +134,8 @@
                 })
             };
 
-            connection.on("@nameof(IHubClient.ReceiveAnswer)", function () {
-                $("#players").append("Received answer");
-=======
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (answer) {
-                $("#players").append("answer: " + answer);
->>>>>>> evaluatingAnswer
+                $("#players").append("Recevied answer: " + answer);
             });
 
             await connection.start().catch(err => console.log(err));
