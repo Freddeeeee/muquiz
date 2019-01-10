@@ -17,10 +17,21 @@ namespace MuQuiz.Models
 
         public string[] GetQuestionsForId(int id)
         {
-            var questionInfo = context.Question
-                .SingleOrDefault(q => q.SongId == id);
+            Random random = new Random(id);
 
-            return new string[] { questionInfo.CorrectAnswer, questionInfo.Answer1, questionInfo.Answer2, questionInfo.Answer3 };
+            var questionInfo = context.Question
+                .Where(q => q.SongId == id)
+                .Select(o => new List<string>
+                {
+                    o.CorrectAnswer,
+                    o.Answer1,
+                    o.Answer2,
+                    o.Answer3
+                })
+                .Single()
+                .ToList();
+
+            return questionInfo.OrderBy(o => random.Next()).ToArray();
         }
 
         public List<int> GetSongIds()
