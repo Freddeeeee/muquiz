@@ -35,7 +35,12 @@ namespace MuQuiz.Hubs
         public async Task SendAnswer(string answer)
         {
             //to-do: change from All to sending to host only or group including host
-            await Clients.All.ReceiveAnswer(answer);
+            var playerInfo = service.GetPlayerByConnectionId(Context.ConnectionId);
+            var name = playerInfo.Name;
+            var hostConnectionId = service.GetGameSessionById(playerInfo.GameSessionId).HostConnectionId;
+
+            //await Clients.All.ReceiveAnswer(answer, name);
+            await Clients.Client(hostConnectionId).ReceiveAnswer(answer, name);
             service.EvaluateAnswer(Context.ConnectionId, answer);
         }
 

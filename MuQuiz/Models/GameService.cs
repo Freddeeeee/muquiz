@@ -92,5 +92,19 @@ namespace MuQuiz.Models
                 .Score+= 1000;
             muquizContext.SaveChanges();
         }
+
+        public Player GetPlayerByConnectionId(string connectionId)
+        {
+            return muquizContext
+                .Player
+                .SingleOrDefault(s => s.ConnectionId == connectionId);
+        }
+
+        public GameSession GetGameSessionById(int id)
+        {
+            return muquizContext
+                .GameSession
+                .SingleOrDefault(g => g.Id == id);
+        }
     }
 }

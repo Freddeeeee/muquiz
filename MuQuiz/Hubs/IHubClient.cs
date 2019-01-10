@@ -8,7 +8,7 @@ namespace MuQuiz.Hubs
     public interface IHubClient
     {
         Task ReceiveSong(string song);
-        Task ReceiveAnswer(string answer);
+        Task ReceiveAnswer(string answer, string name);
         Task GetWaitingScreen();
         Task GetFinalPosition(int position);
     }
