@@ -9,6 +9,7 @@ namespace MuQuiz.Hubs
     {
         Task ReceiveSong(string song);
         Task ReceiveAnswer(string answer);
+        Task ReceiveConnectedPlayerName(string name);
         Task GetWaitingScreen();
         Task GetFinalPosition(int position);
     }

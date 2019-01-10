@@ -18,13 +18,20 @@ namespace MuQuiz.Hubs
 
         public async Task StartSession(string gameId)
         {
-            await service.InitializeHostConnection(gameId, Context.ConnectionId);
+            await service.InitializeSession(gameId, Context.ConnectionId);
+        }
+
+        public async Task StartGame(string gameId)
+        {
+            await service.StartPlaying(gameId);
         }
 
         public async Task AddToGroup(string gameId, string name)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
             service.AddPlayer(Context.ConnectionId, name, gameId);
+            var host = service.GetHostConnectionId(gameId);
+            await Clients.Client(host).ReceiveConnectedPlayerName(name);
         }
 
         public async Task SendSong(string group, string song)

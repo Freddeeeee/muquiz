@@ -17,15 +17,9 @@ namespace MuQuiz.Models
 
         static public List<Player> Players { get; set; } = new List<Player>();
 
-        public async Task InitializeSession(string gameId)
+        public async Task InitializeSession(string gameId, string connectionId)
         {
-            await muquizContext.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false });
-            await muquizContext.SaveChangesAsync();
-        }
-
-        public async Task InitializeHostConnection(string gameId, string connectionId)
-        {
-            muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).HostConnectionId = connectionId;
+            await muquizContext.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false, HostConnectionId = connectionId });
             await muquizContext.SaveChangesAsync();
         }
 
@@ -83,6 +77,11 @@ namespace MuQuiz.Models
                 .Where(p => p.GameSession.GameId == gameId)
                 .OrderByDescending(p => p.Score)
                 .ToArray();
+        }
+
+        public string GetHostConnectionId(string gameId)
+        {
+            return muquizContext.GameSession.Single(s => s.GameId == gameId).HostConnectionId;
         }
 
         public void EvaluateAnswer(string connectionId, string answer)
