@@ -11,8 +11,40 @@
 </div>
 
 @section scripts {
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@aspnet/signalr@1.1.0/dist/browser/signalr.min.js"></script>
     <script type="text/javascript">
+        // Spotify (must follow import of spotify-player.js)
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = "@Model.SpotifyToken";
+
+            const player = new Spotify.Player({
+                name: 'MuQuiz Player',
+                volume: 0.5,
+                getOAuthToken: cb => { cb(token); }
+            });
+
+            // Error handling
+            player.addListener('initialization_error', ({ message }) => { console.error(message); });
+            player.addListener('authentication_error', ({ message }) => { console.error(message); });
+            player.addListener('account_error', ({ message }) => { console.error(message); });
+            player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+                window.spotifyPlayer = player;
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            // Connect to the player!
+            player.connect();
+        };
+
         (async function () {
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/gamehub")
@@ -37,6 +69,9 @@
                 await getPartialView("/host/showalternatives?song=" + songId, async function (result) {
                     $("#content").html(result);
                     await setTimeout(async function () {
+                        window.spotifyPlayer.pause().then(() => {
+                            console.log('Paused!');
+                        });
                         await getWaitingOrFinalView();
                     }, 5000);
                 })
@@ -73,11 +108,29 @@
 
             async function sendSong() {
                 let songId = songIds.pop();
+                await playSong(songId);
                 await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", songId);
                 await selectAndGetHostAlternatives(songId);
             }
-
             window.sendSong = sendSong;
+
+            async function playSong(song) {
+                await $.ajax({
+                    url: "https://api.spotify.com/v1/me/player/play?device_id=" + window.spotifyPlayer._options.id,
+                    type: "PUT",
+                    data: JSON.stringify({ "uris": ["spotify:track:" + song] }),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + "@Model.SpotifyToken",
+                    },
+                    success: async function (result) {
+                        console.log("Started playback");
+                    },
+                    error: function (result) {
+                        console.log("Error: " + result);
+                    }
+                })
+            };
 
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function () {
                 $("#players").append("Received answer");
@@ -88,6 +141,8 @@
             $("#sendsong").click(async function () {
                 await sendSong();
             });
+
+
         })();
     </script>
 }

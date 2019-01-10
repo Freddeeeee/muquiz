@@ -49,7 +49,12 @@ namespace MuQuiz.Controllers
 
         public IActionResult HostGame(string gameId)
         {
-            var vm = new HostGameVM { GameId = sessionService.GameId, SongIds = JsonConvert.SerializeObject(questionService.GetSongIds())};
+            var vm = new HostGameVM {
+                GameId = sessionService.GameId,
+                SongIds = JsonConvert.SerializeObject(questionService.GetSongIds()),
+                SpotifyToken = spotify.Token.AccessToken,
+            };
+
             return View(vm);
         }
 
