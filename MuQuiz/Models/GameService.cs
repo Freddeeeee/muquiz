@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MuQuiz.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,26 @@ namespace MuQuiz.Models
 {
     public class GameService
     {
+        private readonly MuquizContext muquizContext;
+
+        public GameService(MuquizContext muquizContext)
+        {
+            this.muquizContext = muquizContext;
+        }
+
         static public List<Player> Players { get; set; } = new List<Player>();
+
+        public async Task InitializeSession(string gameId)
+        {
+            await muquizContext.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false });
+            await muquizContext.SaveChangesAsync();
+        }
+
+        public async Task StartPlaying(string gameId)
+        {
+            muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying = true;
+            await muquizContext.SaveChangesAsync();
+        }
 
         public void AddPlayer(string connectionId, string name, string gameId)
         {
