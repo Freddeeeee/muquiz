@@ -32,22 +32,18 @@ namespace MuQuiz.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var vm = new HostIndexVM { GameId = service.GenerateGameId() };
-                await gameService.InitializeSession(vm.GameId);
-                sessionService.GameId = vm.GameId;
-                return View(vm);
-            }
-            else
-                return RedirectToAction(nameof(AccountController.Login), nameof(AccountController));
+            var vm = new HostIndexVM { GameId = service.GenerateGameId() };
+            await gameService.InitializeSession(vm.GameId);
+            sessionService.GameId = vm.GameId;
+            return View(vm);
         }
 
         public async Task<IActionResult> HostGame()
         {
             await gameService.StartPlaying(sessionService.GameId);
 
-            var vm = new HostGameVM {
+            var vm = new HostGameVM
+            {
                 GameId = sessionService.GameId,
                 SongIds = JsonConvert.SerializeObject(questionService.GetSongIds()),
                 SpotifyToken = spotify.Token.AccessToken,
