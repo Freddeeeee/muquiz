@@ -13,11 +13,13 @@ namespace MuQuiz.Controllers
     {
         private readonly SessionStorageService sessionService;
         private readonly QuestionService questionService;
+        private readonly GameService gameService;
 
-        public PlayerController(SessionStorageService sessionStorageService, QuestionService questionService)
+        public PlayerController(SessionStorageService sessionStorageService, QuestionService questionService, GameService gameService)
         {
             sessionService = sessionStorageService;
             this.questionService = questionService;
+            this.gameService = gameService;
         }
 
         [HttpGet]
@@ -29,6 +31,10 @@ namespace MuQuiz.Controllers
         [HttpPost]
         public IActionResult Index(PlayerIndexVM vm)
         {
+            if (!gameService.SessionIsActive(sessionService.GameId))
+            {
+                ModelState.AddModelError("AccessError", "The session you joined has timed out.");
+            }
             //to-do: validate whether key/gameId is still valid when the player submits name
             if (!ModelState.IsValid)
             {

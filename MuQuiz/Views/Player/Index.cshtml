@@ -12,6 +12,9 @@
     <input type="submit" value="Let's go!" />
 </form>
 
+@Html.ValidationMessage("AccessError")
+<a asp-controller="home" asp-action="index">Join a different game</a>
+
 @section scripts {
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
