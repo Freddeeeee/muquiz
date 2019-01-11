@@ -10,12 +10,10 @@ namespace MuQuiz.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly SessionStorageService sessionService;
         private readonly GameService gameService;
 
-        public HomeController(SessionStorageService sessionStorageService, GameService gameService)
+        public HomeController(GameService gameService)
         {
-            sessionService = sessionStorageService;
             this.gameService = gameService;
         }
 
@@ -36,8 +34,7 @@ namespace MuQuiz.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            sessionService.GameId = GameId;
-            return RedirectToAction(nameof(PlayerController.Index), "Player");
+            return RedirectToAction(nameof(PlayerController.Index), "Player", new { gameId });
         }
     }
 }
