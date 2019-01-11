@@ -1,16 +1,25 @@
 ﻿@model HomeIndexVM
 
-<a asp-controller="host" asp-action="hostgame">Host game</a>
+<div class="row vh-100">
+    <div class="col-lg-4 col-sm-1 mx-auto align-self-center">
+        <h1>MuQuiz</h1>
 
-<form asp-controller="home" asp-action="index">
-    <label asp-for="GameId"></label>
-    <input asp-for="GameId" autocomplete="off" style="text-transform:uppercase" />
-    <span asp-validation-for="GameId"></span>
+        <br/>
 
-    <br />
+        <form asp-controller="home" asp-action="index">
+            <div class="form-group">
+                <input placeholder="Game Id" class="form-control" asp-for="GameId" autocomplete="off" />
+                <span asp-validation-for="GameId"></span>
+            </div>
 
-    <input type="submit" class="btn" value="Join game" />
-</form>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Join game</button>
+        </form>
+
+        <br />
+
+        Or <a asp-controller="host" asp-action="hostgame">host your own</a>!
+    </div>
+</div>
 
 @section scripts {
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>

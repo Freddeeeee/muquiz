@@ -1,6 +1,32 @@
 ﻿@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+/* Body backgrounds */
 body.landing_page {
-  background-color: #FFA801; }
+  background-color: #ffa801; }
+
+body.enter_name {
+  background-color: #ff5e61; }
+
+body.lobby {
+  background-color: #05c46b; }
+
+body.results {
+  background-color: #ffdc52; }
+
+body.waiting {
+  background-color: #00cccd; }
+
+body.alternatives {
+  background-color: #f066f0; }
+
+body.disconnect {
+  background-color: var(--gray-dark); }
+
+/* Headings */
+h1 {
+  font-weight: 700; }
+
+#rules-toggle {
+  cursor: pointer; }
 
 .progress {
   direction: rtl; }
@@ -137,11 +163,11 @@ sup {
   top: -.5em; }
 
 a {
-  color: #007bff;
+  color: white;
   text-decoration: none;
   background-color: transparent; }
   a:hover {
-    color: #0056b3;
+    color: #d9d9d9;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -298,9 +324,9 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 0.5rem;
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.2;
-  color: inherit; }
+  color: white; }
 
 h1, .h1 {
   font-size: 2.5rem; }
@@ -2054,9 +2080,9 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #007bff; }
+  color: white; }
   .btn-link:hover {
-    color: #0056b3;
+    color: #d9d9d9;
     text-decoration: underline; }
   .btn-link:focus, .btn-link.focus {
     text-decoration: underline;
@@ -3428,12 +3454,12 @@ input[type="button"].btn-block {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #007bff;
+  color: white;
   background-color: #fff;
   border: 1px solid #dee2e6; }
   .page-link:hover {
     z-index: 2;
-    color: #0056b3;
+    color: #d9d9d9;
     text-decoration: none;
     background-color: #e9ecef;
     border-color: #dee2e6; }
@@ -4250,7 +4276,7 @@ a.close.disabled {
   padding: 0.5rem 0.75rem;
   margin-bottom: 0;
   font-size: 1rem;
-  color: inherit;
+  color: white;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
   border-top-left-radius: calc(0.3rem - 1px);
