@@ -24,9 +24,9 @@ namespace MuQuiz.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string GameId)
+        public async Task<IActionResult> Index(string gameId)
         {
-            if (!await gameService.SessionIsActive(GameId))
+            if (!await gameService.SessionIsActive(gameId))
             {
                 ModelState.AddModelError("GameId", "We can't find this ID... :(");
             }

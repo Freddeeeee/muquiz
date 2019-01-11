@@ -9,4 +9,8 @@ body.landing_page {
     background-color: $gold;
 }
 
+.progress {
+    direction: rtl;
+}
+
 @import '../Bootstrap/bootstrap';
