@@ -1,0 +1,12 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+$font-family-sans-serif: "Roboto";
+
+// theme colors
+$gold: #FFA801;
+
+body.landing_page {
+    background-color: $gold;
+}
+
+@import '../Bootstrap/bootstrap';

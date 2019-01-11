@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "wwwroot/css/style.css",
-    "inputFile": "wwwroot/css/style.scss"
+    "outputFile": "wwwroot/css/muquiz.css",
+    "inputFile": "Style/Custom/MuQuiz.scss"
   }
 ]
