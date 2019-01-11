@@ -25,25 +25,20 @@ namespace MuQuiz.Models
 
         internal async Task<IdentityResult> createAccount(AccountLoginVM vm)
         {
-            //var user = new MyIdentityUser { UserName = vm.UserName };
-            //var result = await userManager.CreateAsync(user, vm.Password);
-            //if (result.Succeeded)
-            //{
-            //    if (!await roleManager.RoleExistsAsync("Admin"))
-            //    {
-            //        var role = new IdentityRole("Admin");
-            //        var res = await roleManager.CreateAsync(role);
-            //        if (res.Succeeded)
-            //        {
-            //            await userManager.AddToRoleAsync(user, "Admin");
-            //        }
-            //    }
+            var user = new MyIdentityUser { UserName = vm.UserName };
+            var result = await userManager.CreateAsync(user, vm.Password);
+            if (result.Succeeded)
+            {
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    var role = new IdentityRole("user");
+                    var res = await roleManager.CreateAsync(role);
+                }
 
-            //    return result;
-            //}
+                await userManager.AddToRoleAsync(user, "user");
+            }
 
-            return await userManager.CreateAsync(
-                new MyIdentityUser { UserName = vm.UserName }, vm.Password);
+            return result;
         }
 
         internal async Task<SignInResult> LoginAsync(AccountLoginVM vm)
