@@ -69,14 +69,31 @@
             }
 
             async function getHostAlternatives(songId) {
+                const maxTime = 5000;
+                let time = 0;
+
                 await getPartialView("/host/showalternatives?song=" + songId, async function (result) {
                     $("#content").html(result);
-                    await setTimeout(async function () {
-                        window.spotifyPlayer.pause().then(() => {
-                            console.log('Paused!');
-                        });
-                        await getWaitingOrFinalView();
-                    }, 5000);
+
+                    var timeOut = await setInterval(async function () {
+                        console.log("Antal spelare: " + connectedPlayers + " Antal svar: " + numberOfAnswers)
+                        time += 1000;
+                        if (time >= maxTime || connectedPlayers == numberOfAnswers) {
+                            clearInterval(timeOut);
+                            window.spotifyPlayer.pause().then(() => {
+                                console.log("paused!");
+                            });
+
+                            await getWaitingOrFinalView();
+                        }
+                    }, 1000);
+
+                    //await setTimeout(async function () {
+                    //    window.spotifyPlayer.pause().then(() => {
+                    //        console.log('Paused!');
+                    //    });
+                    //    await getWaitingOrFinalView();
+                    //}, 5000);
                 })
             }
 
@@ -112,7 +129,8 @@
             };
 
             async function sendSong() {
-                correctAnswerList = [];
+                correctAnswerList = 0;
+                numberOfAnswers = 0;
                 let songId = songIds.pop();
                 await getPartialView("/host/getspotifyid?id=" + songId, playSong);
                 await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", songId);
@@ -140,19 +158,29 @@
                 })
             };
 
-            let correctAnswerList = [];
+            let numberOfAnswers = 0;
+            let correctAnswers = 0;
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name) {
                 $("#players").append(name + " ");
+                numberOfAnswers += 1;
 
                  if (correctAnswer) {
-                    correctAnswerList.push(connectionId);
-                    connection.invoke("@nameof(GameHub.UpdateScore)", connectionId, correctAnswerList.length);
+                    correctAnswerList += 1;
+                    connection.invoke("@nameof(GameHub.UpdateScore)", connectionId, correctAnswerList);
                 }
             });
 
+            let connectedPlayers = 0;
             connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name) {
                 $("#players").append(name + " has connected");
+                connectedPlayers += 1;
+                console.log("connected players: " + connectedPlayers);
             });
+
+            @*connection.on("@nameof(IHubClient.DisconnectPlayer)", function () {
+                connectedPlayers -= 1;
+                console.log("connected players: " + connectedPlayers);
+            });*@
 
             await connection.start().catch(err => console.log(err));
 
