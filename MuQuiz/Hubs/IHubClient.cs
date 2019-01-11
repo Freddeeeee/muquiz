@@ -13,6 +13,6 @@ namespace MuQuiz.Hubs
         Task GetWaitingScreen();
         Task GetFinalPosition(int position);
         Task GetSessionClosedScreen();
-        //void DisconnectPlayer();
+        Task DisconnectPlayer();
     }
 }

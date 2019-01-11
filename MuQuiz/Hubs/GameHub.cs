@@ -76,9 +76,9 @@ namespace MuQuiz.Hubs
         {
             if (service.IsPlayer(Context.ConnectionId))
             {
-                //var gameId = service.GetGameIdByConnectionId(Context.ConnectionId);
-                //var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
-                //Clients.Client(hostConnectionId).DisconnectPlayer();
+                var gameId = service.GetGameIdByConnectionId(Context.ConnectionId);
+                var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
+                await Clients.Client(hostConnectionId).DisconnectPlayer();
                 service.RemovePlayerByConnectionId(Context.ConnectionId);
             }
             else
