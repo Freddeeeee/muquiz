@@ -59,6 +59,8 @@ namespace MuQuiz.Models
             muquizContext.SaveChanges();
         }
 
+        
+
         internal bool IsPlayer(string connectionId)
         {
             return muquizContext.Player.Count(p => p.ConnectionId == connectionId) > 0;
@@ -110,17 +112,20 @@ namespace MuQuiz.Models
             muquizContext.SaveChanges();
         }
 
-        public void EvaluateAnswer(string connectionId, string answer)
+        public bool EvaluateAnswer(string connectionId, string answer)
         {
-            var correctAnswer = muquizContext.Question.Count(q => answer == q.CorrectAnswer) > 0;
+            return muquizContext.Question.Count(q => answer == q.CorrectAnswer) > 0;
+        }
 
-            if (correctAnswer)
-            {
-                muquizContext.Player
+        internal async Task UpdateScore(string connectionId, int count)
+        {
+            if (count > 3)
+                count = 4;
+
+            muquizContext.Player
                     .SingleOrDefault(p => p.ConnectionId == connectionId)
-                    .Score += 1000;
-                muquizContext.SaveChanges();
-            }
+                    .Score += 1000 + 100 * (4 - count);
+            await muquizContext.SaveChangesAsync();
         }
 
     }

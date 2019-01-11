@@ -10,6 +10,7 @@ namespace MuQuiz.Hubs
     public class GameHub : Hub<IHubClient>
     {
         readonly GameService service;
+        private List<string> correctAnswerList = new List<string>();
 
         public GameHub(GameService service)
         {
@@ -36,17 +37,24 @@ namespace MuQuiz.Hubs
 
         public async Task SendSong(string group, string song)
         {
+            correctAnswerList.Clear();
             await Clients.Group(group).ReceiveSong(song);
         }
 
         public async Task SendAnswer(string answer, string gameId)
         {
-            var playerInfo = service.GetPlayerByConnectionId(Context.ConnectionId);
+            var connectionId = Context.ConnectionId;
+            var playerInfo = service.GetPlayerByConnectionId(connectionId);
             var name = playerInfo.Name;
             var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
+            var correctAnswer = service.EvaluateAnswer(connectionId, answer);
 
-            await Clients.Client(hostConnectionId).ReceiveAnswer(answer, name);
-            service.EvaluateAnswer(Context.ConnectionId, answer);
+            await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, correctAnswer, name);
+        }
+
+        public async Task UpdateScore(string connectionId, int position)
+        {
+            await service.UpdateScore(connectionId, position);
         }
 
         public async Task SendToWaitingScreen(string group)

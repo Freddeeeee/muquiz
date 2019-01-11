@@ -112,6 +112,7 @@
             };
 
             async function sendSong() {
+                correctAnswerList = [];
                 let songId = songIds.pop();
                 await getPartialView("/host/getspotifyid?id=" + songId, playSong);
                 await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", songId);
@@ -139,8 +140,14 @@
                 })
             };
 
-            connection.on("@nameof(IHubClient.ReceiveAnswer)", function (answer, name) {
+            let correctAnswerList = [];
+            connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name) {
                 $("#players").append(name + " ");
+
+                 if (correctAnswer) {
+                    correctAnswerList.push(connectionId);
+                    connection.invoke("@nameof(GameHub.UpdateScore)", connectionId, correctAnswerList.length);
+                }
             });
 
             connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name) {
