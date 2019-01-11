@@ -1,21 +1,39 @@
 ﻿@model PlayerIndexVM
 
-<p>Collapsable game explanation goes here</p>
+<div class="row vh-100">
+    <div class="col-lg-4 col-sm-1 mx-auto align-self-center">
+        <h1>MuQuiz</h1>
 
-<form asp-controller="player" asp-action="index">
-    <label asp-for="Name"></label>
-    <input asp-for="Name" />
-    <span asp-validation-for="Name"></span>
+        <br/>
 
-    <br />
+        <p><a href="#" id="rules-toggle" data-toggle="collapse" data-target="#rules">How it works</a></p>
 
-    <input type="submit" value="Let's go!" />
-</form>
+        <div id="rules" class="collapse">
+            <p>Lorem ipsum dolor text....</p>
+        </div>
 
-@Html.ValidationMessage("AccessError")
-<a asp-controller="home" asp-action="index">Join a different game</a>
+        <form asp-controller="player" asp-action="index">
+            <div class="form-group">
+                <input placeholder="Enter your name" class="form-control" asp-for="Name" />
+                <span asp-validation-for="Name"></span>
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Let's go!</button>
+        </form>
+
+        <br />
+
+        @Html.ValidationMessage("AccessError")
+        <a asp-controller="home" asp-action="index">Join a different game</a>
+    </div>
+</div>
 
 @section scripts {
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("body").addClass("enter_name");
+        });
+    </script>
 }

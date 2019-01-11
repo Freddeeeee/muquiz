@@ -3,8 +3,10 @@
 
 <h1>Welcome to game @Model.GameId, @Model.Name!</h1>
 
-<div id="content">
+<div class="row">
+    <div id="content" class="col-lg-4 col-sm-1 mx-auto align-self-center">
 
+    </div>
 </div>
 
 @section scripts {
@@ -73,7 +75,12 @@
 
             connection.on("@nameof(IHubClient.ConfirmJoined)", async function () {
                 await connection.invoke("@nameof(GameHub.SendNameToHost)", "@Model.GameId", "@Model.Name")
-            }); 
+            });
         })();
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("body").removeClass().addClass("lobby");
+        });
     </script>
 }

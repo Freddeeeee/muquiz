@@ -3,10 +3,53 @@
 $font-family-sans-serif: "Roboto";
 
 // theme colors
-$gold: #FFA801;
+$gold: #ffa801;
+$rose: #ff5e61;
+$softgreen: #05c46b;
+$mustard: #ffdc52;
+$lightblue: #00cccd;
+$smartpurple: #f066f0;
 
+$headings-color: white;
+$headings-font-weight: 700;
+$link-color: white;
+
+/* Body backgrounds */
 body.landing_page {
     background-color: $gold;
+}
+
+body.enter_name {
+    background-color: $rose;
+}
+
+body.lobby {
+    background-color: $softgreen;
+}
+
+body.results {
+    background-color: $mustard;
+}
+
+body.waiting {
+    background-color: $lightblue;
+}
+
+body.alternatives {
+    background-color: $smartpurple;
+}
+
+body.disconnect {
+    background-color: var( --gray-dark);
+}
+
+/* Headings */
+h1 {
+    font-weight: 700;
+}
+
+#rules-toggle {
+    cursor: pointer;
 }
 
 .progress {
