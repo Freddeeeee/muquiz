@@ -14,15 +14,13 @@ namespace MuQuiz.Controllers
     [Authorize]
     public class HostController : Controller
     {
-        HostService service;
         SpotifyService spotify;
         private readonly QuestionService questionService;
         private readonly GameService gameService;
         SessionStorageService sessionService;
 
-        public HostController(HostService service, SessionStorageService sessionStorageService, SpotifyService spotify, QuestionService questionService, GameService gameService)
+        public HostController(SessionStorageService sessionStorageService, SpotifyService spotify, QuestionService questionService, GameService gameService)
         {
-            this.service = service;
             sessionService = sessionStorageService;
             this.spotify = spotify;
             this.questionService = questionService;
@@ -31,7 +29,7 @@ namespace MuQuiz.Controllers
 
         public IActionResult HostGame()
         {
-            var gameId = service.GenerateGameId();
+            var gameId = gameService.GenerateGameId();
             sessionService.GameId = gameId;
 
             var vm = new HostGameVM

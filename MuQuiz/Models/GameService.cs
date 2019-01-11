@@ -16,6 +16,20 @@ namespace MuQuiz.Models
             this.muquizContext = muquizContext;
         }
 
+        public string GenerateGameId()
+        {
+            string[] letters = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            string gameId = "";
+            Random rand = new Random();
+
+            for (int i = 0; i < 4; i++)
+            {
+                gameId += letters[rand.Next(0, letters.Length)];
+            }
+
+            return gameId;
+        }
+
         public async Task InitializeSession(string gameId, string connectionId)
         {
             await muquizContext.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false, HostConnectionId = connectionId });
