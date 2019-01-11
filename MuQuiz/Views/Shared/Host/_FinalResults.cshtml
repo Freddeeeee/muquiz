@@ -7,3 +7,11 @@
         <li>@item.Name, @item.Score</li>
     }
 </ol>
+
+<button id="startover">Let's play another round!</button>
+
+<script type="text/javascript">
+    $("#startover").click(async function () {
+        await window.startNewSession();
+    });
+</script>

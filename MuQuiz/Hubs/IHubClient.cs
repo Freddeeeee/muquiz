@@ -13,5 +13,6 @@ namespace MuQuiz.Hubs
         Task GetWaitingScreen();
         Task GetFinalPosition(int position);
         Task GetSessionClosedScreen();
+        Task ConfirmJoined();
     }
 }

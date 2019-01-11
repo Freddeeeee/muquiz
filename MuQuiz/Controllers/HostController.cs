@@ -37,7 +37,6 @@ namespace MuQuiz.Controllers
             var vm = new HostGameVM
             {
                 GameId = gameId,
-                SongIds = JsonConvert.SerializeObject(questionService.GetSongIds()),
                 SpotifyToken = spotify.Token.AccessToken,
             };
 
@@ -58,14 +57,25 @@ namespace MuQuiz.Controllers
 
         public IActionResult ShowFinalResults()
         {
-            //await gameService.StopPlaying(sessionService.GameId);
             var players = gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
+        }
+
+        public async Task<IActionResult> ShowLobby(int round)
+        {
+            if (round > 0)
+                await gameService.StopPlaying(sessionService.GameId);
+            return PartialView("~/Views/Shared/Host/_Lobby.cshtml", sessionService.GameId);
         }
 
         public IActionResult GetSpotifyId(int id)
         {
             return Json(questionService.GetSpotifyId(id));
+        }
+
+        public IActionResult GetSongIds()
+        {
+            return Json(JsonConvert.SerializeObject(questionService.GetSongIds()));
         }
     }
 }

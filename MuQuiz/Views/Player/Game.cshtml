@@ -70,6 +70,10 @@
             connection.on("@nameof(IHubClient.GetSessionClosedScreen)", async function () {
                 await getPlayerSessionClosedScreen();
             });
+
+            connection.on("@nameof(IHubClient.ConfirmJoined)", async function () {
+                await connection.invoke("@nameof(GameHub.SendNameToHost)", "@Model.GameId", "@Model.Name")
+            }); 
         })();
     </script>
 }
