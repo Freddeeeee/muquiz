@@ -9,6 +9,7 @@ namespace MuQuiz.Models
     public class QuestionService
     {
         private readonly MuquizContext context;
+        private const int numberOfSongs = 3; // to-do: make this a game setting?
 
         public QuestionService(MuquizContext context)
         {
@@ -38,6 +39,8 @@ namespace MuQuiz.Models
         {
             return context
                 .Song.Select(s => s.Id)
+                .OrderBy(s => Guid.NewGuid())
+                .Take(numberOfSongs)
                 .ToList();
         }
 
