@@ -1,0 +1,11 @@
+﻿@model string
+
+<p>@Model</p>
+
+<button id="start"> Start game </button>
+
+<script type="text/javascript">
+    $("#start").click(async function () {
+        await startGame();
+    });
+</script>

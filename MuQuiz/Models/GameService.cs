@@ -37,6 +37,11 @@ namespace MuQuiz.Models
         public async Task StopPlaying(string gameId)
         {
             await SetIsPlaying(gameId, false);
+            muquizContext.Player
+                .Where(p => p.GameSession.GameId == gameId)
+                .ToList()
+                .ForEach(p => p.Score = 0);
+            await muquizContext.SaveChangesAsync();
         }
 
         public bool SessionIsActive(string gameId)

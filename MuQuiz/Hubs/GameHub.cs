@@ -30,13 +30,23 @@ namespace MuQuiz.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
             service.AddPlayer(Context.ConnectionId, name, gameId);
+            await SendNameToHost(gameId, name);
+        }
+
+        public async Task SendNameToHost(string gameId, string name)
+        {
             var host = service.GetHostConnectionIdByGameId(gameId);
             await Clients.Client(host).ReceiveConnectedPlayerName(name);
         }
 
-        public async Task SendSong(string group, string song)
+        public async Task AskForJoinConfirmation(string gameId)
         {
-            await Clients.Group(group).ReceiveSong(song);
+            await Clients.Group(gameId).ConfirmJoined();
+        }
+
+        public async Task SendSong(string gameId, string song)
+        {
+            await Clients.Group(gameId).ReceiveSong(song);
         }
 
         public async Task SendAnswer(string answer, string gameId)
@@ -49,14 +59,14 @@ namespace MuQuiz.Hubs
             service.EvaluateAnswer(Context.ConnectionId, answer);
         }
 
-        public async Task SendToWaitingScreen(string group)
+        public async Task SendToWaitingScreen(string gameId)
         {
-            await Clients.Group(group).GetWaitingScreen();
+            await Clients.Group(gameId).GetWaitingScreen();
         }
 
-        public async Task SendToFinalPosition(string group)
+        public async Task SendToFinalPosition(string gameId)
         {
-            var players = service.GetAllPlayers(group);
+            var players = service.GetAllPlayers(gameId);
 
             for (int i = 0; i < players.Length; i++)
             {

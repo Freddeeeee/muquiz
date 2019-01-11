@@ -2,10 +2,6 @@
 @using MuQuiz.Hubs
 
 <div id="content">
-    <p>@Model.GameId</p>
-
-    <button id="start"> Start game </button>
-
 
 </div>
 
@@ -53,9 +49,9 @@
                 .withUrl("/gamehub")
                 .build();
 
-            let songIds = @Model.SongIds;
+            let songIds;
 
-            async function getPartialView(url, successFunc) {
+            async function getPartialView(url, successFunc = ResultToContentDivAndNullPlayerDiv) {
                 await $.ajax({
                 url: url,
                 type: "GET",
@@ -66,6 +62,11 @@
                         console.log(result);
                     }
                 })
+            }
+
+            function ResultToContentDivAndNullPlayerDiv(result) {
+                $("#content").html(result);
+                $("#players").empty();
             }
 
             async function getHostAlternatives(songId) {
@@ -80,48 +81,42 @@
                 })
             }
 
-            //SCH: change name of this func?
             async function getWaitingOrFinalView() {
                 if (songIds.length > 0) {
                     await connection.invoke("@nameof(GameHub.SendToWaitingScreen)", "@Model.GameId");
-                    await getHostResults();
+                    await getPartialView("/host/showresults");
                 }
                 else {
                     await connection.invoke("@nameof(GameHub.SendToFinalPosition)", "@Model.GameId");
-
-                    await getHostFinalResults();
+                    await getPartialView("/host/showfinalresults");
                 }
             }
-
-            async function getHostResults() {
-                await getPartialView("/host/showresults", result => {
-                    $("#content").html(result);
-                    $("#players").empty();
-                });
-            }
-
-            async function getHostFinalResults() {
-                await getPartialView("/host/showfinalresults", result => {
-                    $("#content").html(result);
-                    $("#players").empty();
-                });
-            }
-
-            async function selectAndGetHostAlternatives(songId) {
-                await getHostAlternatives(songId);
-            };
 
             async function sendSong() {
                 let songId = songIds.pop();
                 await getPartialView("/host/getspotifyid?id=" + songId, playSong);
                 await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", songId);
-                await selectAndGetHostAlternatives(songId);
+                await getHostAlternatives(songId);
             }
             window.sendSong = sendSong;
 
-            async function playSong(song) {
-                $("#players").html("Answers from: ")
+            async function startGame() {
+                connection.invoke("@nameof(GameHub.StartGame)", "@Model.GameId");
+                await sendSong();
+            }
 
+            window.startGame = startGame;
+
+            async function startNewSession() {
+                await getPartialView("/host/showlobby?round=1");
+                await connection.invoke("@nameof(GameHub.SendToWaitingScreen)", "@Model.GameId");
+                await connection.invoke("@nameof(GameHub.AskForJoinConfirmation)", "@Model.GameId");
+                await getSongIds();
+            }
+
+            window.startNewSession = startNewSession;
+
+            async function playSong(song) {
                 await $.ajax({
                     url: "https://api.spotify.com/v1/me/player/play?device_id=" + window.spotifyPlayer._options.id,
                     type: "PUT",
@@ -137,6 +132,20 @@
                         console.log("Playback failed");
                     }
                 })
+                $("#players").html("Answers from: ");
+            };
+
+            async function getSongIds() {
+                await $.ajax({
+                    url: "/host/getsongids",
+                    type: "GET",
+                    success: async function (result) {
+                        songIds = JSON.parse(result);
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    }
+                })
             };
 
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (answer, name) {
@@ -150,13 +159,8 @@
             await connection.start().catch(err => console.log(err));
 
             connection.invoke("@nameof(GameHub.StartSession)", "@Model.GameId");
-
-            $("#start").click(async function () {
-                $("#players").empty();
-                connection.invoke("@nameof(GameHub.StartGame)", "@Model.GameId");
-                await sendSong();
-            });
-
+            await getPartialView("/host/showlobby?round=0");
+            await getSongIds();
 
         })();
     </script>

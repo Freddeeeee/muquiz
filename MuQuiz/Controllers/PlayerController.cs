@@ -35,7 +35,7 @@ namespace MuQuiz.Controllers
             {
                 ModelState.AddModelError("AccessError", "The session you joined has timed out.");
             }
-            //to-do: validate whether key/gameId is still valid when the player submits name
+
             if (!ModelState.IsValid)
             {
                 return View(vm);
