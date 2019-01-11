@@ -93,7 +93,7 @@ namespace MuQuiz.Hubs
             }
             else
             {
-                await Clients.Group(service.GetGameIdByConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
+                await Clients.Group(service.GetGameIdByHostConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
                 service.RemoveAllPlayers(Context.ConnectionId);
                 service.RemoveGameSession(Context.ConnectionId);
             }

@@ -105,9 +105,20 @@ namespace MuQuiz.Models
             return muquizContext.GameSession.Single(s => s.GameId == gameId).HostConnectionId;
         }
 
+        internal string GetGameIdByHostConnectionId(string hostConnectionId)
+        {
+            return muquizContext.GameSession.SingleOrDefault(g => g.HostConnectionId == hostConnectionId).GameId;
+        }
+
         internal string GetGameIdByConnectionId(string connectionId)
         {
-            return muquizContext.GameSession.SingleOrDefault(g => g.HostConnectionId == connectionId).GameId;
+            var gameSessionId =  muquizContext
+                .Player
+                .SingleOrDefault(p => p.ConnectionId == connectionId)
+                .GameSessionId;
+
+            return muquizContext.GameSession
+                .SingleOrDefault(g => g.Id == gameSessionId).GameId;
         }
 
         internal void RemoveGameSession(string connectionId)
