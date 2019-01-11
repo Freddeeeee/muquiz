@@ -49,23 +49,25 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Host/_Alternatives.cshtml", alternatives);
         }
 
-        public IActionResult ShowResults()
+        public async Task<IActionResult> ShowResults()
         {
-            var players = gameService.GetAllPlayers(sessionService.GameId);
+            var players = await gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
-        public IActionResult ShowFinalResults()
+        public async Task<IActionResult> ShowFinalResults()
         {
-            var players = gameService.GetAllPlayers(sessionService.GameId);
+            var players = await gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
         }
 
         public async Task<IActionResult> ShowLobby(int round)
         {
+            var gameId = sessionService.GameId;
             if (round > 0)
-                await gameService.StopPlaying(sessionService.GameId);
-            return PartialView("~/Views/Shared/Host/_Lobby.cshtml", sessionService.GameId);
+                await gameService.StopPlaying(gameId);
+            return PartialView("~/Views/Shared/Host/_Lobby.cshtml", 
+                new HostLobbyVM {GameId = gameId, QRCode = sessionService.GetQRUrl(gameId)});
         }
 
         public IActionResult GetSpotifyId(int id)

@@ -4,7 +4,7 @@
 
 <form asp-controller="home" asp-action="index">
     <label asp-for="GameId"></label>
-    <input asp-for="GameId" />
+    <input asp-for="GameId" autocomplete="off" style="text-transform:uppercase" />
     <span asp-validation-for="GameId"></span>
 
     <br />
