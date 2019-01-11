@@ -50,16 +50,16 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Host/_Alternatives.cshtml", alternatives);
         }
 
-        public IActionResult ShowResults()
+        public async Task<IActionResult> ShowResults()
         {
-            var players = gameService.GetAllPlayers(sessionService.GameId);
+            var players = await gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
-        public IActionResult ShowFinalResults()
+        public async Task<IActionResult> ShowFinalResults()
         {
             //await gameService.StopPlaying(sessionService.GameId);
-            var players = gameService.GetAllPlayers(sessionService.GameId);
+            var players = await gameService.GetAllPlayers(sessionService.GameId);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
         }
 

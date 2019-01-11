@@ -44,6 +44,7 @@ namespace MuQuiz.Models.Entities
                     .HasColumnName("HostConnectionID")
                     .HasMaxLength(32)
                     .IsUnicode(false);
+
             });
 
             modelBuilder.Entity<Player>(entity =>

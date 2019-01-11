@@ -29,8 +29,8 @@ namespace MuQuiz.Hubs
         public async Task AddToGroup(string gameId, string name)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-            service.AddPlayer(Context.ConnectionId, name, gameId);
-            var host = service.GetHostConnectionIdByGameId(gameId);
+            await service.AddPlayer(Context.ConnectionId, name, gameId);
+            var host = await service.GetHostConnectionIdByGameId(gameId);
             await Clients.Client(host).ReceiveConnectedPlayerName(name);
         }
 
@@ -41,9 +41,9 @@ namespace MuQuiz.Hubs
 
         public async Task SendAnswer(string answer, string gameId)
         {
-            var playerInfo = service.GetPlayerByConnectionId(Context.ConnectionId);
+            var playerInfo = await service.GetPlayerByConnectionId(Context.ConnectionId);
             var name = playerInfo.Name;
-            var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
+            var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
 
             await Clients.Client(hostConnectionId).ReceiveAnswer(answer, name);
             service.EvaluateAnswer(Context.ConnectionId, answer);
@@ -56,7 +56,7 @@ namespace MuQuiz.Hubs
 
         public async Task SendToFinalPosition(string group)
         {
-            var players = service.GetAllPlayers(group);
+            var players = await service.GetAllPlayers(group);
 
             for (int i = 0; i < players.Length; i++)
             {
@@ -66,18 +66,18 @@ namespace MuQuiz.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            if (service.IsPlayer(Context.ConnectionId))
+            if (await service.IsPlayer(Context.ConnectionId))
             {
-                service.RemovePlayerByConnectionId(Context.ConnectionId);
+                await service.RemovePlayerByConnectionId(Context.ConnectionId);
             }
             else
             {
-                await Clients.Group(service.GetGameIdByConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
-                service.RemoveAllPlayers(Context.ConnectionId);
-                service.RemoveGameSession(Context.ConnectionId);
+                var gameId = await service.GetGameIdByConnectionId(Context.ConnectionId);
+                await Clients.Group(gameId).GetSessionClosedScreen();
+                await service.RemoveGameSession(Context.ConnectionId);
             }
 
-            //return base.OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }
