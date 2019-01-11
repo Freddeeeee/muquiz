@@ -30,13 +30,18 @@ namespace MuQuiz.Hubs
         public async Task AddToGroup(string gameId, string name)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-            await service.AddPlayer(Context.ConnectionId, name, gameId);
+<<<<<<< HEAD
+            service.AddPlayer(Context.ConnectionId, name, gameId);
             await SendNameToHost(gameId, name);
         }
 
         public async Task SendNameToHost(string gameId, string name)
         {
+            var host = service.GetHostConnectionIdByGameId(gameId);
+=======
+            await service.AddPlayer(Context.ConnectionId, name, gameId);
             var host = await service.GetHostConnectionIdByGameId(gameId);
+>>>>>>> Dev8
             await Clients.Client(host).ReceiveConnectedPlayerName(name);
         }
 
@@ -53,14 +58,20 @@ namespace MuQuiz.Hubs
 
         public async Task SendAnswer(string answer, string gameId)
         {
-            var playerInfo = await service.GetPlayerByConnectionId(Context.ConnectionId);
+<<<<<<< HEAD
             var connectionId = Context.ConnectionId;
+            var playerInfo = service.GetPlayerByConnectionId(connectionId);
             var name = playerInfo.Name;
-            var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
+            var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
             var correctAnswer = service.EvaluateAnswer(connectionId, answer);
 
             await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, correctAnswer, name);
         }
+=======
+            var playerInfo = await service.GetPlayerByConnectionId(Context.ConnectionId);
+            var name = playerInfo.Name;
+            var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
+>>>>>>> Dev8
 
         public async Task UpdateScore(string connectionId, int position)
         {
@@ -74,7 +85,11 @@ namespace MuQuiz.Hubs
 
         public async Task SendToFinalPosition(string gameId)
         {
-            var players = await service.GetAllPlayers(gameId);
+<<<<<<< HEAD
+            var players = service.GetAllPlayers(gameId);
+=======
+            var players = await service.GetAllPlayers(group);
+>>>>>>> Dev8
 
             for (int i = 0; i < players.Length; i++)
             {
@@ -86,15 +101,26 @@ namespace MuQuiz.Hubs
         {
             if (await service.IsPlayer(Context.ConnectionId))
             {
-                var gameId = await service.GetGameIdByHostConnectionId(Context.ConnectionId);
-                var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
+<<<<<<< HEAD
+                var gameId = service.GetGameIdByConnectionId(Context.ConnectionId);
+                var hostConnectionId = service.GetHostConnectionIdByGameId(gameId);
                 await Clients.Client(hostConnectionId).DisconnectPlayer();
+                service.RemovePlayerByConnectionId(Context.ConnectionId);
+            }
+            else
+            {
+                await Clients.Group(service.GetGameIdByHostConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
+                service.RemoveAllPlayers(Context.ConnectionId);
+                service.RemoveGameSession(Context.ConnectionId);
+=======
                 await service.RemovePlayerByConnectionId(Context.ConnectionId);
             }
             else
             {
-                await Clients.Group(await service.GetGameIdByHostConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
+                var gameId = await service.GetGameIdByConnectionId(Context.ConnectionId);
+                await Clients.Group(gameId).GetSessionClosedScreen();
                 await service.RemoveGameSession(Context.ConnectionId);
+>>>>>>> Dev8
             }
 
             await base.OnDisconnectedAsync(exception);
