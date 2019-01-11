@@ -1,6 +1,7 @@
-﻿@model string
+﻿@model HostLobbyVM
 
-<p>@Model</p>
+<p>@Model.GameId</p>
+<img src="@Model.QRCode" alt="QR code to join game" />
 
 <button id="start"> Start game </button>
 

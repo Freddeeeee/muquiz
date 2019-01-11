@@ -23,8 +23,9 @@ namespace MuQuiz.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string gameId)
         {
+            sessionService.GameId = gameId;
             return View();
         }
 

@@ -63,9 +63,11 @@ namespace MuQuiz.Controllers
 
         public async Task<IActionResult> ShowLobby(int round)
         {
+            var gameId = sessionService.GameId;
             if (round > 0)
-                await gameService.StopPlaying(sessionService.GameId);
-            return PartialView("~/Views/Shared/Host/_Lobby.cshtml", sessionService.GameId);
+                await gameService.StopPlaying(gameId);
+            return PartialView("~/Views/Shared/Host/_Lobby.cshtml", 
+                new HostLobbyVM {GameId = gameId, QRCode = sessionService.GetQRUrl(gameId)});
         }
 
         public IActionResult GetSpotifyId(int id)

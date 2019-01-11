@@ -28,5 +28,19 @@ namespace MuQuiz.Models
             set { Session.SetString(nameof(GameId), value); }
         }
 
+        public string GetQRUrl(string gameId, int pixels = 100)
+        {
+            var fullUrl = GetBaseUrl() + "/player?gameId=" + gameId;
+            return $"https://api.qrserver.com/v1/create-qr-code/?data={fullUrl}&size={pixels}x{pixels}";
+        }
+
+        public string GetBaseUrl()
+        {
+            var request = httpContextAccessor.HttpContext.Request;
+            var host = request.Host.ToUriComponent();
+            var pathBase = request.PathBase.ToUriComponent();
+            return $"{request.Scheme}://{host}{pathBase}";
+        }
+
     }
 }
