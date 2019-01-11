@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");body.landing_page{background-color:#ffa801;}body.enter_name{background-color:#ff5e61;}body.lobby{background-color:#05c46b;}body.results{background-color:#ffdc52;}body.waiting{background-color:#00cccd;}body.alternatives{background-color:#f066f0;}body.disconnect{background-color:var(--gray-dark);}h1{font-weight:700;}#rules-toggle{cursor:pointer;}
+﻿@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");body.landing_page{background-color:#ffa801;}body.enter_name{background-color:#ff5e61;}body.lobby{background-color:#05c46b;}body.results{background-color:#ffdc52;}body.waiting{background-color:#00cccd;}body.alternatives{background-color:#f066f0;}body.disconnect{background-color:var(--gray-dark);}h1{font-weight:700;}#rules-toggle{cursor:pointer;}.progress{direction:rtl;}
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
