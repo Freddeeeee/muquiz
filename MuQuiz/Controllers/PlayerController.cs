@@ -29,9 +29,9 @@ namespace MuQuiz.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(PlayerIndexVM vm)
+        public async Task<IActionResult> Index(PlayerIndexVM vm)
         {
-            if (!gameService.SessionIsActive(sessionService.GameId))
+            if (!await gameService.SessionIsActive(sessionService.GameId))
             {
                 ModelState.AddModelError("AccessError", "The session you joined has timed out.");
             }
