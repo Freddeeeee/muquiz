@@ -33,7 +33,8 @@ namespace MuQuiz.Controllers
             var loginResult = await service.LoginAsync(vm);
 
             if (loginResult.Succeeded)
-                return Redirect(vm.ReturnUrl);
+                return RedirectToAction(nameof(HostController.HostGame), "host");
+            //return Redirect(vm.ReturnUrl);
 
             else
             {
