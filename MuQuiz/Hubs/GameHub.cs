@@ -74,7 +74,7 @@ namespace MuQuiz.Hubs
 
         public async Task SendToFinalPosition(string gameId)
         {
-            var players = await service.GetAllPlayers(group);
+            var players = await service.GetAllPlayers(gameId);
 
             for (int i = 0; i < players.Length; i++)
             {
@@ -86,14 +86,14 @@ namespace MuQuiz.Hubs
         {
             if (await service.IsPlayer(Context.ConnectionId))
             {
-                var gameId = await service.GetGameIdByConnectionId(Context.ConnectionId);
+                var gameId = await service.GetGameIdByHostConnectionId(Context.ConnectionId);
                 var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
                 await Clients.Client(hostConnectionId).DisconnectPlayer();
                 await service.RemovePlayerByConnectionId(Context.ConnectionId);
             }
             else
             {
-                await Clients.Group(service.GetGameIdByHostConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
+                await Clients.Group(await service.GetGameIdByHostConnectionId(Context.ConnectionId)).GetSessionClosedScreen();
                 await service.RemoveGameSession(Context.ConnectionId);
             }
 
