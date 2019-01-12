@@ -1,14 +1,24 @@
 ﻿@model AccountLoginVM
 
-<h2>Create new account</h2>
+<div class="row vh-100">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
 
-<form asp-controller="Account" asp-action="Create">
-    <label asp-for="UserName"></label>
-    <input asp-for="UserName" />
-    <span asp-validation-for="UserName"></span>
-    <label asp-for="Password"></label>
-    <input asp-for="Password" />
-    <span asp-validation-for="Password"></span>
-    <br />
-    <input type="submit" value="Create Account" />
-</form>
+        <h1>Create new account</h1>
+
+        <form asp-controller="account" asp-action="create">
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input class="form-control" asp-for="UserName" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <button type="submit" class="btn btn-large btn-landing-page">Create Account</button>
+        </form>
+    </div>
+</div>

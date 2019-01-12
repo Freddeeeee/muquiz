@@ -1,17 +1,21 @@
 ﻿@using MuQuiz.Models.Entities
 @model Player[]
-<ol>
-    AND THE WINNER IS
+
+<h1>And the winner is...</h1>
+
+<ol id="final-score">
     @foreach (var item in Model)
     {
-        <li>@item.Name, @item.Score</li>
+        <li>@item.Name (@item.Score points)</li>
     }
 </ol>
 
-<button id="startover">Let's play another round!</button>
+<button id="startover" class="btn btn-dark btn-lg">Let's play another round!</button>
 
 <script type="text/javascript">
     $("#startover").click(async function () {
         await window.startNewSession();
     });
+
+    $("body").removeClass().addClass("results");
 </script>

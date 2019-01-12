@@ -1,9 +1,12 @@
 ﻿@model HostLobbyVM
 
-<p>@Model.GameId</p>
-<img src="@Model.QRCode" alt="QR code to join game" />
+<p class="display-1">@Model.GameId</p>
 
-<button id="start"> Start game </button>
+<img src="@Model.QRCode" class="img-fluid" alt="QR code to join game" />
+
+<br/><br/>
+
+<button id="start" class="btn btn-dark btn-lg"> Start game </button>
 
 <script type="text/javascript">
     $("#start").click(async function () {
