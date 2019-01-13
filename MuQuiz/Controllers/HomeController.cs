@@ -34,7 +34,7 @@ namespace MuQuiz.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            return RedirectToAction(nameof(PlayerController.Index), "Player", new { GameId });
+            return RedirectToAction(nameof(PlayerController.Index), "Player", new { gameId });
         }
     }
 }
