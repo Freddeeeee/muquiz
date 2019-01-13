@@ -1,16 +1,21 @@
 ﻿@using MuQuiz.Models.Entities
 @model Player[]
+
+<h1>Current score</h1>
+
 <ol>
     @foreach (var item in Model)
     {
-        <li>@item.Name, @item.Score</li>
+        <li>@item.Name (@item.Score points)</li>
     }
 </ol>
 
-<button id="sendsong">Send song</button>
+<button id="sendsong">Next song</button>
 
 <script type="text/javascript">
     $("#sendsong").click(async function () {
         await window.sendSong();
     });
+
+    $("body").removeClass().addClass("results");
 </script>

@@ -1,12 +1,16 @@
 ﻿@model HostGameVM
 @using MuQuiz.Hubs
 
-<div id="content">
+<div class="row vh-100">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto align-self-center">
+        <div id="content">
 
-</div>
+        </div>
 
-<div id="players">
+        <div id="players">
 
+        </div>
+    </div>
 </div>
 
 @section scripts {
@@ -119,6 +123,7 @@
             window.startGame = startGame;
 
             async function startNewSession() {
+                $("body").removeClass().addClass("enter_name");
                 await getPartialView("/host/showlobby?round=1");
                 await connection.invoke("@nameof(GameHub.SendToWaitingScreen)", "@Model.GameId");
                 await connection.invoke("@nameof(GameHub.AskForJoinConfirmation)", "@Model.GameId");
@@ -143,7 +148,7 @@
                         console.log("Playback failed");
                     }
                 })
-                $("#players").html("Answers from: ");
+                $("#players").empty();
             };
 
             async function getSongIds() {
@@ -162,7 +167,7 @@
             let numberOfAnswers = 0;
             let correctAnswers = 0;
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name) {
-                $("#players").append(name + " ");
+                $("#players").append($("<p>").html(name + " answered"));
                 numberOfAnswers += 1;
 
                  if (correctAnswer) {
@@ -173,7 +178,7 @@
 
             let connectedPlayers = 0;
             connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name) {
-                $("#players").append(name + " has connected");
+                $("#players").append($("<p>").html(name + " joined"));
                 connectedPlayers += 1;
             });
 
@@ -188,5 +193,10 @@
             await getSongIds();
 
         })();
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("body").addClass("enter_name");
+        });
     </script>
 }

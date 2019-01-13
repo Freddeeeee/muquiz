@@ -1,11 +1,11 @@
 ﻿@model PlayerGameVM
 @using MuQuiz.Hubs
 
-<h1>Welcome to game @Model.GameId, @Model.Name!</h1>
+<div class="row vh-100">
+    <div id="content" class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto align-self-center">
+        <h1>Welcome, @Model.Name!</h1>
 
-<div class="row">
-    <div id="content" class="col-lg-4 col-sm-1 mx-auto align-self-center">
-
+        <p>Waiting for game to start...</p>
     </div>
 </div>
 

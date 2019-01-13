@@ -1,23 +1,26 @@
 ﻿@model AccountLoginVM
 
-<h2>Login</h2>
+<div class="row vh-100">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
+        <h1>Login</h1>
 
-<form asp-controller="Account" asp-action="Login">
-    <label asp-for="UserName"></label>
-    <input asp-for="UserName" />
-    <span asp-validation-for="UserName"></span>
-    <label asp-for="Password"></label>
-    <input asp-for="Password" />
-    <span asp-validation-for="Password"></span>
-    <br />
-    <input type="submit" value="Login" />
-    <input type="hidden" asp-for="ReturnUrl" />
-</form>
+        <form asp-controller="account" asp-action="login">
+            <div class="form-group">
+                <input placeholder="Username" class="form-control" asp-for="UserName" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group">
+                <input placeholder="Password" class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
 
-<br />
-<div>
-    Don't have an account? <a asp-action="Create" asp-controller="Account">Register</a>
+            <button type="submit" class="btn btn-landing-page btn-lg">Login</button>
+
+            <input type="hidden" asp-for="ReturnUrl" />
+        </form>
+
+        <p>Don't have an account? <a asp-controller="account" asp-action="create">Register</a></p>
+
+        <p><a asp-controller="account" asp-action="logout">Log out</a></p>
+    </div>
 </div>
-
-<a asp-controller="Account" asp-action="Logout">Log out</a>
-
