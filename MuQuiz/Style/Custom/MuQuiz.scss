@@ -58,6 +58,10 @@ body.disconnect {
     @include button-variant(darken($softgreen, 10%), darken($softgreen, 20%));
 }
 
+.btn-red {
+    @include button-variant(lighten(crimson, 15%), lighten(crimson, 15%));
+}
+
 /* Misc */
 #rules-toggle {
     cursor: pointer;

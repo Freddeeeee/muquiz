@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +40,7 @@ namespace MuQuiz
                 .AddDefaultTokenProviders();
             //Standard inloggningssida är nu /account/login
 
-            services.AddMvc();
+            services.AddMvc(o => o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddSignalR();
 
             services.AddSession();
