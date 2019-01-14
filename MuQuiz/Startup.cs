@@ -19,8 +19,6 @@ namespace MuQuiz
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
@@ -29,17 +27,10 @@ namespace MuQuiz
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<SpotifyService>();
-
-            //Skapa connectionString med hjälp av lokal secret
-            //var builder = new SqlConnectionStringBuilder(
-            //    Configuration.GetConnectionString("MuQuizConnString"));
-            //builder.Password = Configuration["MuQuizDbPw"];
             var connString = Configuration.GetConnectionString("MuQuizConnString");
-
             services.AddDbContext<MuquizContext>(options => options.UseSqlServer(connString));
             services.AddDbContext<MyIdentityContext>(options => options.UseSqlServer(connString));
-            services.AddIdentity<MyIdentityUser, IdentityRole>(o => 
+            services.AddIdentity<MyIdentityUser, IdentityRole>(o =>
                 {
                     o.Password.RequireNonAlphanumeric = true;
                     o.Password.RequiredLength = 6;
@@ -48,35 +39,41 @@ namespace MuQuiz
                 .AddDefaultTokenProviders();
             //Standard inloggningssida är nu /account/login
 
-            services.AddTransient<AccountService>();
-            services.AddTransient<SessionStorageService>();
-            services.AddSignalR();
             services.AddMvc();
+            services.AddSignalR();
+
             services.AddSession();
             services.AddHttpContextAccessor();
             services.AddAuthentication(
                 CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o => o.LoginPath = "/Account/Login");
+
+            services.AddSingleton<SpotifyService>();
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddTransient<AccountService>();
+            services.AddTransient<SessionStorageService>();
             services.AddTransient<QuestionService>();
             services.AddTransient<GameService>();
             services.AddTransient<AdminService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
+            {
                 app.UseExceptionHandler("/Error/ServerError");
+                //app.UseHsts();
+            }
 
-            app.UseAuthentication();
-            app.UseSignalR(routes => routes.MapHub<GameHub>("/gamehub"));
-            app.UseSession();
+            app.UseStatusCodePagesWithReExecute("/Error/HttpError/{0}");
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseSession();
+            app.UseSignalR(routes => routes.MapHub<GameHub>("/gamehub"));
             app.UseMvcWithDefaultRoute();
-            app.UseStatusCodePagesWithRedirects("/Error/HttpError/{0}");
         }
     }
 }

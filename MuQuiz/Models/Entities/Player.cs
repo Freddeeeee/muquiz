@@ -10,6 +10,7 @@ namespace MuQuiz.Models.Entities
         public string ConnectionId { get; set; }
         public int Score { get; set; }
         public int GameSessionId { get; set; }
+        public string AvatarCode { get; set; }
 
         public virtual GameSession GameSession { get; set; }
     }

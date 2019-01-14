@@ -27,17 +27,17 @@ namespace MuQuiz.Hubs
             await service.StartPlaying(gameId);
         }
 
-        public async Task AddToGroup(string gameId, string name)
+        public async Task AddToGroup(string gameId, string name, string avatarCode)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-            await service.AddPlayer(Context.ConnectionId, name, gameId);
-            await SendNameToHost(gameId, name);
+            await service.AddPlayer(Context.ConnectionId, name, gameId, avatarCode);
+            await SendNameToHost(gameId, name, avatarCode);
         }
 
-        public async Task SendNameToHost(string gameId, string name)
+        public async Task SendNameToHost(string gameId, string name, string avatarCode)
         {
             var host = await service.GetHostConnectionIdByGameId(gameId);
-            await Clients.Client(host).ReceiveConnectedPlayerName(name);
+            await Clients.Client(host).ReceiveConnectedPlayerName(name, avatarCode);
         }
 
         public async Task AskForJoinConfirmation(string gameId)
@@ -56,10 +56,11 @@ namespace MuQuiz.Hubs
             var playerInfo = await service.GetPlayerByConnectionId(Context.ConnectionId);
             var connectionId = Context.ConnectionId;
             var name = playerInfo.Name;
+            var avatarCode = playerInfo.AvatarCode;
             var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
             var correctAnswer = service.EvaluateAnswer(connectionId, answer);
 
-            await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, correctAnswer, name);
+            await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, correctAnswer, name, avatarCode);
         }
 
         public async Task UpdateScore(string connectionId, int position)
