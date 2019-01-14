@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MuQuiz.Models.ViewModels
 {
-    public class AdminAddSongVM
+    public class AdminSongVM
     {
         [Required(ErrorMessage = "Enter song name")]
         [StringLength(64, ErrorMessage = "Must be between 1-64 characters", MinimumLength = 1)]
@@ -19,7 +19,6 @@ namespace MuQuiz.Models.ViewModels
         public string Artist { get; set; }
 
         [Required(ErrorMessage = "Enter year released")]
-        [StringLength(4, ErrorMessage = "Invalid year, format: xxxx", MinimumLength = 4)]
         [Display(Name = "Year")]
         public int Year { get; set; }
 
@@ -49,7 +48,6 @@ namespace MuQuiz.Models.ViewModels
         public string Answer3 { get; set; }
 
         [Required(ErrorMessage = "Select question type")]
-        [StringLength(1, ErrorMessage = "Invalid QuestionType, standard: 1", MinimumLength = 1)]
         [Display(Name = "Question type")]
         public int QuestionType { get; set; }
     }
