@@ -54,6 +54,7 @@ namespace MuQuiz
             services.AddTransient<SessionStorageService>();
             services.AddTransient<QuestionService>();
             services.AddTransient<GameService>();
+            services.AddTransient<AdminService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
