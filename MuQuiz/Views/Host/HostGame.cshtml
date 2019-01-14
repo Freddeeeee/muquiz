@@ -123,6 +123,7 @@
             window.startGame = startGame;
 
             async function startNewSession() {
+                connectedPlayers = 0;
                 $("body").removeClass().addClass("enter_name");
                 await getPartialView("/host/showlobby?round=1");
                 await connection.invoke("@nameof(GameHub.SendToWaitingScreen)", "@Model.GameId");
@@ -165,7 +166,7 @@
             };
 
             let numberOfAnswers = 0;
-            let correctAnswers = 0;
+            let correctAnswerList = 0;
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name) {
                 $("#players").append($("<p>").html(name + " answered"));
                 numberOfAnswers += 1;
@@ -180,6 +181,7 @@
             connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name) {
                 $("#players").append($("<p>").html(name + " joined"));
                 connectedPlayers += 1;
+
             });
 
             connection.on("@nameof(IHubClient.DisconnectPlayer)", function () {
