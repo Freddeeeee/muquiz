@@ -71,6 +71,14 @@ div#players {
     margin-top: $grid-gutter-width;
 }
 
+@include bg-variant(".bg-bar", darken($softgreen, 10%));
+
 .progress {
-    direction: rtl;
+    height: 25px;
+    margin-bottom: $grid-gutter-width;
+}
+
+#host-timer {
+    width: 100%;
+    transition: width 1s linear;
 }

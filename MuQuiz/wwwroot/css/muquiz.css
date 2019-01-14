@@ -6993,5 +6993,18 @@ ol#final-result li:first-child {
 div#players {
   margin-top: 30px; }
 
+.bg-bar {
+  background-color: #049250 !important; }
+
+a.bg-bar:hover, a.bg-bar:focus,
+button.bg-bar:hover,
+button.bg-bar:focus {
+  background-color: #026135 !important; }
+
 .progress {
-  direction: rtl; }
+  height: 25px;
+  margin-bottom: 30px; }
+
+#host-timer {
+  width: 100%;
+  transition: width 1s linear; }

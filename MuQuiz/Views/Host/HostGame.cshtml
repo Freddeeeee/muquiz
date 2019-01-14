@@ -80,8 +80,12 @@
                 await getPartialView("/host/showalternatives?song=" + songId, async function (result) {
                     $("#content").html(result);
 
+                    $("#host-timer").css("transition-duration", maxTime + "ms");
+                    $("#host-timer").css("width", "0%");
+
                     var timeOut = await setInterval(async function () {
                         time += 1000;
+
                         if (time >= maxTime || connectedPlayers == numberOfAnswers) {
                             clearInterval(timeOut);
                             window.spotifyPlayer.pause().then(() => {
