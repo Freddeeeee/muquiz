@@ -82,3 +82,8 @@ div#players {
     width: 100%;
     transition: width 1s linear;
 }
+
+#muquiz-logo {
+    margin-bottom: $grid-gutter-width;
+    max-width: 350px;
+}

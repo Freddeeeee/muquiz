@@ -7008,3 +7008,7 @@ button.bg-bar:focus {
 #host-timer {
   width: 100%;
   transition: width 1s linear; }
+
+#muquiz-logo {
+  margin-bottom: 30px;
+  max-width: 350px; }
