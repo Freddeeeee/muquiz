@@ -1,15 +1,20 @@
 ﻿@using MuQuiz.Models.Entities
 @model Player[]
 
-<h1>And the winner is...</h1>
 
-<ol id="final-score">
-    @foreach (var item in Model)
+<div class="pyro">
+    <div class="before"></div>
+    <div class="after"></div>
+    <h1>And the winner is...</h1>
+    <br />
+    <h1 id="winner"><i class="em em-@Model[0].AvatarCode"></i> @Model[0].Name (@Model[0].Score points)</h1>
+    <br />
+    @for (int i = 2; i <= Model.Length; i++)
     {
-        <li><i class="em em-@item.AvatarCode"></i>@item.Name (@item.Score points)</li>
+        <p>@i.  <i class="em em-@Model[i-1].AvatarCode"></i> @Model[i - 1].Name (@Model[i - 1].Score points)</p>
     }
-</ol>
 
+</div>
 <button id="startover" class="btn btn-dark btn-lg">Let's play another round!</button>
 
 <script type="text/javascript">

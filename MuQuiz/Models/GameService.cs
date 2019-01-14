@@ -59,11 +59,11 @@ namespace MuQuiz.Models
 
         internal string GetRandomAvatar()
         {
-            string[] avatarCodes = { "ant", "amphora", "avocado", "balloon", "banana", "basketball", "baguette_read",
+            string[] avatarCodes = { "ant", "amphora", "avocado", "balloon", "banana", "basketball", "baguette_bread",
             "beer", "beetle", "birthday", "blowfish", "bike", "boat", "brain", "burrito", "broccoli", "bug", "cactus",
             "camel", "candy", "car", "carrot", "cat", "cherries", "cheese_wedge", "circus_tent", "coconut", "coffee", "cookie", "cow2",
             "crocodile", "crystal_ball", "cucumber", "crossed_swords", "deer", "dragon_face", "duck", "eagle", "earth_africa", "elephant",
-            "exploding_head", "female_detective", "fire", "frog", "fries", "gorilla", "grapes", "hankey", "hedgehog",
+            "exploding_head", "female-detective", "fire", "frog", "fries", "gorilla", "grapes", "hankey", "hedgehog",
             "honey_pot", "joystick", "kiwifruit", "leopard", "lizard", "mage", "monkey", "moon", "mountain", "motor_scooter",
             "owl", "palm_tree", "pig", "pizza", "potato", "ramen", "scooter", "sauropod", "snake", "snowflake", "spider_web",
             "squid", "sunflower", "taco", "tiger", "turtle", "volcano", "zebra_face"};
