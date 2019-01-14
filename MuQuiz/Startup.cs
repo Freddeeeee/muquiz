@@ -32,10 +32,10 @@ namespace MuQuiz
             services.AddSingleton<SpotifyService>();
 
             //Skapa connectionString med hjälp av lokal secret
-            var builder = new SqlConnectionStringBuilder(
-                Configuration.GetConnectionString("MuQuizConnString"));
-            builder.Password = Configuration["MuQuizDbPw"];
-            var connString = builder.ConnectionString;
+            //var builder = new SqlConnectionStringBuilder(
+            //    Configuration.GetConnectionString("MuQuizConnString"));
+            //builder.Password = Configuration["MuQuizDbPw"];
+            var connString = Configuration.GetConnectionString("MuQuizConnString");
 
             services.AddDbContext<MuquizContext>(options => options.UseSqlServer(connString));
             services.AddDbContext<MyIdentityContext>(options => options.UseSqlServer(connString));
@@ -64,10 +64,10 @@ namespace MuQuiz
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            else
-                app.UseExceptionHandler("/Error/ServerError");
+            //else
+            //    app.UseExceptionHandler("/Error/ServerError");
 
             app.UseAuthentication();
             app.UseSignalR(routes => routes.MapHub<GameHub>("/gamehub"));
