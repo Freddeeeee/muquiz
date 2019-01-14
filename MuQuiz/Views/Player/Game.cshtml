@@ -3,7 +3,7 @@
 
 <div class="row vh-100">
     <div id="content" class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto align-self-center">
-        <h1>Welcome, @Model.Name!</h1>
+        <h1>Welcome, @Model.Name <i class="em em-@Model.AvatarCode"></i>!</h1>
 
         <p>Waiting for game to start...</p>
     </div>
@@ -55,7 +55,7 @@
 
             await connection.start().catch(err => console.log(err));
 
-            connection.invoke("@nameof(GameHub.AddToGroup)", "@Model.GameId", "@Model.Name");
+            connection.invoke("@nameof(GameHub.AddToGroup)", "@Model.GameId", "@Model.Name", "@Model.AvatarCode");
 
             connection.on("@nameof(IHubClient.ReceiveSong)", async function (songId) {
                 await getPlayerAlternatives(songId);
@@ -74,7 +74,7 @@
             });
 
             connection.on("@nameof(IHubClient.ConfirmJoined)", async function () {
-                await connection.invoke("@nameof(GameHub.SendNameToHost)", "@Model.GameId", "@Model.Name")
+                await connection.invoke("@nameof(GameHub.SendNameToHost)", "@Model.GameId", "@Model.Name", "@Model.AvatarCode")
             });
         })();
     </script>

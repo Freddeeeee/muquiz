@@ -22,6 +22,9 @@ namespace MuQuiz.Models.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +47,6 @@ namespace MuQuiz.Models.Entities
                     .HasColumnName("HostConnectionID")
                     .HasMaxLength(32)
                     .IsUnicode(false);
-
             });
 
             modelBuilder.Entity<Player>(entity =>
@@ -52,6 +54,11 @@ namespace MuQuiz.Models.Entities
                 entity.ToTable("Player", "dbm");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.AvatarCode)
+                    .HasColumnName("avatarCode")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ConnectionId)
                     .IsRequired()

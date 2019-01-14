@@ -9,5 +9,6 @@ namespace MuQuiz.Models.ViewModels
     {
         public string GameId { get; set; }
         public string Name { get; set; }
+        public string AvatarCode { get; set; }
     }
 }

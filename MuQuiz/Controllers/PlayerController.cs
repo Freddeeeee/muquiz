@@ -53,6 +53,7 @@ namespace MuQuiz.Controllers
             {
                 GameId = sessionService.GameId,
                 Name = sessionService.Name,
+                AvatarCode = gameService.GetRandomAvatar()
             };
 
             return View(vm);

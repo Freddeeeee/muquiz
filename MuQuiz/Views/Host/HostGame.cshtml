@@ -167,8 +167,8 @@
 
             let numberOfAnswers = 0;
             let correctAnswerList = 0;
-            connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name) {
-                $("#players").append($("<p>").html(name + " answered"));
+            connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name, avatarCode) {
+                $("#players").append($("<p>").html(GetAvatarHTML(avatarCode) + name + " answered"));
                 numberOfAnswers += 1;
 
                  if (correctAnswer) {
@@ -178,8 +178,8 @@
             });
 
             let connectedPlayers = 0;
-            connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name) {
-                $("#players").append($("<p>").html(name + " joined"));
+            connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name, avatarCode) {
+                $("#players").append($("<p>").html(GetAvatarHTML(avatarCode) + name + " joined"));
                 connectedPlayers += 1;
 
             });
@@ -187,6 +187,11 @@
             connection.on("@nameof(IHubClient.DisconnectPlayer)", function () {
                 connectedPlayers -= 1;
             });
+
+
+            function GetAvatarHTML(avatarCode) {
+                return "<i class='em em-" + avatarCode + "'></i>";
+            };
 
             await connection.start().catch(err => console.log(err));
 

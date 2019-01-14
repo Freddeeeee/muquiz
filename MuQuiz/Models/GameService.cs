@@ -10,6 +10,7 @@ namespace MuQuiz.Models
     public class GameService
     {
         private readonly MuquizContext muquizContext;
+        private Random rand = new Random();
 
         public GameService(MuquizContext muquizContext)
         {
@@ -20,7 +21,6 @@ namespace MuQuiz.Models
         {
             string[] letters = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
             string gameId = "";
-            Random rand = new Random();
 
             for (int i = 0; i < 4; i++)
             {
@@ -57,6 +57,20 @@ namespace MuQuiz.Models
             await muquizContext.SaveChangesAsync();
         }
 
+        internal string GetRandomAvatar()
+        {
+            string[] avatarCodes = { "ant", "amphora", "avocado", "balloon", "banana", "basketball", "baguette_read",
+            "beer", "beetle", "birthday", "blowfish", "bike", "boat", "brain", "burrito", "broccoli", "bug", "cactus",
+            "camel", "candy", "car", "carrot", "cat", "cherries", "cheese_wedge", "circus_tent", "coconut", "coffee", "cookie", "cow2",
+            "crocodile", "crystal_ball", "cucumber", "crossed_swords", "deer", "dragon_face", "duck", "eagle", "earth_africa", "elephant",
+            "exploding_head", "female_detective", "fire", "frog", "fries", "gorilla", "grapes", "hankey", "hedgehog",
+            "honey_pot", "joystick", "kiwifruit", "leopard", "lizard", "mage", "monkey", "moon", "mountain", "motor_scooter",
+            "owl", "palm_tree", "pig", "pizza", "potato", "ramen", "scooter", "sauropod", "snake", "snowflake", "spider_web",
+            "squid", "sunflower", "taco", "tiger", "turtle", "volcano", "zebra_face"};
+
+            return avatarCodes[rand.Next(avatarCodes.Length)];
+        }
+
         public async Task<bool> SessionIsActive(string gameId)
         {
             if (await muquizContext.GameSession.AnyAsync(g => g.GameId == gameId))
@@ -67,14 +81,15 @@ namespace MuQuiz.Models
             return false;
         }
 
-        public async Task AddPlayer(string connectionId, string name, string gameId)
+        public async Task AddPlayer(string connectionId, string name, string gameId, string avatarCode)
         {
             await muquizContext.Player.AddAsync(new Player
             {
                 Name = name,
                 ConnectionId = connectionId,
                 Score = 0,
-                GameSessionId = muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).Id
+                GameSessionId = muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).Id,
+                AvatarCode = avatarCode
             });
             await muquizContext.SaveChangesAsync();
         }
