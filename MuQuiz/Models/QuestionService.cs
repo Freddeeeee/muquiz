@@ -1,4 +1,5 @@
-﻿using MuQuiz.Models.Entities;
+﻿using Microsoft.Extensions.Configuration;
+using MuQuiz.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace MuQuiz.Models
     public class QuestionService
     {
         private readonly MuquizContext context;
-        private const int numberOfSongs = 3; // to-do: make this a game setting?
+        private readonly IConfiguration configuration;
 
-        public QuestionService(MuquizContext context)
+        public QuestionService(MuquizContext context, IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
         }
 
         public string[] GetQuestionsForId(int id)
@@ -40,7 +42,7 @@ namespace MuQuiz.Models
             return context
                 .Song.Select(s => s.Id)
                 .OrderBy(s => Guid.NewGuid())
-                .Take(numberOfSongs)
+                .Take(configuration.GetSection("NumberOfSongs").Get<int>())
                 .ToList();
         }
 
