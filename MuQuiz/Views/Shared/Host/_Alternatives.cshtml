@@ -1,8 +1,12 @@
 ﻿@model string[]
 
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>Host @item</li>
-    }
-</ul>
+@foreach (var item in Model)
+{
+    <button class="btn btn-alternatives btn-block btn-lg submit" value="@item">@item</button>
+}
+
+<br /> 
+
+<script type="text/javascript">
+    $("body").removeClass().addClass("alternatives");
+</script>

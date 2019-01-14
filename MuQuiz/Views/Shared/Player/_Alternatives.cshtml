@@ -1,18 +1,18 @@
 ﻿@model string[]
 
-<ul>
-    @foreach (var item in Model)
-    {
-        <li><button class="btn btn-primary btn-sm submit" value="@item">Player @item</button></li>
-    }
-</ul>
+@foreach (var item in Model)
+{
+    <button class="btn btn-alternatives btn-block btn-lg submit" value="@item">@item</button>
+}
+
+<br/> 
 
 <div class="progress">
-    <div class="progress-bar"></div>
+    <div class="progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 </div>
 
 <script type="text/javascript">
-    let i = 0;
+    var i = 0;
 
     function loadingTimeBar() {
         i += 1;

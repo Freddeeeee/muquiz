@@ -1,18 +1,24 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 
+$headings-color: white;
+$headings-font-weight: 700;
+$link-color: white;
 $font-family-sans-serif: "Roboto";
+
+@import '../Bootstrap/bootstrap';
 
 // theme colors
 $gold: #ffa801;
 $rose: #ff5e61;
 $softgreen: #05c46b;
-$mustard: #ffdc52;
-$lightblue: #00cccd;
+$mustard: #f7d550;
+$mellowblue: #2b59c3;
 $smartpurple: #f066f0;
 
-$headings-color: white;
-$headings-font-weight: 700;
-$link-color: white;
+/* Text color */
+body {
+    color: white;
+}
 
 /* Body backgrounds */
 body.landing_page {
@@ -24,7 +30,7 @@ body.enter_name {
 }
 
 body.lobby {
-    background-color: $softgreen;
+    background-color: $mellowblue;
 }
 
 body.results {
@@ -32,28 +38,39 @@ body.results {
 }
 
 body.waiting {
-    background-color: $lightblue;
+    background-color: $mellowblue;
 }
 
 body.alternatives {
-    background-color: $smartpurple;
+    background-color: $softgreen;
 }
 
 body.disconnect {
     background-color: var( --gray-dark);
 }
 
-/* Headings */
-h1 {
-    font-weight: 700;
+/* Buttons */
+.btn-landing-page {
+    @include button-variant($softgreen, darken($softgreen, 10%));
 }
 
+.btn-alternatives {
+    @include button-variant(darken($softgreen, 10%), darken($softgreen, 20%));
+}
+
+/* Misc */
 #rules-toggle {
     cursor: pointer;
+}
+
+ol#final-result li:first-child {
+    text-transform: uppercase;
+}
+
+div#players {
+    margin-top: $grid-gutter-width;
 }
 
 .progress {
     direction: rtl;
 }
-
-@import '../Bootstrap/bootstrap';
