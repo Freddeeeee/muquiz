@@ -1,5 +1,7 @@
 ﻿@model HostGameVM
 @using MuQuiz.Hubs
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <div class="row vh-100">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto align-self-center">
@@ -74,7 +76,7 @@
             }
 
             async function getHostAlternatives(songId) {
-                const maxTime = 5000;
+                const maxTime = @Configuration["MsPerRound"];
                 let time = 0;
 
                 await getPartialView("/host/showalternatives?song=" + songId, async function (result) {
