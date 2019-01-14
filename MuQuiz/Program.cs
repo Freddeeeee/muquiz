@@ -22,39 +22,6 @@ namespace MuQuiz
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((ctx, builder) =>
-                {
-                    var keyVaultEndpoint = GetKeyVaultEndpoint();
-                    if (!string.IsNullOrEmpty(keyVaultEndpoint))
-                    {
-                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                        var keyVaultClient = new KeyVaultClient(
-                            new KeyVaultClient.AuthenticationCallback(
-                                azureServiceTokenProvider.KeyVaultTokenCallback));
-                        builder.AddAzureKeyVault(
-                            keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
-                    }
-                }
-                ).UseStartup<Startup>();
-
-        //public static IWebHost BuildWebHost(string[] args) =>
-        //WebHost.CreateDefaultBuilder(args)
-        //    .ConfigureAppConfiguration((ctx, builder) =>
-        //    {
-        //        var keyVaultEndpoint = GetKeyVaultEndpoint();
-        //        if (!string.IsNullOrEmpty(keyVaultEndpoint))
-        //        {
-        //            var azureServiceTokenProvider = new AzureServiceTokenProvider();
-        //            var keyVaultClient = new KeyVaultClient(
-        //                new KeyVaultClient.AuthenticationCallback(
-        //                    azureServiceTokenProvider.KeyVaultTokenCallback));
-        //            builder.AddAzureKeyVault(
-        //                keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
-        //        }
-        //    }
-        // ).UseStartup<Startup>()
-        //  .Build();
-
-        private static string GetKeyVaultEndpoint() => "https://muquizSecrets.vault.azure.net";
+                .UseStartup<Startup>();
     }
 }
