@@ -6983,6 +6983,29 @@ body.disconnect {
     .show > .btn-alternatives.dropdown-toggle:focus {
       box-shadow: 0 0 0 0.2rem rgba(40, 120, 83, 0.5); }
 
+.btn-red {
+  color: #fff;
+  background-color: #ef4e6e;
+  border-color: #ef4e6e; }
+  .btn-red:hover {
+    color: #fff;
+    background-color: #ec2b51;
+    border-color: #eb1f48; }
+  .btn-red:focus, .btn-red.focus {
+    box-shadow: 0 0 0 0.2rem rgba(241, 104, 132, 0.5); }
+  .btn-red.disabled, .btn-red:disabled {
+    color: #fff;
+    background-color: #ef4e6e;
+    border-color: #ef4e6e; }
+  .btn-red:not(:disabled):not(.disabled):active, .btn-red:not(:disabled):not(.disabled).active,
+  .show > .btn-red.dropdown-toggle {
+    color: #fff;
+    background-color: #eb1f48;
+    border-color: #e8153f; }
+    .btn-red:not(:disabled):not(.disabled):active:focus, .btn-red:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-red.dropdown-toggle:focus {
+      box-shadow: 0 0 0 0.2rem rgba(241, 104, 132, 0.5); }
+
 /* Misc */
 #rules-toggle {
   cursor: pointer; }
@@ -7187,3 +7210,8 @@ button.bg-bar:focus {
   80%, 99.9% {
     margin-top: 30%;
     margin-left: 80%; } }
+
+#muquiz-logo {
+    margin-bottom: $grid-gutter-width;
+    max-width: 350px;
+}

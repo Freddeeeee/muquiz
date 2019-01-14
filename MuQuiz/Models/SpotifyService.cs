@@ -18,7 +18,7 @@ namespace MuQuiz.Models
         {
             get {
                 if (DateTime.Now > token.Expires)
-                    RequestToken(token.RefreshToken);
+                    token = RequestToken(token.RefreshToken);
 
                 return token;
             }

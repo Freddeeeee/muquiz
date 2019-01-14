@@ -6,10 +6,17 @@
 
 <br/><br/>
 
-<button id="start" class="btn btn-dark btn-lg"> Start game </button>
+<button id="start" class="btn btn-dark btn-lg" disabled> Start game </button>
 
 <script type="text/javascript">
     $("#start").click(async function () {
         await startGame();
     });
+
+    //window.enableStartButton(() => { console.log("yey"); $("#start").prop("disabled", false);})
+
+    function enableStartButton() {
+        console.log("yey"); $("#start").prop("disabled", false);
+    };
+    window.enableStartButton = enableStartButton;
 </script>
