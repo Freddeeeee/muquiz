@@ -171,10 +171,14 @@
                 })
             };
 
+            function getAvatarHTML(avatarCode) {
+                return "<i class='em em-" + avatarCode + "'></i>";
+            };
+
             let numberOfAnswers = 0;
             let correctAnswerList = 0;
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name, avatarCode) {
-                $("#players").append($("<p>").html(GetAvatarHTML(avatarCode) + name + " answered"));
+                $("#players").append($("<p>").html(getAvatarHTML(avatarCode) + name + " answered"));
                 numberOfAnswers += 1;
 
                  if (correctAnswer) {
@@ -185,19 +189,14 @@
 
             let connectedPlayers = 0;
             connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name, avatarCode) {
-                $("#players").append($("<p>").html(GetAvatarHTML(avatarCode) + name + " joined"));
+                $("#players").append($("<p>").html(getAvatarHTML(avatarCode) + name + " joined"));
                 connectedPlayers += 1;
-
+                window.enableStartButton();
             });
 
             connection.on("@nameof(IHubClient.DisconnectPlayer)", function () {
                 connectedPlayers -= 1;
             });
-
-
-            function GetAvatarHTML(avatarCode) {
-                return "<i class='em em-" + avatarCode + "'></i>";
-            };
 
             await connection.start().catch(err => console.log(err));
 
