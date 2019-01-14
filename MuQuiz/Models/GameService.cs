@@ -96,7 +96,7 @@ namespace MuQuiz.Models
 
         internal async Task<bool> IsPlayer(string connectionId)
         {
-            return await muquizContext.Player.CountAsync(p => p.ConnectionId == connectionId) > 0;
+            return await muquizContext.Player.AnyAsync(p => p.ConnectionId == connectionId);
         }
 
         public async Task<Player[]> GetAllPlayers(string gameId)
