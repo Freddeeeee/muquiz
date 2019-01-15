@@ -58,6 +58,10 @@ body.disconnect {
     @include button-variant(darken($softgreen, 10%), darken($softgreen, 20%));
 }
 
+.nohover {
+    pointer-events: none;
+}
+
 .btn-red {
     @include button-variant(lighten(crimson, 15%), lighten(crimson, 15%));
 }
