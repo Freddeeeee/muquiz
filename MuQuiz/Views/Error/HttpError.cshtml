@@ -1,3 +1,19 @@
 ﻿@model int
 
-<h2>HTTP-error: @Model</h2>
+<div class="row vh-100">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
+        <h6>HTTP-Error: @Model </h6>
+        <h2><i class="em em-umbrella_with_rain_drops"></i></h2>
+        <h2>There's nothing here to see... </h2>
+        <br />
+        <a asp-controller="Home" asp-action="Index" class="btn btn-light btn-lg">Home</a>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("body").removeClass().addClass("rain");
+        });
+    </script>
+}

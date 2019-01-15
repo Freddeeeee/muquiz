@@ -61,7 +61,9 @@ namespace MuQuiz
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Error/ServerError");
+
             else
             {
                 app.UseExceptionHandler("/Error/ServerError");
