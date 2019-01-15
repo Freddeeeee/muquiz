@@ -4,7 +4,7 @@
     <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
         <img src="~/css/logo-white.svg" id="muquiz-logo" class="img-fluid" />
 
-        <p><a href="#" id="rules-toggle" data-toggle="collapse" data-target="#rules">How it works</a></p>
+        <p><a href="#" id="rules-toggle" data-toggle="collapse" data-target="#rules">How it works &#9660;</a></p>
 
         <div id="rules" class="collapse">
             <p>Lorem ipsum dolor text....</p>
@@ -22,7 +22,7 @@
         <br />
 
         @Html.ValidationMessage("AccessError")
-        <a asp-controller="home" asp-action="index">Join a different game</a>
+        <a class="underline" asp-controller="home" asp-action="index">Join a different game</a>
     </div>
 </div>
 
