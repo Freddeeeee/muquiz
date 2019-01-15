@@ -219,3 +219,11 @@ $box-shadow2: ();
     margin-bottom: $grid-gutter-width;
     max-width: 350px;
 }
+
+#gameIdInput {
+    text-transform: uppercase;
+}
+
+a {
+    text-decoration: underline;
+}

@@ -6,7 +6,7 @@
 
         <form asp-controller="home" asp-action="index">
             <div class="form-group">
-                <input placeholder="Game Id" class="form-control" asp-for="GameId" autocomplete="off" />
+                <input placeholder="Enter 4-letter code" class="form-control" asp-for="GameId" autocomplete="off" id="gameIdInput" />
                 <span asp-validation-for="GameId"></span>
             </div>
 

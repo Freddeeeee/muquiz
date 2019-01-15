@@ -26,6 +26,7 @@ namespace MuQuiz.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string gameId)
         {
+            gameId = gameId.ToUpper();
             if (!await gameService.SessionIsActive(gameId))
             {
                 ModelState.AddModelError("GameId", "We can't find this ID... :(");
