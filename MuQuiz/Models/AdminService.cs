@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuQuiz.Models.Entities;
 using MuQuiz.Models.ViewModels;
@@ -40,5 +41,22 @@ namespace MuQuiz.Models
             });
             await muquizContext.SaveChangesAsync();
         }
+
+        internal SongItem[] GetAllSongs()
+        {
+            return muquizContext.Song.Select(s => new SongItem
+            {
+                Id = s.Id,
+                SongName = s.SongName,
+                Artist = s.Artist
+            }).ToArray();
+        }
+    }
+
+    public class SongItem
+    {
+        public int Id { get; set; }
+        public string SongName { get; set; }
+        public string Artist { get; set; }
     }
 }

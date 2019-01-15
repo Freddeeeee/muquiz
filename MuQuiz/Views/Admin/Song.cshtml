@@ -2,6 +2,10 @@
 
 <h2>Manage songs</h2>
 
+<div id="songList">
+
+</div>
+
 <form asp-controller="Admin" asp-action="Song">
     <label asp-for="SongName"></label>
     <input asp-for="SongName" />
@@ -35,3 +39,22 @@
     <input type="submit" name="submit" value="Update" />
     <input type="submit" name="submit" value="Delete" />
 </form>
+
+@section scripts {
+    <script type="text/javascript">
+        await $.ajax({
+            url: "/admin/GetAllSongs",
+            type: "GET",
+            success: async function (result) {
+                displaySongs(result);
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        })();
+
+        async function displaySongs(list) {
+            
+        }
+    </script>
+}

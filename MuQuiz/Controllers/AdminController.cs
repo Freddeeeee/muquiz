@@ -44,5 +44,11 @@ namespace MuQuiz.Controllers
 
             return Content("Annat än add");
         }
+
+        [HttpGet]
+        public SongItem[] GetAllSongs()
+        {
+            return service.GetAllSongs();
+        }
     }
 }
