@@ -258,7 +258,6 @@ $box-shadow2: ();
     }
 }
 
-
 #muquiz-logo {
     margin-bottom: $grid-gutter-width;
     max-width: 350px;
@@ -266,8 +265,13 @@ $box-shadow2: ();
 
 #gameIdInput {
     text-transform: uppercase;
+    text-align:center;
 }
 
-a:link {
+input {
+    text-align: center;
+}
+
+a.underline {
     text-decoration: underline;
 }
