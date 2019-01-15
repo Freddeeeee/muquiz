@@ -293,3 +293,9 @@ a.underline {
         visibility: hidden;
     }
 }
+
+#description {
+    background-color: darken($rose, 2%);
+    padding: 10px;
+    border-radius: 20px;
+}
