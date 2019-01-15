@@ -231,3 +231,20 @@ $box-shadow2: ();
 a {
     text-decoration: underline;
 }
+
+#adminDiv {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0px;
+    left: 0px;
+    position: fixed;
+    text-align: center;
+    width: 100vw;
+    padding: 1vw;
+}
+
+//Allt som endast gäller för mobilenheter
+@media only screen and (max-width: 768px) {
+    .hideOnMobile {
+        visibility: hidden;
+    }
+}
