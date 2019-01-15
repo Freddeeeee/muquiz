@@ -18,37 +18,50 @@ namespace MuQuiz.Controllers
             this.service = service;
         }
 
-        [Route("/admin/index")]
-        public IActionResult Index()
+        [HttpGet("/admin")]
+        public async Task<IActionResult> Index()
         {
-            return Content("ADMINSIDA!!!!");
+            return View(await service.GetAllSongs());
         }
 
-        [HttpGet]
-        public IActionResult Song()
+        [HttpGet("/admin/add")]
+        public IActionResult AddSong()
         {
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Song(AdminSongVM vm, string submit)
+        [HttpPost("/admin/add")]
+        public async Task<IActionResult> AddSong(AdminAddEditSongVM vm)
         {
             if (!ModelState.IsValid)
                 return View(vm);
 
-            if(submit == "Add")
-            {
-                await service.AddSong(vm);
-                return RedirectToAction(nameof(Song));
-            }
-
-            return Content("Annat än add");
+            await service.AddSong(vm);
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public SongItem[] GetAllSongs()
+        [HttpGet("/admin/update/{id}")]
+        public async Task<IActionResult> UpdateSong(int id)
         {
-            return service.GetAllSongs();
+            var vm = await service.GetSongForUpdate(id);
+            return View(vm);
+        }
+
+        [HttpPost("/admin/update")]
+        public async Task<IActionResult> UpdateSong(AdminAddEditSongVM vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            await service.UpdateSong(vm);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost("/admin/delete/{id}")]
+        public async Task<IActionResult> DeleteSong(int id)
+        {
+            await service.DeleteSong(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
