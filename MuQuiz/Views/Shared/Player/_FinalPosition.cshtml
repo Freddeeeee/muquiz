@@ -1,7 +1,23 @@
 ﻿@model int
 
-<h2>You came at position @Model</h2>
+
+@if (Model == 1)
+{
+    <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+        <h1>You won!</h1>
+        <div id="winnerScreen">#1</div>
+    </div>
+}
+else
+{
+    <h2>#@Model<br />Better luck next time... <i class="em em-cry"></i></h2>
+}
 
 <script type="text/javascript">
     $("body").removeClass().addClass("results");
+    if (@Model  !== 1) {
+        $("body").removeClass().addClass("rain");
+    }
 </script>
