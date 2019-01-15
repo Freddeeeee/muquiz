@@ -93,7 +93,8 @@ div#players {
 
 #winner {
     border: dotted 4px;
-    border-color: $rose;
+    border-color: $gold;
+    border-radius: 80px;
     padding: 10px;
 }
 
@@ -219,6 +220,45 @@ $box-shadow2: ();
     }
 }
 
+#winnerScreen {
+    font-size: 50vh;
+    color: $gold;
+}
+
+//rain
+.rain {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(http://assets.adamrobinson.im/codepen/raindrop.svg);
+    background-size: 60px 60px;
+    animation: rain;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background-color: var( --gray-dark);
+}
+
+@-webkit-keyframes rain {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -60px 60px
+    }
+}
+
+@keyframes rain {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -60px 60px
+    }
+}
+
+
 #muquiz-logo {
     margin-bottom: $grid-gutter-width;
     max-width: 350px;
@@ -228,7 +268,7 @@ $box-shadow2: ();
     text-transform: uppercase;
 }
 
-a {
+a:link {
     text-decoration: underline;
 }
 
