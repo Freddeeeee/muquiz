@@ -1,8 +1,9 @@
-﻿@model string[]
+﻿@model AlternativesVM[]
 
 @foreach (var item in Model)
 {
-    <button class="btn btn-alternatives btn-block btn-lg submit nohover" value="@item">@item</button>
+    string className = item.IsRightAlt != 0 ? string.Empty : "wrongAns";
+    <button class="btn btn-alternatives btn-block btn-lg submit nohover @className" >@item.Alternative</button>
 }
 
 <br /> 
@@ -13,4 +14,10 @@
 
 <script type="text/javascript">
     $("body").removeClass().addClass("alternatives");
+
+    function removeWrongAnswers() {
+        $(".wrongAns").addClass("fadeout");
+        $(".progress").addClass("fadeout");
+    }
+    window.removeWrongAnswers = removeWrongAnswers;
 </script>

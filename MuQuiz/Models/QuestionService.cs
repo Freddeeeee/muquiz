@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MuQuiz.Models.Entities;
+using MuQuiz.Models.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,18 +22,18 @@ namespace MuQuiz.Models
             this.sessionStorage = sessionStorage;
         }
 
-        public string[] GetQuestionsForId(int id)
+        public AlternativesVM[] GetQuestionsForId(int id)
         {
             Random random = new Random(id);
 
             var questionInfo = context.Question
                 .Where(q => q.SongId == id)
-                .Select(o => new List<string>
+                .Select(o => new List<AlternativesVM>
                 {
-                    o.CorrectAnswer,
-                    o.Answer1,
-                    o.Answer2,
-                    o.Answer3
+                    new AlternativesVM {Alternative = o.CorrectAnswer, IsRightAlt = 1 },
+                    new AlternativesVM {Alternative = o.Answer1 },
+                    new AlternativesVM {Alternative = o.Answer2 },
+                    new AlternativesVM {Alternative = o.Answer3 },
                 })
                 .Single()
                 .ToList();
