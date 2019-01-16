@@ -1,7 +1,7 @@
-﻿@model int
+﻿@model int[]
 
 
-@if (Model == 1)
+@if (Model[0] == 1)
 {
     <div class="pyro">
         <div class="before"></div>
@@ -12,12 +12,22 @@
 }
 else
 {
-    <h2>#@Model<br />Better luck next time... <i class="em em-cry"></i></h2>
+    <h1>
+        #@Model[0]
+    </h1>
+    <h6>
+        Score: @Model[1] points
+    </h6>
+    <br />
+    <br />
+    <h1>
+        Better luck next time... <i class="em em-cry"></i>
+    </h1>
 }
 
 <script type="text/javascript">
     $("body").removeClass().addClass("results");
-    if (@Model  !== 1) {
+    if (@Model[0]  !== 1) {
         $("body").removeClass().addClass("rain");
     }
 </script>

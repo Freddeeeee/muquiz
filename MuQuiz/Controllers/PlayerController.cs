@@ -70,9 +70,10 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Player/_WaitingScreen.cshtml");
         }
 
-        public IActionResult ShowFinalPosition(int position)
+        public IActionResult ShowFinalPosition(int position, int score)
         {
-            return PartialView("~/Views/Shared/Player/_FinalPosition.cshtml", position);
+            int[] positionAndScore = { position, score };
+            return PartialView("~/Views/Shared/Player/_FinalPosition.cshtml", positionAndScore);
         }
 
         public IActionResult ShowSessionClosedScreen()

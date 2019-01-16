@@ -79,7 +79,8 @@ namespace MuQuiz.Hubs
 
             for (int i = 0; i < players.Length; i++)
             {
-                await Clients.Client(players[i].ConnectionId).GetFinalPosition(i + 1);
+                var player = players[i];
+                await Clients.Client(player.ConnectionId).GetFinalPosition(i + 1, player.Score);
             }
         }
 
