@@ -4,10 +4,10 @@
 <form asp-controller="admin" asp-action="add">
 
     <div class="form-group">
-        <input asp-for="SongName" placeholder="Song title" />
-        <span asp-validation-for="SongName"></span>
         <input asp-for="Artist" placeholder="Artist" />
         <span asp-validation-for="Artist"></span>
+        <input asp-for="SongName" placeholder="Song title" />
+        <span asp-validation-for="SongName"></span>
     </div>
     <div class="form-group">
         <input asp-for="Year" placeholder="Year" />
