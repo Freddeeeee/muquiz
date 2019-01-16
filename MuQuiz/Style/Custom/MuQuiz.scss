@@ -92,6 +92,11 @@ div#players {
     transition: width 1s linear;
 }
 
+#player-timer {
+    width: 100%;
+    transition: width 1s linear;
+}
+
 #winner {
     border: dotted 4px;
     border-color: $gold;
