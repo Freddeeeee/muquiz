@@ -1,12 +1,13 @@
 ﻿@model HostLobbyVM
 
+<h4 style="font-weight: 400">Visit <span style="font-weight: 700">muquiz.azurewebsites.net</span> to join</h4>
 <p class="display-1">@Model.GameId</p>
 
 <img src="@Model.QRCode" class="img-fluid" alt="QR code to join game" />
 
 <br/><br/>
 
-<button id="start" class="btn btn-dark btn-lg" disabled> Start game </button>
+<button id="start" class="btn btn-dark btn-lg" disabled>Start game</button>
 <a asp-controller="Home" asp-action="Index" class="btn btn-dark btn-lg">Home</a>
 
 <script type="text/javascript">

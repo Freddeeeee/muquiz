@@ -299,3 +299,58 @@ a.underline {
     padding: 10px;
     border-radius: 20px;
 }
+
+.signup-response {
+    position: fixed;
+    bottom: 0vh;
+    left: 0vw;
+    width: 20vw;
+    text-align: center;
+    background-color: none;
+    animation: signup-response 4s 1;
+    -webkit-animation: signup-response 4s 1;
+    animation-fill-mode: forwards;
+    animation-delay: 0s;
+    -webkit-animation-delay: 0s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes signup-response {
+    from {
+        /*opacity: 1;*/
+        bottom: 0vh;
+    }
+
+    to {
+        /*opacity: 0;*/
+        bottom: 15vh;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes signup-response {
+    from {
+        /*opacity: 1;*/
+        bottom: 0vh;
+    }
+
+    to {
+        /*opacity: 0;*/
+        bottom: 15vh;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

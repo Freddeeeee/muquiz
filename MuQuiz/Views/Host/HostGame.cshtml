@@ -178,7 +178,7 @@
             let numberOfAnswers = 0;
             let correctAnswerList = 0;
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name, avatarCode) {
-                $("#players").append($("<p>").html(getAvatarHTML(avatarCode) + name + " answered"));
+                $("#players").append($("<h3>").html(getAvatarHTML(avatarCode) + " " + name).addClass("signup-response").css("left", "" + (Math.random() * (window.outerWidth * 4 / 5)) + "px"));
                 numberOfAnswers += 1;
 
                  if (correctAnswer) {
@@ -189,7 +189,7 @@
 
             let connectedPlayers = 0;
             connection.on("@nameof(IHubClient.ReceiveConnectedPlayerName)", function (name, avatarCode) {
-                $("#players").append($("<p>").html(getAvatarHTML(avatarCode) + name + " joined"));
+                $("#players").append($("<h3>").html(getAvatarHTML(avatarCode) + " " + name).addClass("signup-response").css("left", "" + (Math.random() * (window.outerWidth * 4 / 5)) + "px"));
                 connectedPlayers += 1;
                 window.enableStartButton();
             });
