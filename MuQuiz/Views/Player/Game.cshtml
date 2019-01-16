@@ -31,8 +31,8 @@
                 });
             }
 
-            async function getPlayerWaitingScreen() {
-                await getPartialView("/player/showwaitingscreen");
+            async function getPlayerWaitingScreen(avatarCode) {
+                await getPartialView("/player/showwaitingscreen?avatarCode=" + avatarCode);
             }
 
             async function getPlayerAlternatives(songId) {
@@ -62,8 +62,8 @@
                 await getPlayerAlternatives(songId);
             });
 
-            connection.on("@nameof(IHubClient.GetWaitingScreen)", async function () {
-                await getPlayerWaitingScreen();
+            connection.on("@nameof(IHubClient.GetWaitingScreen)", async function (avatarCode) {
+                await getPlayerWaitingScreen(avatarCode);
             });
 
             connection.on("@nameof(IHubClient.GetFinalPosition)", async function (position, score) {

@@ -70,7 +70,12 @@ namespace MuQuiz.Hubs
 
         public async Task SendToWaitingScreen(string gameId)
         {
-            await Clients.Group(gameId).GetWaitingScreen();
+            var players = await service.GetAllPlayers(gameId);
+
+            foreach (var player in players)
+            {
+                await Clients.Client(player.ConnectionId).GetWaitingScreen(player.AvatarCode);
+            }
         }
 
         public async Task SendToFinalPosition(string gameId)
