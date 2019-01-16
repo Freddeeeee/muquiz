@@ -66,7 +66,10 @@ namespace MuQuiz.Models
             "exploding_head", "female-detective", "fire", "frog", "fries", "gorilla", "grapes", "hankey", "hedgehog",
             "honey_pot", "joystick", "kiwifruit", "leopard", "lizard", "mage", "monkey", "moon", "mountain", "motor_scooter",
             "owl", "palm_tree", "pig", "pizza", "potato", "ramen", "scooter", "sauropod", "snake", "snowflake", "spider_web",
-            "squid", "sunflower", "taco", "tiger", "turtle", "volcano", "zebra_face"};
+            "squid", "sunflower", "taco", "tiger", "turtle", "volcano", "zebra_face", "8ball", "alarm_clock", "alien", "ambulance",
+            "anchor", "apple", "art", "bacon", "bamboo", "baseball", "bat", "bee", "bird", "boar", "bomb", "boom", "boxing_glove",
+            "bulb", "call_me_hand", "candle", "champagne", "chicken", "coffin", "corn", "crab", "crown", "cut_of_meat", "dark_sunglasses",
+            "dog", "doughnut", "eggplant", "face_with_cowboy_hat", "fried_shrimp", "genie", "gun", "icecream", "hotdog", "hot_pepper"};
 
             return avatarCodes[rand.Next(avatarCodes.Length)];
         }

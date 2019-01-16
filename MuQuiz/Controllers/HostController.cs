@@ -27,6 +27,24 @@ namespace MuQuiz.Controllers
             this.gameService = gameService;
         }
 
+        [HttpGet]
+        public IActionResult HostSetup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult HostSetup(HostSetupVM vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var config = new GameConfiguration { NumberOfSongs = vm.NumberOfSongs };
+            sessionService.GameConfiguration = JsonConvert.SerializeObject(config);
+
+            return RedirectToAction(nameof(HostGame));
+        }
+
         public IActionResult HostGame()
         {
             var gameId = gameService.GenerateGameId();
@@ -64,8 +82,8 @@ namespace MuQuiz.Controllers
             var gameId = sessionService.GameId;
             if (round > 0)
                 await gameService.StopPlaying(gameId);
-            return PartialView("~/Views/Shared/Host/_Lobby.cshtml", 
-                new HostLobbyVM {GameId = gameId, QRCode = sessionService.GetQRUrl(gameId, 250)});
+            return PartialView("~/Views/Shared/Host/_Lobby.cshtml",
+                new HostLobbyVM { GameId = gameId, QRCode = sessionService.GetQRUrl(gameId, 250) });
         }
 
         public IActionResult GetSpotifyId(int id)

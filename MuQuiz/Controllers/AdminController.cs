@@ -21,7 +21,9 @@ namespace MuQuiz.Controllers
         [HttpGet("/admin")]
         public async Task<IActionResult> Index()
         {
-            return View(await service.GetAllSongs());
+            var allSongs = await service.GetAllSongs();
+
+            return View(allSongs.OrderBy(s => s.Artist).ToArray());
         }
 
         [HttpGet("/admin/add")]
