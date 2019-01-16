@@ -24,10 +24,6 @@ namespace MuQuiz.Models.ViewModels
         [StringLength(22, ErrorMessage = "Spotify ID must be 22 characters long.", MinimumLength = 22)]
         public string SpotifyId { get; set; }
 
-        //[Required(ErrorMessage = "Enter correct answer.")]
-        //[StringLength(64, ErrorMessage = "Correct answer must be between 1-64 characters.", MinimumLength = 1)]
-        //public string CorrectAnswer { get; set; }
-
         [Required(ErrorMessage = "Enter alternative answer #1.")]
         [StringLength(64, ErrorMessage = "All alternative answers must be between 1-64 characters.", MinimumLength = 1)]
         public string Answer1 { get; set; }
@@ -39,6 +35,8 @@ namespace MuQuiz.Models.ViewModels
         [Required(ErrorMessage = "Enter alternative answer #3.")]
         [StringLength(64, ErrorMessage = "All alternative answers must be between 1-64 characters.", MinimumLength = 1)]
         public string Answer3 { get; set; }
+
+        public int SongId { get; set; }
 
         //[Required(ErrorMessage = "Select question type")]
         //[Display(Name = "Question type")]

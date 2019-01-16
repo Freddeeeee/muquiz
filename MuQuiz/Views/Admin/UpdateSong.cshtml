@@ -40,6 +40,7 @@
             <input asp-for="Answer3" placeholder="Alternative answer #3" class="form-control" value="@Model.Answer3" />
             <span asp-validation-for="Answer3"></span>
         </div>
+        <input asp-for="SongId" value="@Model.SongId" hidden />
 
         <button type="submit" class="btn btn-red btn-lg">Save Changes</button>
     </form>
