@@ -1,5 +1,10 @@
 ﻿@model HomeIndexVM
 
+@if (User.Identity.IsAuthenticated)
+{
+    <a asp-action="logout" asp-controller="account" class="log-out underline">Log out</a>
+}
+
 <div class="row vh-100">
     <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
         <img src="~/css/logo-white.svg" id="muquiz-logo" class="img-fluid" />
