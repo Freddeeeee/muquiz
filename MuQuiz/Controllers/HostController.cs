@@ -67,13 +67,13 @@ namespace MuQuiz.Controllers
 
         public async Task<IActionResult> ShowResults()
         {
-            var players = await gameService.GetAllPlayers(sessionService.GameId);
+            var players = await gameService.GetTopPlayers(sessionService.GameId, 10);
             return PartialView("~/Views/Shared/Host/_Results.cshtml", players);
         }
 
         public async Task<IActionResult> ShowFinalResults()
         {
-            var players = await gameService.GetAllPlayers(sessionService.GameId);
+            var players = await gameService.GetTopPlayers(sessionService.GameId, 10);
             return PartialView("~/Views/Shared/Host/_FinalResults.cshtml", players);
         }
 

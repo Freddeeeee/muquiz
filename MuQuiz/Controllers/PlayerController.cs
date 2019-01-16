@@ -41,7 +41,6 @@ namespace MuQuiz.Controllers
             {
                 return View(vm);
             }
-
             sessionService.Name = vm.Name;
 
             return RedirectToAction(nameof(Game));
