@@ -150,11 +150,6 @@ namespace MuQuiz.Models
             await muquizContext.SaveChangesAsync();
         }
 
-        public bool EvaluateAnswer(string connectionId, string answer)
-        {
-            return muquizContext.Question.Count(q => answer == q.CorrectAnswer) > 0;
-        }
-
         internal async Task UpdateScore(string connectionId, int count)
         {
             if (count > 3)

@@ -93,8 +93,11 @@
                             window.spotifyPlayer.pause().then(() => {
                                 console.log("paused!");
                             });
-
-                            await getWaitingOrFinalView();
+                            window.removeWrongAnswers();
+                            setTimeout(async function () {
+                                await getWaitingOrFinalView()
+                            }, 5000);
+                            
                         }
                     }, 1000);
                 })
@@ -178,7 +181,7 @@
             let numberOfAnswers = 0;
             let correctAnswerList = 0;
             connection.on("@nameof(IHubClient.ReceiveAnswer)", function (connectionId, correctAnswer, name, avatarCode) {
-                $("#players").append($("<h3>").html(getAvatarHTML(avatarCode) + " " + name).addClass("signup-response").css("left", "" + (Math.random() * (window.outerWidth * 4 / 5)) + "px"));
+                $("#players").append($("<h3>").html(getAvatarHTML(avatarCode) + " " + name).addClass("signup-response").css("left", (Math.random() * (window.outerWidth * 4 / 5)) + "px"));
                 numberOfAnswers += 1;
 
                  if (correctAnswer) {
