@@ -9,12 +9,12 @@ namespace MuQuiz.Models
 {
     public class GameService
     {
-        private readonly MuquizContext muquizContext;
+        private readonly MuquizContext context;
         private Random rand = new Random();
 
-        public GameService(MuquizContext muquizContext)
+        public GameService(MuquizContext context)
         {
-            this.muquizContext = muquizContext;
+            this.context = context;
         }
 
         public string GenerateGameId()
@@ -32,14 +32,14 @@ namespace MuQuiz.Models
 
         public async Task InitializeSession(string gameId, string connectionId)
         {
-            await muquizContext.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false, HostConnectionId = connectionId });
-            await muquizContext.SaveChangesAsync();
+            await context.GameSession.AddAsync(new GameSession { GameId = gameId, IsPlaying = false, HostConnectionId = connectionId });
+            await context.SaveChangesAsync();
         }
 
         public async Task SetIsPlaying(string gameId, bool isPlaying)
         {
-            muquizContext.GameSession.Single(g => g.GameId == gameId).IsPlaying = isPlaying;
-            await muquizContext.SaveChangesAsync();
+            context.GameSession.Single(g => g.GameId == gameId).IsPlaying = isPlaying;
+            await context.SaveChangesAsync();
         }
 
         public async Task StartPlaying(string gameId)
@@ -50,11 +50,11 @@ namespace MuQuiz.Models
         public async Task StopPlaying(string gameId)
         {
             await SetIsPlaying(gameId, false);
-            muquizContext.Player
+            var playersInThisSession = await context.Player
                 .Where(p => p.GameSession.GameId == gameId)
-                .ToList()
-                .ForEach(p => p.Score = 0);
-            await muquizContext.SaveChangesAsync();
+                .ToListAsync();
+            playersInThisSession.ForEach(p => p.Score = 0);
+            await context.SaveChangesAsync();
         }
 
         internal string GetRandomAvatar()
@@ -76,9 +76,9 @@ namespace MuQuiz.Models
 
         public async Task<bool> SessionIsActive(string gameId)
         {
-            if (await muquizContext.GameSession.AnyAsync(g => g.GameId == gameId))
+            if (await context.GameSession.AnyAsync(g => g.GameId == gameId))
             {
-                var result = await muquizContext.GameSession.SingleAsync(g => g.GameId == gameId);
+                var result = await context.GameSession.AsNoTracking().SingleAsync(g => g.GameId == gameId);
                 return !result.IsPlaying;
             }
             return false;
@@ -86,68 +86,69 @@ namespace MuQuiz.Models
 
         public async Task AddPlayer(string connectionId, string name, string gameId, string avatarCode)
         {
-            await muquizContext.Player.AddAsync(new Player
+            var gameSession = await context.GameSession.AsNoTracking().SingleOrDefaultAsync(g => g.GameId == gameId);
+            await context.Player.AddAsync(new Player
             {
                 Name = name,
                 ConnectionId = connectionId,
                 Score = 0,
-                GameSessionId = muquizContext.GameSession.SingleOrDefault(g => g.GameId == gameId).Id,
+                GameSessionId = gameSession.Id,
                 AvatarCode = avatarCode
             });
-            await muquizContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         internal async Task<bool> IsPlayer(string connectionId)
         {
-            return await muquizContext.Player.AnyAsync(p => p.ConnectionId == connectionId);
+            return await context.Player.AsNoTracking().AnyAsync(p => p.ConnectionId == connectionId);
         }
 
         public async Task<Player[]> GetAllPlayers(string gameId)
         {
-            return await muquizContext.Player.Where(p => p.GameSession.GameId == gameId).OrderByDescending(p => p.Score).ToArrayAsync();
+            return await context.Player.AsNoTracking().Where(p => p.GameSession.GameId == gameId).OrderByDescending(p => p.Score).ToArrayAsync();
         }
 
         public async Task<Player> GetPlayerByConnectionId(string connectionId)
         {
-            return await muquizContext.Player.SingleOrDefaultAsync(s => s.ConnectionId == connectionId);
+            return await context.Player.AsNoTracking().SingleOrDefaultAsync(s => s.ConnectionId == connectionId);
         }
 
         public async Task<string> GetHostConnectionIdByGameId(string gameId)
         {
-            var result = await muquizContext.GameSession.SingleAsync(s => s.GameId == gameId);
+            var result = await context.GameSession.AsNoTracking().SingleAsync(s => s.GameId == gameId);
             return result.HostConnectionId;
         }
 
         public async Task<string> GetGameIdByConnectionId(string connectionId)
         {
-            var playerInfo = await muquizContext.Player.SingleOrDefaultAsync(p => p.ConnectionId == connectionId);
-            var gameSessionInfo = await muquizContext.GameSession.SingleOrDefaultAsync(g => g.Id == playerInfo.GameSessionId);
+            var playerInfo = await context.Player.AsNoTracking().SingleOrDefaultAsync(p => p.ConnectionId == connectionId);
+            var gameSessionInfo = await context.GameSession.AsNoTracking().SingleOrDefaultAsync(g => g.Id == playerInfo.GameSessionId);
 
             return gameSessionInfo.GameId;
         }
 
         internal async Task<string> GetGameIdByHostConnectionId(string connectionId)
         {
-            var result = await muquizContext.GameSession.SingleOrDefaultAsync(g => g.HostConnectionId == connectionId);
+            var result = await context.GameSession.AsNoTracking().SingleOrDefaultAsync(g => g.HostConnectionId == connectionId);
             return result.GameId;
         }
 
         internal async Task RemovePlayerByConnectionId(string connectionId)
         {
-            var playerToRemove = await muquizContext.Player.SingleOrDefaultAsync(p => p.ConnectionId == connectionId);
-            muquizContext.Player.Remove(playerToRemove);
-            await muquizContext.SaveChangesAsync();
+            var playerToRemove = await context.Player.SingleOrDefaultAsync(p => p.ConnectionId == connectionId);
+            context.Player.Remove(playerToRemove);
+            await context.SaveChangesAsync();
         }
 
         internal async Task RemoveGameSession(string connectionId)
         {
-            var playersToRemove = await muquizContext.Player.Where(p => p.GameSession.HostConnectionId == connectionId).ToListAsync();
-            muquizContext.Player.RemoveRange(playersToRemove);
+            var playersToRemove = await context.Player.Where(p => p.GameSession.HostConnectionId == connectionId).ToListAsync();
+            context.Player.RemoveRange(playersToRemove);
 
-            var gameSessionToRemove = await muquizContext.GameSession.SingleOrDefaultAsync(g => g.HostConnectionId == connectionId);
-            muquizContext.GameSession.Remove(gameSessionToRemove);
+            var gameSessionToRemove = await context.GameSession.SingleOrDefaultAsync(g => g.HostConnectionId == connectionId);
+            context.GameSession.Remove(gameSessionToRemove);
 
-            await muquizContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         internal async Task UpdateScore(string connectionId, int count)
@@ -155,10 +156,9 @@ namespace MuQuiz.Models
             if (count > 3)
                 count = 4;
 
-            muquizContext.Player
-                    .SingleOrDefault(p => p.ConnectionId == connectionId)
-                    .Score += 1000 + 100 * (4 - count);
-            await muquizContext.SaveChangesAsync();
+            var player = await context.Player.SingleOrDefaultAsync(p => p.ConnectionId == connectionId);
+            player.Score += 1000 + 100 * (4 - count);
+            await context.SaveChangesAsync();
         }
     }
 }

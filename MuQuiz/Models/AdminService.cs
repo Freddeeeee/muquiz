@@ -39,7 +39,7 @@ namespace MuQuiz.Models
 
         private async Task AddToQuestionTable(AdminAddEditSongVM vm)
         {
-            var newSong = await context.Song.SingleAsync(s => s.SpotifyId == vm.SpotifyId);
+            var newSong = await context.Song.AsNoTracking().SingleAsync(s => s.SpotifyId == vm.SpotifyId);
             await context.Question.AddAsync(new Question
             {
                 CorrectAnswer = $"{vm.Artist} - {vm.SongName}",
@@ -90,7 +90,7 @@ namespace MuQuiz.Models
 
         internal async Task<AdminShowSongVM[]> GetAllSongs()
         {
-            return await context.Song.Select(s => new AdminShowSongVM
+            return await context.Song.AsNoTracking().Select(s => new AdminShowSongVM
             {
                 Id = s.Id,
                 SongName = s.SongName,
@@ -100,8 +100,8 @@ namespace MuQuiz.Models
 
         internal async Task<AdminAddEditSongVM> GetSongForUpdate(int id)
         {
-            var song = await context.Song.SingleAsync(s => s.Id == id);
-            var question = await context.Question.SingleAsync(q => q.SongId == id);
+            var song = await context.Song.AsNoTracking().SingleAsync(s => s.Id == id);
+            var question = await context.Question.AsNoTracking().SingleAsync(q => q.SongId == id);
             return new AdminAddEditSongVM
             {
                 Artist = song.Artist,
