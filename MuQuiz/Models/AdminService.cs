@@ -62,8 +62,8 @@ namespace MuQuiz.Models
 
         internal async Task UpdateSong(AdminAddEditSongVM vm)
         {
-            var song = await context.Song.SingleAsync(s => s.SpotifyId == vm.SpotifyId);
-            var question = await context.Question.SingleAsync(q => q.SongId == song.Id);
+            var song = await context.Song.SingleAsync(s => s.Id == vm.SongId);
+            var question = await context.Question.SingleAsync(q => q.SongId == vm.SongId);
 
             await UpdateInSongTable(song, vm);
             await UpdateInQuestionTable(question, vm);
@@ -110,7 +110,8 @@ namespace MuQuiz.Models
                 SpotifyId = song.SpotifyId,
                 Answer1 = question.Answer1,
                 Answer2 = question.Answer2,
-                Answer3 = question.Answer3
+                Answer3 = question.Answer3,
+                SongId = id
             };
         }
     }
