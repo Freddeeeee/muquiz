@@ -64,14 +64,15 @@ namespace MuQuiz.Controllers
             return PartialView("~/Views/Shared/Player/_Alternatives.cshtml", alternatives);
         }
 
-        public IActionResult ShowWaitingScreen()
+        public IActionResult ShowWaitingScreen(string avatarCode)
         {
-            return PartialView("~/Views/Shared/Player/_WaitingScreen.cshtml");
+            return PartialView("~/Views/Shared/Player/_WaitingScreen.cshtml", avatarCode);
         }
 
-        public IActionResult ShowFinalPosition(int position)
+        public IActionResult ShowFinalPosition(int position, int score)
         {
-            return PartialView("~/Views/Shared/Player/_FinalPosition.cshtml", position);
+            int[] positionAndScore = { position, score };
+            return PartialView("~/Views/Shared/Player/_FinalPosition.cshtml", positionAndScore);
         }
 
         public IActionResult ShowSessionClosedScreen()

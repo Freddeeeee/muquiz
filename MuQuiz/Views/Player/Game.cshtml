@@ -31,21 +31,21 @@
                 });
             }
 
-            async function getPlayerWaitingScreen() {
-                await getPartialView("/player/showwaitingscreen");
+            async function getPlayerWaitingScreen(avatarCode) {
+                await getPartialView("/player/showwaitingscreen?avatarCode=" + avatarCode);
             }
 
             async function getPlayerAlternatives(songId) {
                 await getPartialView("/player/showalternatives?song=" + songId);
             }
 
-            async function getPlayerFinalPosition(position) {
-                await getPartialView("/player/showfinalposition?position=" + position);
+            async function getPlayerFinalPosition(position, score) {
+                await getPartialView("/player/showfinalposition?position=" + position + "&score=" + score);
             }
 
-            async function submitAnswer(answer) {
-                await connection.invoke("@nameof(GameHub.SendAnswer)", answer, "@Model.GameId");
-                getPlayerWaitingScreen();
+            async function submitAnswer(isRightAns) {
+                await connection.invoke("@nameof(GameHub.SendAnswer)", isRightAns, "@Model.GameId");
+                //getPlayerWaitingScreen();
             }
 
             async function getPlayerSessionClosedScreen() {
@@ -62,12 +62,12 @@
                 await getPlayerAlternatives(songId);
             });
 
-            connection.on("@nameof(IHubClient.GetWaitingScreen)", async function () {
-                await getPlayerWaitingScreen();
+            connection.on("@nameof(IHubClient.GetWaitingScreen)", async function (avatarCode) {
+                await getPlayerWaitingScreen(avatarCode);
             });
 
-            connection.on("@nameof(IHubClient.GetFinalPosition)", async function (position) {
-                await getPlayerFinalPosition(position);
+            connection.on("@nameof(IHubClient.GetFinalPosition)", async function (position, score) {
+                await getPlayerFinalPosition(position, score);
             });
 
             connection.on("@nameof(IHubClient.GetSessionClosedScreen)", async function () {

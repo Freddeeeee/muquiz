@@ -10,8 +10,8 @@ namespace MuQuiz.Hubs
         Task ReceiveSong(string song);
         Task ReceiveAnswer(string connectionId, bool correctAnswer, string name, string avatarCode);
         Task ReceiveConnectedPlayerName(string name, string avatarCode);
-        Task GetWaitingScreen();
-        Task GetFinalPosition(int position);
+        Task GetWaitingScreen(string avatarCode);
+        Task GetFinalPosition(int position, int score);
         Task GetSessionClosedScreen();
         Task DisconnectPlayer();
         Task ConfirmJoined();
