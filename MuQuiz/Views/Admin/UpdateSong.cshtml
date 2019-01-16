@@ -1,34 +1,50 @@
 ﻿@model AdminAddEditSongVM
 
-<h1>
-    Update Song
-</h1>
-<form asp-controller="admin" asp-action="update">
-
-    <div class="form-group">
-        <input asp-for="SongName" placeholder="Song title" value="@Model.SongName" />
-        <span asp-validation-for="SongName"></span>
-        <input asp-for="Artist" placeholder="Artist" value="@Model.Artist" />
-        <span asp-validation-for="Artist"></span>
-    </div>
-    <div class="form-group">
-        <input asp-for="Year" placeholder="Year" value="@Model.Year" />
-        <span asp-validation-for="Year"></span>
-        <input asp-for="SpotifyId" placeholder="Spotify song ID" value="@Model.SpotifyId" />
-        <span asp-validation-for="SpotifyId"></span>
+<div class="row justify-content-center">
+    <div class="col-12 mx-auto align-self-center">
+        <br />
+        <h1>Update Song</h1>
+        <br />
     </div>
 
-    <div class="form-group">
-        <input asp-for="Answer1" placeholder="Alternative answer #1" value="@Model.Answer1" />
-        <span asp-validation-for="Answer1"></span>
-        <input asp-for="Answer2" placeholder="Alternative answer #2" value="@Model.Answer2" />
-        <span asp-validation-for="Answer2"></span>
-        <input asp-for="Answer3" placeholder="Alternative answer #3" value="@Model.Answer3" />
-        <span asp-validation-for="Answer3"></span>
-    </div>
+    <form class="col-lg-8" asp-controller="admin" asp-action="update">
+        <div class="form-row">
+            <div class="form-group col-6">
+                <input asp-for="SongName" placeholder="Song title" class="form-control" value="@Model.SongName" />
+                <span asp-validation-for="SongName"></span>
+            </div>
+            <div class="form-group col-6">
+                <input asp-for="Artist" placeholder="Artist" class="form-control" value="@Model.Artist" />
+                <span asp-validation-for="Artist"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <input asp-for="Year" placeholder="Year" class="form-control" value="@Model.Year" />
+                <span asp-validation-for="Year"></span>
+            </div>
+            <div class="form-group col-6">
+                <input asp-for="SpotifyId" placeholder="Spotify song ID" class="form-control" value="@Model.SpotifyId"/>
+                <span asp-validation-for="SpotifyId"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <input asp-for="Answer1" placeholder="Alternative answer #1" class="form-control" value="@Model.Answer1"/>
+            <span asp-validation-for="Answer1"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Answer2" placeholder="Alternative answer #2" class="form-control" value="@Model.Answer2" />
+            <span asp-validation-for="Answer2"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Answer3" placeholder="Alternative answer #3" class="form-control" value="@Model.Answer3" />
+            <span asp-validation-for="Answer3"></span>
+        </div>
 
-    <button type="submit" class="btn btn-lg"> Save changes </button>
-</form>
-<a asp-controller="admin" asp-action="index">Return to index</a>
+        <button type="submit" class="btn btn-red btn-lg">Save Changes</button>
+    </form>
+</div>
 
 
+<br /><br />
+<a class="btn btn-red btn-lg" asp-controller="admin" asp-action="index">Return to index</a>

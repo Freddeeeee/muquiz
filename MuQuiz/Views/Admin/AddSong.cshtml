@@ -1,30 +1,49 @@
 ﻿@model AdminAddEditSongVM
-
-<h1>Add Song</h1>
-<form asp-controller="admin" asp-action="add">
-
-    <div class="form-group">
-        <input asp-for="SongName" placeholder="Song title" />
-        <span asp-validation-for="SongName"></span>
-        <input asp-for="Artist" placeholder="Artist" />
-        <span asp-validation-for="Artist"></span>
-    </div>
-    <div class="form-group">
-        <input asp-for="Year" placeholder="Year" />
-        <span asp-validation-for="Year"></span>
-        <input asp-for="SpotifyId" placeholder="Spotify song ID" />
-        <span asp-validation-for="SpotifyId"></span>
+<div class="row justify-content-center">
+    <div class="col-12 mx-auto align-self-center">
+        <br />
+        <h1>Add New Song</h1>
+        <br />
     </div>
 
-    <div class="form-group">
-        <input asp-for="Answer1" placeholder="Alternative answer #1" />
-        <span asp-validation-for="Answer1"></span>
-        <input asp-for="Answer2" placeholder="Alternative answer #2" />
-        <span asp-validation-for="Answer2"></span>
-        <input asp-for="Answer3" placeholder="Alternative answer #3" />
-        <span asp-validation-for="Answer3"></span>
-    </div>
+    <form class="col-lg-8" asp-controller="admin" asp-action="add">
+        <div class="form-row">
+            <div class="form-group col-6">
+                <input asp-for="SongName" placeholder="Song title" class="form-control" />
+                <span asp-validation-for="SongName"></span>
+            </div>
+            <div class="form-group col-6">
+                <input asp-for="Artist" placeholder="Artist" class="form-control" />
+                <span asp-validation-for="Artist"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <input asp-for="Year" placeholder="Year" class="form-control" />
+                <span asp-validation-for="Year"></span>
+            </div>
+            <div class="form-group col-6">
+                <input asp-for="SpotifyId" placeholder="Spotify song ID" class="form-control" />
+                <span asp-validation-for="SpotifyId"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <input asp-for="Answer1" placeholder="Alternative answer #1" class="form-control" />
+            <span asp-validation-for="Answer1"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Answer2" placeholder="Alternative answer #2" class="form-control" />
+            <span asp-validation-for="Answer2"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Answer3" placeholder="Alternative answer #3" class="form-control" />
+            <span asp-validation-for="Answer3"></span>
+        </div>
 
-    <button type="submit" class="btn btn-primary btn-lg">Add</button>
-</form>
-<a asp-controller="admin" asp-action="index">Return to index</a>
+        <button type="submit" class="btn btn-red btn-lg">Add Song</button>
+    </form>
+</div>
+
+
+<br /><br />
+<a class="btn btn-red btn-lg" asp-controller="admin" asp-action="index">Return to index</a>
