@@ -62,6 +62,7 @@ namespace MuQuiz.Hubs
             var avatarCode = playerInfo.AvatarCode;
 
             await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, isCorrectAnswer, name, avatarCode);
+            await Clients.Client(connectionId).GetWaitingScreen(avatarCode);
         }
 
         public async Task UpdateScore(string connectionId, int position)

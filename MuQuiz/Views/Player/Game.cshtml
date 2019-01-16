@@ -45,7 +45,7 @@
 
             async function submitAnswer(isRightAns) {
                 await connection.invoke("@nameof(GameHub.SendAnswer)", isRightAns, "@Model.GameId");
-                getPlayerWaitingScreen();
+                //getPlayerWaitingScreen();
             }
 
             async function getPlayerSessionClosedScreen() {
