@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MuQuiz.Models.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace MuQuiz.Models
     {
         private readonly MuquizContext context;
         private readonly IConfiguration configuration;
+        private readonly SessionStorageService sessionStorage;
 
-        public QuestionService(MuquizContext context, IConfiguration configuration)
+        public QuestionService(MuquizContext context, IConfiguration configuration, SessionStorageService sessionStorage)
         {
             this.context = context;
             this.configuration = configuration;
+            this.sessionStorage = sessionStorage;
         }
 
         public string[] GetQuestionsForId(int id)
@@ -39,10 +42,22 @@ namespace MuQuiz.Models
 
         public List<int> GetSongIds()
         {
+            GameConfiguration config;
+
+            if (string.IsNullOrEmpty(sessionStorage.GameConfiguration))
+            {
+                // set default
+                config = new GameConfiguration { NumberOfSongs = configuration.GetSection("NumberOfSongs").Get<int>() };
+            }
+            else
+            {
+                config = JsonConvert.DeserializeObject<GameConfiguration>(sessionStorage.GameConfiguration);
+            }
+
             return context
                 .Song.Select(s => s.Id)
                 .OrderBy(s => Guid.NewGuid())
-                .Take(configuration.GetSection("NumberOfSongs").Get<int>())
+                .Take(config.NumberOfSongs)
                 .ToList();
         }
 

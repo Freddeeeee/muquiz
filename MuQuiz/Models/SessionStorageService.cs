@@ -28,6 +28,12 @@ namespace MuQuiz.Models
             set { Session.SetString(nameof(GameId), value); }
         }
 
+        public string GameConfiguration
+        {
+            get { return Session.GetString(nameof(GameConfiguration)); }
+            set { Session.SetString(nameof(GameConfiguration), value); }
+        }
+
         public string GetQRUrl(string gameId, int pixels = 100)
         {
             var fullUrl = GetBaseUrl() + "/player?gameId=" + gameId;

@@ -1,0 +1,30 @@
+﻿@model HostSetupVM
+
+<div class="row vh-100">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
+        <img src="~/css/logo-white.svg" id="muquiz-logo" class="img-fluid" />
+
+        <h2>Choose number of songs per game</h2>
+
+        <form asp-controller="host" asp-action="hostsetup">
+            <div class="form-group">
+                <input type="range" min="3" max="10" value="3" class="form-control-range" asp-for="NumberOfSongs" oninput="slider.value = NumberOfSongs.value" />
+                <output class="form-control" id="slider">3</output>
+
+                <span asp-validation-for="NumberOfSongs"></span>
+            </div>
+
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Host game</button>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("body").addClass("enter_name");
+        });
+    </script>
+}
