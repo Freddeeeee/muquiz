@@ -1,4 +1,6 @@
 ﻿@model string[]
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 @foreach (var item in Model)
 {
@@ -7,10 +9,17 @@
 
 <br />
 
+<div class="progress">
+    <div class="progress-bar bg-bar" id="player-timer" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
+</div>
+
 <script type="text/javascript">
     $(".submit").click(async function (event) {
         await window.submitAnswer(event.target.value);
     });
 
     $("body").removeClass().addClass("alternatives");
+
+    $("#player-timer").css("transition-duration", @Configuration["MsPerRound"] + "ms");
+    $("#player-timer").css("width", "0%");
 </script>
