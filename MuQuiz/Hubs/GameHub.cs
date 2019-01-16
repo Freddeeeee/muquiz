@@ -51,16 +51,17 @@ namespace MuQuiz.Hubs
             await Clients.Group(gameId).ReceiveSong(song);
         }
 
-        public async Task SendAnswer(string answer, string gameId)
+        public async Task SendAnswer(int isCorrectAnswerInt, string gameId)
         {
-            var playerInfo = await service.GetPlayerByConnectionId(Context.ConnectionId);
             var connectionId = Context.ConnectionId;
+            var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
+            bool isCorrectAnswer = isCorrectAnswerInt == 1;
+
+            var playerInfo = await service.GetPlayerByConnectionId(connectionId);
             var name = playerInfo.Name;
             var avatarCode = playerInfo.AvatarCode;
-            var hostConnectionId = await service.GetHostConnectionIdByGameId(gameId);
-            var correctAnswer = service.EvaluateAnswer(connectionId, answer);
 
-            await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, correctAnswer, name, avatarCode);
+            await Clients.Client(hostConnectionId).ReceiveAnswer(connectionId, isCorrectAnswer, name, avatarCode);
         }
 
         public async Task UpdateScore(string connectionId, int position)
