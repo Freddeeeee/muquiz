@@ -14,8 +14,7 @@
 </div>
 
 <script type="text/javascript">
-    $(".submit").removeClass("active");
-    $(".submit").removeClass("focus");
+    $(".submit").removeClass().addClass("btn btn-alternatives btn-block btn-lg submit");
 
     $(".submit").click(async function (event) {
         await window.submitAnswer(event.target.value);
