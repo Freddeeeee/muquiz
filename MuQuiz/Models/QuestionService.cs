@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MuQuiz.Models.Entities;
 using MuQuiz.Models.ViewModels;
 using Newtonsoft.Json;
@@ -26,7 +27,7 @@ namespace MuQuiz.Models
         {
             Random random = new Random(id);
 
-            var questionInfo = context.Question
+            var questionInfo = context.Question.AsNoTracking()
                 .Where(q => q.SongId == id)
                 .Select(o => new List<AlternativesVM>
                 {
@@ -41,7 +42,7 @@ namespace MuQuiz.Models
             return questionInfo.OrderBy(o => random.Next()).ToArray();
         }
 
-        public List<int> GetSongIds()
+        public async Task<List<int>> GetSongIds()
         {
             GameConfiguration config;
 
@@ -55,18 +56,19 @@ namespace MuQuiz.Models
                 config = JsonConvert.DeserializeObject<GameConfiguration>(sessionStorage.GameConfiguration);
             }
 
-            return context
-                .Song.Select(s => s.Id)
+            return await context
+                .Song.AsNoTracking()
+                .Select(s => s.Id)
                 .OrderBy(s => Guid.NewGuid())
                 .Take(config.NumberOfSongs)
-                .ToList();
+                .ToListAsync();
         }
 
-        public string GetSpotifyId(int id)
+        public async Task<string> GetSpotifyId(int id)
         {
-            return context.Song
-                .SingleOrDefault(s => s.Id == id)
-                .SpotifyId;
+            var song = await context.Song.AsNoTracking()
+                .SingleOrDefaultAsync(s => s.Id == id);
+             return song.SpotifyId;
         }
     }
 }
