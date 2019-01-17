@@ -38,7 +38,6 @@ namespace MuQuiz
                 })
                 .AddEntityFrameworkStores<MyIdentityContext>()
                 .AddDefaultTokenProviders();
-            //Standard inloggningssida är nu /account/login
 
             services.AddMvc(o => o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddSignalR();

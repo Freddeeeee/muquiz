@@ -73,7 +73,6 @@ namespace MuQuiz.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            // To-do: lägg till logga ut-knappar i host-vyerna
             await service.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }
