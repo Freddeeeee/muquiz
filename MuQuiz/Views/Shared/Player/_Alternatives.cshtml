@@ -6,12 +6,6 @@
 {
     <button class="btn btn-alternatives btn-block btn-lg submit" value="@item.IsRightAlt">@item.Alternative</button>
 }
-<br />
-
-<div class="progress">
-    <div class="progress-bar bg-bar" id="player-timer" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
-</div>
-<span id="focus"></span>
 
 <script type="text/javascript">
     $("#focus").focus();
@@ -21,7 +15,4 @@
     });
 
     $("body").removeClass().addClass("alternatives");
-
-    $("#player-timer").css("transition-duration", @Configuration["MsPerRound"] + "ms");
-    $("#player-timer").css("width", "0%");
 </script>
