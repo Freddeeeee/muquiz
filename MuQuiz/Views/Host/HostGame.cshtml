@@ -90,13 +90,13 @@
 
                         if (time >= maxTime || connectedPlayers == numberOfAnswers) {
                             clearInterval(timeOut);
-                            window.spotifyPlayer.pause().then(() => {
-                                console.log("paused!");
-                            });
                             window.removeWrongAnswers();
                             setTimeout(async function () {
+                                window.spotifyPlayer.pause().then(() => {
+                                    console.log("paused!");
+                                });
                                 await getWaitingOrFinalView()
-                            }, 5000);
+                            }, 4000);
                             
                         }
                     }, 1000);
@@ -114,7 +114,7 @@
                 }
             }
 
-            async function sendSong() {
+            window.sendSong = async function sendSong() {
                 correctAnswerList = 0;
                 numberOfAnswers = 0;
                 let songId = songIds.pop();
@@ -122,16 +122,13 @@
                 await connection.invoke("@nameof(GameHub.SendSong)", "@Model.GameId", songId);
                 await getHostAlternatives(songId);
             }
-            window.sendSong = sendSong;
 
-            async function startGame() {
+            window.startGame = async function startGame() {
                 connection.invoke("@nameof(GameHub.StartGame)", "@Model.GameId");
                 await sendSong();
             }
 
-            window.startGame = startGame;
-
-            async function startNewSession() {
+            window.startNewSession = async function startNewSession() {
                 connectedPlayers = 0;
                 $("body").removeClass().addClass("enter_name");
                 await getPartialView("/host/showlobby?round=1");
@@ -139,8 +136,6 @@
                 await connection.invoke("@nameof(GameHub.AskForJoinConfirmation)", "@Model.GameId");
                 await getSongIds();
             }
-
-            window.startNewSession = startNewSession;
 
             async function playSong(song) {
                 await $.ajax({

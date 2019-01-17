@@ -4,9 +4,10 @@
 
 <div class="row vh-100">
     <div id="content" class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto align-self-center">
-        <h1>Welcome, <i class="em em-@Model.AvatarCode"></i> @Model.Name!</h1>
-
-        <p>Waiting for game to start...</p>
+        <h1>Welcome, @Model.Name!</h1>
+        <h4>Waiting for game to start...</h4>
+        <br />
+        <h1><i class="em em-@Model.AvatarCode avatar-spin"></i></h1>
     </div>
 </div>
 
@@ -43,16 +44,13 @@
                 await getPartialView("/player/showfinalposition?position=" + position + "&score=" + score);
             }
 
-            async function submitAnswer(isRightAns) {
+            window.submitAnswer = async function submitAnswer(isRightAns) {
                 await connection.invoke("@nameof(GameHub.SendAnswer)", isRightAns, "@Model.GameId");
-                //getPlayerWaitingScreen();
             }
 
             async function getPlayerSessionClosedScreen() {
                 await getPartialView("/player/showsessionclosedscreen");
             }
-
-            window.submitAnswer = submitAnswer;
 
             await connection.start().catch(err => console.log(err));
 

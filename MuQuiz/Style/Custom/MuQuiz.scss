@@ -313,6 +313,10 @@ input {
     }
 }
 
+.log-out {
+    position: absolute; right: 10px;
+}
+
 //Allt som endast gäller för mobilenheter
 @media only screen and (max-width: 768px) {
     .hideOnMobile {

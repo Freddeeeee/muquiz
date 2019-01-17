@@ -21,7 +21,7 @@ namespace MuQuiz.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
-            return View(new AccountLoginVM { ReturnUrl = returnUrl});
+            return View(new AccountLoginVM { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -33,9 +33,12 @@ namespace MuQuiz.Controllers
             var loginResult = await service.LoginAsync(vm);
 
             if (loginResult.Succeeded)
-                return RedirectToAction(nameof(HostController.HostGame), "host");
-            //return Redirect(vm.ReturnUrl);
-
+            {
+                if (!string.IsNullOrEmpty(vm.ReturnUrl))
+                    return Redirect(vm.ReturnUrl);
+                else
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
             else
             {
                 ModelState.AddModelError(nameof(AccountLoginVM.UserName), "Invalid username and/or password.");
