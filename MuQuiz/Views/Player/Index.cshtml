@@ -37,6 +37,11 @@
             $("body").addClass("enter_name");
         });
 
+        $().ready(function () {
+            ("#name").click(function () {
+                ("#name").focus();
+            })();
+        })
         $("#name").focus();
     </script>
 }
