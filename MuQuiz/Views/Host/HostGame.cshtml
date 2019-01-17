@@ -90,13 +90,13 @@
 
                         if (time >= maxTime || connectedPlayers == numberOfAnswers) {
                             clearInterval(timeOut);
-                            window.spotifyPlayer.pause().then(() => {
-                                console.log("paused!");
-                            });
                             window.removeWrongAnswers();
                             setTimeout(async function () {
+                                window.spotifyPlayer.pause().then(() => {
+                                    console.log("paused!");
+                                });
                                 await getWaitingOrFinalView()
-                            }, 5000);
+                            }, 4000);
                             
                         }
                     }, 1000);

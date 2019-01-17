@@ -110,7 +110,7 @@ namespace MuQuiz.Models
 
         public async Task<Player[]> GetTopPlayers(string gameId, int numberOfPlayers)
         {
-            return await muquizContext.Player.Where(p => p.GameSession.GameId == gameId).OrderByDescending(p => p.Score).Take(numberOfPlayers).ToArrayAsync();
+            return await context.Player.AsNoTracking().Where(p => p.GameSession.GameId == gameId).OrderByDescending(p => p.Score).Take(numberOfPlayers).ToArrayAsync();
         }
 
         public async Task<Player> GetPlayerByConnectionId(string connectionId)
