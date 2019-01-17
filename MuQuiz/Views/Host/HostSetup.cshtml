@@ -9,7 +9,7 @@
         <form asp-controller="host" asp-action="hostsetup">
             <div class="form-group">
                 <input type="range" min="3" max="10" value="3" class="form-control-range" asp-for="NumberOfSongs" oninput="slider.value = NumberOfSongs.value" />
-                <output class="form-control" id="slider">3</output>
+                <output class="form-control mt-2" id="slider">3</output>
 
                 <span asp-validation-for="NumberOfSongs"></span>
             </div>
