@@ -5,10 +5,10 @@
         <br />
         <h1>Welcome to the admin page</h1>
         <br />
-        <a class="btn btn-lg btn-red" asp-controller="admin" asp-action="add">
+        <a class="btn btn-lg btn-dark" asp-controller="admin" asp-action="add">
             Add new song
         </a>
-        <a class="btn btn-lg btn-red" asp-controller="home" asp-action="index">
+        <a class="btn btn-lg btn-dark" asp-controller="home" asp-action="index">
             Home
         </a>
         <br /><br />
@@ -30,10 +30,10 @@
                             <td>@song.Artist</td>
                             <td>@song.SongName</td>
                             <td>
-                                <button type="submit" asp-controller="admin" asp-action="delete" asp-route-id="@song.Id" class="btn btn-sm btn-danger">Delete</button>
+                                <a asp-controller="admin" asp-action="update" asp-route-id="@song.Id" class="btn btn-sm btn-dark" value="@song.Id">Edit</a>
                             </td>
                             <td>
-                                <a asp-controller="admin" asp-action="update" asp-route-id="@song.Id" class="btn btn-sm btn-dark" value="@song.Id">Edit</a>
+                                <button type="submit" asp-controller="admin" asp-action="delete" asp-route-id="@song.Id" class="btn btn-sm btn-danger">Delete</button>
                             </td>
                         </tr>
                     }
