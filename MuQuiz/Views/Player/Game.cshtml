@@ -43,16 +43,13 @@
                 await getPartialView("/player/showfinalposition?position=" + position + "&score=" + score);
             }
 
-            async function submitAnswer(isRightAns) {
+            window.submitAnswer = async function submitAnswer(isRightAns) {
                 await connection.invoke("@nameof(GameHub.SendAnswer)", isRightAns, "@Model.GameId");
-                //getPlayerWaitingScreen();
             }
 
             async function getPlayerSessionClosedScreen() {
                 await getPartialView("/player/showsessionclosedscreen");
             }
-
-            window.submitAnswer = submitAnswer;
 
             await connection.start().catch(err => console.log(err));
 

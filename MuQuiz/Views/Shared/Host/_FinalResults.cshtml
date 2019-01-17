@@ -7,11 +7,11 @@
     <div class="after"></div>
     <h1>And the winner is...</h1>
     <br />
-    <h1 id="winner"><i class="em em-@Model[0].AvatarCode"></i> @Model[0].Name (@Model[0].Score points)</h1>
+    <h1 id="winner"><i class="em em-@Model[0].AvatarCode"></i> @HttpUtility.HtmlDecode(Model[0].Name) (@Model[0].Score points)</h1>
     <br />
     @for (int i = 2; i <= Model.Length; i++)
     {
-        <p>@i.  <i class="em em-@Model[i-1].AvatarCode"></i> @Model[i - 1].Name (@Model[i - 1].Score points)</p>
+        <p>@i.  <i class="em em-@Model[i-1].AvatarCode"></i> @HttpUtility.HtmlDecode(Model[i - 1].Name) (@Model[i - 1].Score points)</p>
     }
 
 </div>

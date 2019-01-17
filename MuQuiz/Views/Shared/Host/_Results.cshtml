@@ -1,15 +1,32 @@
 ﻿@using MuQuiz.Models.Entities
 @model Player[]
 
-<h1>Current score</h1>
-
-<ol>
+<dl>
+    @{ int counter = 0;}
     @foreach (var item in Model)
     {
-        <li><i class="em em-@item.AvatarCode"></i> @item.Name (@item.Score points)</li>
+        if (counter == 0)
+        {
+            <dt><h1><i class="em em-@item.AvatarCode"></i> @HttpUtility.HtmlDecode(item.Name) (@item.Score points)<h1></h1></dt>
+            counter++;
+        }
+        else if (counter == 1)
+        {
+            <dt><h2><i class="em em-@item.AvatarCode"></i> @HttpUtility.HtmlDecode(item.Name) (@item.Score points)</h2></dt>
+            counter++;
+        }
+        else if (counter == 2)
+        {
+            <dt><h3><i class="em em-@item.AvatarCode"></i> @HttpUtility.HtmlDecode(item.Name) (@item.Score points)</h3></dt>
+            counter++;
+        }
+        else
+        {
+            <dt><h4><i class="em em-@item.AvatarCode"></i> @HttpUtility.HtmlDecode(item.Name) (@item.Score points)</h4></dt>
+        }
     }
-</ol>
-
+</dl>
+<br />
 <button id="sendsong" class="btn btn-red btn-lg">Next song</button>
 
 <script type="text/javascript">
