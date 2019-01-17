@@ -6,15 +6,15 @@
 {
     <button class="btn btn-alternatives btn-block btn-lg submit" value="@item.IsRightAlt">@item.Alternative</button>
 }
-
 <br />
 
 <div class="progress">
     <div class="progress-bar bg-bar" id="player-timer" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
 </div>
+<span id="focus"></span>
 
 <script type="text/javascript">
-    $(".submit").removeClass().addClass("btn btn-alternatives btn-block btn-lg submit");
+    $("#focus").focus();
 
     $(".submit").click(async function (event) {
         await window.submitAnswer(event.target.value);
