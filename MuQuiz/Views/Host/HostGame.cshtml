@@ -206,7 +206,6 @@
             connection.invoke("@nameof(GameHub.StartSession)", "@Model.GameId");
             await getPartialView("/host/showlobby?round=0");
             await getSongIds();
-
         })();
     </script>
     <script type="text/javascript">
