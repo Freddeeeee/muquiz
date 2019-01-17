@@ -4,8 +4,7 @@
     <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto align-self-center">
         @if (!User.Identity.IsAuthenticated)
         {
-
-            <h1>Login</h1>
+            <img src="~/css/logo-white.svg" id="muquiz-logo" class="img-fluid" />
 
             <form asp-controller="account" asp-action="login">
                 <div class="form-group">
