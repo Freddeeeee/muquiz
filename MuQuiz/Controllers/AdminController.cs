@@ -22,7 +22,6 @@ namespace MuQuiz.Controllers
         public async Task<IActionResult> Index()
         {
             var allSongs = await service.GetAllSongs();
-
             return View(allSongs.OrderBy(s => s.Artist).ToArray());
         }
 

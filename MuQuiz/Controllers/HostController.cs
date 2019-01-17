@@ -86,14 +86,14 @@ namespace MuQuiz.Controllers
                 new HostLobbyVM { GameId = gameId, QRCode = sessionService.GetQRUrl(gameId, 250) });
         }
 
-        public IActionResult GetSpotifyId(int id)
+        public async Task<IActionResult> GetSpotifyId(int id)
         {
-            return Json(questionService.GetSpotifyId(id));
+            return Json(await questionService.GetSpotifyId(id));
         }
 
-        public IActionResult GetSongIds()
+        public async Task<IActionResult> GetSongIds()
         {
-            return Json(JsonConvert.SerializeObject(questionService.GetSongIds()));
+            return Json(JsonConvert.SerializeObject(await questionService.GetSongIds()));
         }
     }
 }
